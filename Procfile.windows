@@ -1,0 +1,1 @@
+web: C:/Users/djpri/source/repos/_CI_/chordsheetz/.venv/Scripts/python.exe manage.py runserver %PORT%

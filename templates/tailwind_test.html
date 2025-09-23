@@ -1,0 +1,196 @@
+{% extends 'base.html' %} {% block title %}Tailwind CSS Test - chordsheetz{% endblock %} {% block content %}
+<div class="space-y-8">
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-primary-600 to-primary-800 text-white rounded-lg p-8 text-center">
+    <h1 class="text-4xl font-bold mb-4">Tailwind CSS Test Page</h1>
+    <p class="text-xl text-primary-100 mb-6">Testing custom purple theme and responsive components</p>
+    <div class="space-x-4">
+      <button class="btn btn-secondary btn-lg">
+        <i class="fas fa-music mr-2"></i>
+        Primary Action
+      </button>
+      <button class="btn btn-outline btn-lg">
+        <i class="fas fa-heart mr-2"></i>
+        Secondary Action
+      </button>
+    </div>
+  </div>
+
+  <!-- Color Palette Test -->
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-2xl font-semibold">Custom Color Palette</h2>
+    </div>
+    <div class="card-body">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="text-center">
+          <div class="w-16 h-16 bg-primary-500 rounded-lg mx-auto mb-2"></div>
+          <p class="text-sm font-medium">Primary 500</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-primary-700 rounded-lg mx-auto mb-2"></div>
+          <p class="text-sm font-medium">Primary 700</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-secondary-500 rounded-lg mx-auto mb-2"></div>
+          <p class="text-sm font-medium">Secondary 500</p>
+        </div>
+        <div class="text-center">
+          <div class="w-16 h-16 bg-secondary-600 rounded-lg mx-auto mb-2"></div>
+          <p class="text-sm font-medium">Secondary 600</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chord Sheet Test -->
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-2xl font-semibold">Chord Sheet Formatting Test</h2>
+    </div>
+    <div class="card-body">
+      <div class="chord-sheet chord-sheet-responsive">
+        <div class="flex items-center space-x-4 mb-4">
+          <span class="capo-indicator">
+            <i class="fas fa-guitar mr-1"></i>
+            Capo 2
+          </span>
+          <span class="transposition-indicator">
+            <i class="fas fa-music mr-1"></i>
+            Key: G
+          </span>
+        </div>
+
+        <div class="chord-line">
+          <span class="chord-symbol">G</span>
+          <span class="chord-symbol">Em</span>
+          <span class="chord-symbol">C</span>
+          <span class="chord-symbol">D</span>
+        </div>
+        <div class="chord-line chord-lyrics">Amazing grace how sweet the sound</div>
+        <div class="chord-line">
+          <span class="chord-symbol">G</span>
+          <span class="chord-symbol">Em</span>
+          <span class="chord-symbol">C</span>
+          <span class="chord-symbol">G</span>
+        </div>
+        <div class="chord-line chord-lyrics">That saved a wretch like me</div>
+
+        <div class="mt-4 flex items-center space-x-2">
+          <span class="note-indicator">1</span>
+          <span class="text-sm text-gray-600">Click note indicators for annotations</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Component Test Grid -->
+  <div class="grid md:grid-cols-2 gap-6">
+    <!-- Tags Test -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="text-lg font-semibold">Tags & Badges</h3>
+      </div>
+      <div class="card-body">
+        <div class="flex flex-wrap gap-2">
+          <span class="tag tag-primary">Rock</span>
+          <span class="tag tag-secondary">Acoustic</span>
+          <span class="tag tag-gray">Beginner</span>
+          <span class="tag tag-primary">Classic</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons Test -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="text-lg font-semibold">Button Variations</h3>
+      </div>
+      <div class="card-body">
+        <div class="space-y-3">
+          <div class="space-x-2">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-outline">Outline</button>
+          </div>
+          <div class="space-x-2">
+            <button class="btn btn-primary btn-sm">Small</button>
+            <button class="btn btn-secondary btn-lg">Large</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Test -->
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-2xl font-semibold">Form Components Test</h2>
+    </div>
+    <div class="card-body">
+      <form class="space-y-4">
+        <div class="form-group">
+          <label class="form-label">Song Title</label>
+          <input type="text" class="form-input" placeholder="Enter song title" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Artist</label>
+          <select class="form-select">
+            <option>Select an artist</option>
+            <option>The Beatles</option>
+            <option>Bob Dylan</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Chord Sheet Content</label>
+          <textarea class="form-textarea" rows="4" placeholder="Enter chord sheet content"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save mr-2"></i>
+          Save Chord Sheet
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Responsive Test -->
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-2xl font-semibold">Responsive Grid Test</h2>
+    </div>
+    <div class="card-body">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {% for i in "1234567890AB" %}
+        <div class="bg-primary-100 text-primary-800 p-4 rounded-lg text-center hover-lift">
+          <i class="fas fa-music text-2xl mb-2"></i>
+          <p class="font-medium">Item {{ forloop.counter }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert Test -->
+  <div class="space-y-4">
+    <div class="alert alert-success">
+      <i class="fas fa-check-circle mr-2"></i>
+      Success! Tailwind CSS is working correctly.
+    </div>
+    <div class="alert alert-info">
+      <i class="fas fa-info-circle mr-2"></i>
+      This is an info message with custom styling.
+    </div>
+    <div class="alert alert-warning">
+      <i class="fas fa-exclamation-triangle mr-2"></i>
+      Warning: This is a test warning message.
+    </div>
+    <div class="alert alert-error">
+      <i class="fas fa-times-circle mr-2"></i>
+      Error: This is a test error message.
+    </div>
+  </div>
+</div>
+{% endblock %}
