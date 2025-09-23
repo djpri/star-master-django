@@ -32,22 +32,11 @@ def vite_asset(entry_name):
     # PRODUCTION MODE: Use built files with manifest
     else:
         try:
-            # Read Vite's manifest file
-            # Try multiple locations for the manifest file
-            manifest_paths = [
-                os.path.join(settings.BASE_DIR, 'static',
-                             'dist', 'assets', 'manifest.json'),
-                os.path.join(settings.STATIC_ROOT, 'dist', 'assets', 'manifest.json') if hasattr(
-                    settings, 'STATIC_ROOT') else None,
-            ]
+            # Read Vite's manifest file from the correct location
+            manifest_path = os.path.join(
+                settings.BASE_DIR, 'static', 'dist', '.vite', 'manifest.json')
 
-            manifest_path = None
-            for path in manifest_paths:
-                if path and os.path.exists(path):
-                    manifest_path = path
-                    break
-
-            if manifest_path:
+            if os.path.exists(manifest_path):
                 with open(manifest_path, 'r') as f:
                     manifest = json.load(f)
 
@@ -57,21 +46,21 @@ def vite_asset(entry_name):
 
                 if entry_key in manifest:
                     entry = manifest[entry_key]
+                    built_file = entry.get('file', '')
 
-                    if entry_name.endswith('.css'):
-                        # Get the built CSS file path
-                        css_file = entry.get('file', '')
-                        if css_file:
-                            # Use Django's static() function to resolve the final hashed filename
-                            css_url = static(css_file)
-                            return mark_safe(f'<link rel="stylesheet" href="{css_url}">')
-                    else:
-                        # Get the built JS file path
-                        js_file = entry.get('file', '')
-                        if js_file:
-                            # Use Django's static() function to resolve the final hashed filename
-                            js_url = static(js_file)
-                            return mark_safe(f'<script type="module" src="{js_url}"></script>')
+                    if built_file:
+                        # Use Django's static() function to resolve the final hashed filename
+                        asset_url = static(built_file)
+
+                        if entry_name.endswith('.css'):
+                            return mark_safe(f'<link rel="stylesheet" href="{asset_url}">')
+                        else:
+                            return mark_safe(f'<script type="module" src="{asset_url}"></script>')
+                else:
+                    print(
+                        f"Entry '{entry_key}' not found in manifest. Available entries: {list(manifest.keys())}")
+            else:
+                print(f"Manifest file not found at: {manifest_path}")
 
         except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
             print(f"Vite manifest error: {e}")
