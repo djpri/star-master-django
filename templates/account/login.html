@@ -1,0 +1,88 @@
+{% extends "allauth/layouts/entrance.html" %} 
+{% load i18n %} 
+{% block head_title %} 
+{% trans "Sign In" %} 
+{% endblock head_title %} 
+{% block body %}
+
+<div class="text-center mb-4">
+  <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
+  <h2 class="h4 mb-3">{% trans "Sign In" %}</h2>
+  <p class="text-muted">
+    {% trans "Don't have an account?" %}
+    <a href="{% url 'account_signup' %}" class="text-decoration-none"
+      >{% trans "Sign up here" %}</a
+    >
+  </p>
+</div>
+
+{% if not SOCIALACCOUNT_ONLY %}
+<form method="post" action="{% url 'account_login' %}">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="{{ form.login.id_for_label }}" class="form-label">
+      {{ form.login.label }}
+    </label>
+    <div class="input-group">
+      <span class="input-group-text">
+        <i class="fas fa-user"></i>
+      </span>
+      {{ form.login }}
+    </div>
+    {% if form.login.errors %}
+    <div class="text-danger small mt-1">{{ form.login.errors }}</div>
+    {% endif %}
+  </div>
+
+  <div class="mb-3">
+    <label for="{{ form.password.id_for_label }}" class="form-label">
+      {{ form.password.label }}
+    </label>
+    <div class="input-group">
+      <span class="input-group-text">
+        <i class="fas fa-lock"></i>
+      </span>
+      {{ form.password }}
+    </div>
+    {% if form.password.errors %}
+    <div class="text-danger small mt-1">{{ form.password.errors }}</div>
+    {% endif %}
+  </div>
+
+  {% if form.remember %}
+  <div class="mb-3 form-check">
+    {{ form.remember }}
+    <label class="form-check-label" for="{{ form.remember.id_for_label }}">
+      {{ form.remember.label }}
+    </label>
+  </div>
+  {% endif %} {{ redirect_field }}
+
+  <div class="d-grid gap-2">
+    <button type="submit" class="btn btn-primary">
+      <i class="fas fa-sign-in-alt me-2"></i>{% trans "Sign In" %}
+    </button>
+  </div>
+</form>
+
+<div class="text-center mt-3">
+  <a
+    href="{% url 'account_reset_password' %}"
+    class="text-decoration-none small"
+  >
+    {% trans "Forgot your password?" %}
+  </a>
+</div>
+{% endif %}
+
+{% if SOCIALACCOUNT_ENABLED %}
+{% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+{% endif %}
+{% endblock %}
+{% block extra_body %}
+{{ block.super }}
+{% if PASSKEY_LOGIN_ENABLED %}
+{% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
+{% endif %}
+{% endblock %}
