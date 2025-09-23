@@ -1,5 +1,10 @@
-{% extends "allauth/layouts/entrance.html" %} {% load i18n %} {% block head_title %} {% trans "Sign Out" %} {% endblock
-head_title %} {% block body %}
+{% extends "allauth/layouts/entrance.html" %} 
+{% load i18n %}
+{% block head_title %}
+{% trans "Sign Out" %}
+{% endblock head_title %}
+{% block body %}
+
 <div class="text-center mb-4">
   <i class="fas fa-sign-out-alt fa-3x text-warning mb-3"></i>
   <h2 class="h4 mb-3">{% trans "Sign Out" %}</h2>
