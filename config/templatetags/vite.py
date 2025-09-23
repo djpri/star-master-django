@@ -34,7 +34,7 @@ def vite_asset(entry_name):
         try:
             # Read Vite's manifest file from the correct location
             manifest_path = os.path.join(
-                settings.BASE_DIR, 'static', 'dist', '.vite', 'manifest.json')
+                settings.BASE_DIR, 'static', 'dist', 'assets', 'manifest.json')
 
             if os.path.exists(manifest_path):
                 with open(manifest_path, 'r') as f:
