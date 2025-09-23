@@ -3,6 +3,7 @@ import os
 from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from django.templatetags.static import static
 
 register = template.Library()
 
@@ -13,7 +14,7 @@ def vite_asset(entry_name):
     Load CSS or JS files through Vite.
 
     In development: Points to Vite dev server
-    In production: Points to built files using Vite's manifest
+    In production: Points to built files using Vite's manifest + Django's static resolution
     """
 
     # DEVELOPMENT MODE: Use Vite dev server
@@ -61,12 +62,16 @@ def vite_asset(entry_name):
                         # Get the built CSS file path
                         css_file = entry.get('file', '')
                         if css_file:
-                            return mark_safe(f'<link rel="stylesheet" href="{settings.STATIC_URL}dist/{css_file}">')
+                            # Use Django's static() function to resolve the final hashed filename
+                            css_url = static(css_file)
+                            return mark_safe(f'<link rel="stylesheet" href="{css_url}">')
                     else:
                         # Get the built JS file path
                         js_file = entry.get('file', '')
                         if js_file:
-                            return mark_safe(f'<script type="module" src="{settings.STATIC_URL}dist/{js_file}"></script>')
+                            # Use Django's static() function to resolve the final hashed filename
+                            js_url = static(js_file)
+                            return mark_safe(f'<script type="module" src="{js_url}"></script>')
 
         except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
             print(f"Vite manifest error: {e}")
