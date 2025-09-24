@@ -1,6 +1,10 @@
 {
+  "name": "chordsheetz",
   "private": true,
+  "workspaces": [
+    "theme"
+  ],
   "scripts": {
-    "heroku-postbuild": "cd theme/static_src && npm install && npm run build"
+    "heroku-postbuild": "npm run build"
   }
 }
