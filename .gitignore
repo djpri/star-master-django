@@ -18,3 +18,7 @@ static/dist/
 
 # macOS files
 .DS_Store
+
+# misc
+
+notes.md
