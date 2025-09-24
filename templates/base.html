@@ -1,3 +1,5 @@
+{% load static tailwind_tags %}
+
 <!DOCTYPE html>
 <html lang="en" class="h-full">
   <head>
@@ -8,10 +10,9 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
-    {% load vite %} {% vite_hmr %} {% vite_asset "input.css" %} {% block extra_css %}
-    {% endblock %}
+    {% tailwind_css %}
   </head>
-  <body class="h-full flex flex-col bg-base-200">
+  <body class="h-full flex flex-col" style="background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #6366f1 100%);">
     <!-- Navigation -->
     <div class="navbar bg-primary-500 text-white shadow-lg">
       <div class="navbar-start">
@@ -32,7 +33,7 @@
 
       <div class="navbar-end">
         <!-- Desktop User Menu -->
-        <div class="hidden lg:flex">
+        <div class="hidden lg:flex items-center">
           {% if user.is_authenticated %}
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost">
@@ -183,7 +184,5 @@
         </div>
       </div>
     </footer>
-
-    {% vite_asset "main.js" %} {% block extra_js %}{% endblock %}
   </body>
 </html>
