@@ -1,4 +1,6 @@
 web: gunicorn --config gunicorn.conf.py config.wsgi
 
 # Release phase: build assets and run migrations
-release: npm run build && python manage.py collectstatic --no-input && python manage.py migrate --no-input
+release: python manage.py migrate --noinput && \
+         python manage.py tailwind build --no-input && \
+         python manage.py collectstatic --noinput

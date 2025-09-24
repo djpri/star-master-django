@@ -5,72 +5,78 @@
 {% endblock head_title %} 
 {% block body %}
 
-<div class="text-center mb-4">
-  <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
-  <h2 class="h4 mb-3">{% trans "Sign In" %}</h2>
-  <p class="text-muted">
+<div class="text-center mb-8">
+  <div class="avatar avatar-placeholder mb-4">
+    <div class="bg-primary text-primary-content w-16 rounded-full">
+      <i class="fas fa-user text-2xl text-white"></i>
+    </div>
+  </div>
+  <h1 class="text-3xl font-bold mb-2">{% trans "Sign In" %}</h1>
+  <p class="text-base-content/70">
     {% trans "Don't have an account?" %}
-    <a href="{% url 'account_signup' %}" class="text-decoration-none"
+    <a href="{% url 'account_signup' %}" class="link link-primary"
       >{% trans "Sign up here" %}</a
     >
   </p>
 </div>
 
 {% if not SOCIALACCOUNT_ONLY %}
-<form method="post" action="{% url 'account_login' %}">
+<form method="post" action="{% url 'account_login' %}" class="max-w-md mx-auto">
   {% csrf_token %}
 
-  <div class="mb-3">
-    <label for="{{ form.login.id_for_label }}" class="form-label">
-      {{ form.login.label }}
+  <div class="form-control w-full mb-4">
+    <label class="label" for="{{ form.login.id_for_label }}">
+      <span class="label-text">{{ form.login.label }}</span>
     </label>
-    <div class="input-group">
-      <span class="input-group-text">
-        <i class="fas fa-user"></i>
-      </span>
+    <label class="input input-bordered flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
+        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+      </svg>
       {{ form.login }}
-    </div>
+    </label>
     {% if form.login.errors %}
-    <div class="text-danger small mt-1">{{ form.login.errors }}</div>
+    <label class="label">
+      <span class="label-text-alt text-error">{{ form.login.errors }}</span>
+    </label>
     {% endif %}
   </div>
 
-  <div class="mb-3">
-    <label for="{{ form.password.id_for_label }}" class="form-label">
-      {{ form.password.label }}
+  <div class="form-control w-full mb-4">
+    <label class="label" for="{{ form.password.id_for_label }}">
+      <span class="label-text">{{ form.password.label }}</span>
     </label>
-    <div class="input-group">
-      <span class="input-group-text">
-        <i class="fas fa-lock"></i>
-      </span>
+    <label class="input input-bordered flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
+        <path fill-rule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clip-rule="evenodd" />
+      </svg>
       {{ form.password }}
-    </div>
+    </label>
     {% if form.password.errors %}
-    <div class="text-danger small mt-1">{{ form.password.errors }}</div>
+    <label class="label">
+      <span class="label-text-alt text-error">{{ form.password.errors }}</span>
+    </label>
     {% endif %}
   </div>
 
   {% if form.remember %}
-  <div class="mb-3 form-check">
-    {{ form.remember }}
-    <label class="form-check-label" for="{{ form.remember.id_for_label }}">
-      {{ form.remember.label }}
+  <div class="form-control mb-6">
+    <label class="label cursor-pointer justify-start">
+      {{ form.remember }}
+      <span class="label-text ml-2">{{ form.remember.label }}</span>
     </label>
   </div>
   {% endif %} {{ redirect_field }}
 
-  <div class="d-grid gap-2">
-    <button type="submit" class="btn btn-primary">
-      <i class="fas fa-sign-in-alt me-2"></i>{% trans "Sign In" %}
-    </button>
-  </div>
+  <button type="submit" class="btn btn-primary w-full mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 mr-2">
+      <path fill-rule="evenodd" d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z" clip-rule="evenodd" />
+    </svg>
+    {% trans "Sign In" %}
+  </button>
 </form>
 
-<div class="text-center mt-3">
-  <a
-    href="{% url 'account_reset_password' %}"
-    class="text-decoration-none small"
-  >
+<div class="text-center">
+  <a href="{% url 'account_reset_password' %}" class="link link-primary text-sm">
     {% trans "Forgot your password?" %}
   </a>
 </div>
