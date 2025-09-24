@@ -17,6 +17,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+
+from django.conf import settings
 from . import views
 
 urlpatterns = [
@@ -28,3 +30,9 @@ urlpatterns = [
     path("chords/", include("chords.urls")),
     path("tailwind-test/", views.tailwind_test, name="tailwind_test"),
 ]
+
+if settings.DEBUG:
+    # Include django_browser_reload URLs only in DEBUG mode
+    urlpatterns += [
+        path("__reload__/", include("django_browser_reload.urls")),
+    ]

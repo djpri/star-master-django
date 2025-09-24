@@ -14,7 +14,6 @@ import re
 import os
 import secrets
 from pathlib import Path
-
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -102,7 +101,17 @@ INSTALLED_APPS = [
     "config",
     "music",
     "chords",
+    # django-tailwind
+    "tailwind",
+    "theme",
 ]
+
+if DEBUG:
+    # Add django_browser_reload only in DEBUG mode
+    INSTALLED_APPS += ['django_browser_reload']
+
+TAILWIND_APP_NAME = 'theme'
+NPM_BIN_PATH = 'npm.cmd'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -119,6 +128,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    # Add django_browser_reload middleware only in DEBUG mode
+    MIDDLEWARE += [
+        "django_browser_reload.middleware.BrowserReloadMiddleware",
+    ]
 
 ROOT_URLCONF = "config.urls"
 
@@ -143,29 +158,16 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-if IS_HEROKU_APP:
-    # In production on Heroku the database configuration is derived from the `DATABASE_URL`
-    # environment variable by the dj-database-url package. `DATABASE_URL` will be set
-    # automatically by Heroku when a database addon is attached to your Heroku app. See:
-    # https://devcenter.heroku.com/articles/provisioning-heroku-postgres#application-config-vars
-    # https://github.com/jazzband/dj-database-url
-    DATABASES = {
-        "default": dj_database_url.config(
-            env="DATABASE_URL",
-            conn_max_age=600,
-            conn_health_checks=True,
-            ssl_require=True,
-        ),
-    }
-else:
-    # When running locally in development or in CI, a sqlite database file will be used instead
-    # to simplify initial setup. Longer term it's recommended to use Postgres locally too.
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+# Use IS_HEROKU_APP to determine to use the local dev database or the Heroku
+
+DATABASES = {
+    "default": dj_database_url.config(
+        env="DATABASE_URL",
+        conn_max_age=600,
+        conn_health_checks=True,
+        ssl_require=True,
+    ),
+}
 
 
 # Password validation
@@ -205,18 +207,6 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 
-# Additional locations of static files
-STATICFILES_DIRS = [
-    # Only collect the built assets from Vite, not the source files
-    BASE_DIR / "static" / "dist",
-]
-
-# Custom staticfiles finder to include hidden files like .vite/manifest.json
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
-
 if IS_HEROKU_APP:
     STORAGES = {
         # Enable WhiteNoise's GZip (and Brotli, if installed) compression of static assets:
@@ -236,18 +226,6 @@ else:
 # Don't store the original (un-hashed filename) version of static files, to reduce slug size:
 # https://whitenoise.readthedocs.io/en/latest/django.html#WHITENOISE_KEEP_ONLY_HASHED_FILES
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
-
-# Configure WhiteNoise to recognize Vite's hashed files as immutable for better caching:
-# http://whitenoise.evans.io/en/stable/django.html#WHITENOISE_IMMUTABLE_FILE_TEST
-
-
-def immutable_file_test(path, url):
-    # Match vite-generated hashes, like `style.iqdFhmNN.css` or `main-B0zW7jOa.js`
-    return re.match(r"^.+[.-][0-9a-zA-Z_-]{8,12}\..+$", url)
-
-
-WHITENOISE_IMMUTABLE_FILE_TEST = immutable_file_test
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -315,6 +293,3 @@ ACCOUNT_LOGOUT_ON_GET = True
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-
-# Vite configuration for development
-VITE_DEV_PORT = '5173'  # Updated to use port 5173
