@@ -13,12 +13,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Vite build output
-static/dist/
+# django tailwind output
+theme/static
 
 # macOS files
 .DS_Store
 
 # misc
-
 notes.md
