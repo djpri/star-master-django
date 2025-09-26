@@ -26,9 +26,9 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("profile/", views.profile, name="profile"),
-    path("music/", include("music.urls")),
-    path("chords/", include("chords.urls")),
     path("tailwind-test/", views.tailwind_test, name="tailwind_test"),
+    path("questions/", include("questions.urls")),
+    path("answers/", include("answers.urls")),
 ]
 
 if settings.DEBUG:
