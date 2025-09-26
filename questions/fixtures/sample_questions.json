@@ -1,0 +1,273 @@
+[
+  {
+    "model": "questions.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Leadership",
+      "slug": "leadership"
+    }
+  },
+  {
+    "model": "questions.tag",
+    "pk": 2,
+    "fields": {
+      "name": "Teamwork",
+      "slug": "teamwork"
+    }
+  },
+  {
+    "model": "questions.tag",
+    "pk": 3,
+    "fields": {
+      "name": "Problem Solving",
+      "slug": "problem-solving"
+    }
+  },
+  {
+    "model": "questions.tag",
+    "pk": 4,
+    "fields": {
+      "name": "Communication",
+      "slug": "communication"
+    }
+  },
+  {
+    "model": "questions.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Time Management",
+      "slug": "time-management"
+    }
+  },
+  {
+    "model": "questions.tag",
+    "pk": 6,
+    "fields": {
+      "name": "Conflict Resolution",
+      "slug": "conflict-resolution"
+    }
+  },
+  {
+    "model": "questions.tag",
+    "pk": 7,
+    "fields": {
+      "name": "Innovation",
+      "slug": "innovation"
+    }
+  },
+  {
+    "model": "questions.tag",
+    "pk": 8,
+    "fields": {
+      "name": "Customer Service",
+      "slug": "customer-service"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 1,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to lead a team through a challenging project.",
+      "body": "This question assesses your leadership skills, ability to navigate challenges, and how you motivate and guide team members toward achieving goals under pressure.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        1,
+        2
+      ],
+      "created_at": "2025-09-20T10:00:00Z",
+      "updated_at": "2025-09-20T10:00:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 2,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to solve a complex problem with limited resources.",
+      "body": "This question evaluates your problem-solving abilities, creativity, and resourcefulness when faced with constraints.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        7
+      ],
+      "created_at": "2025-09-21T09:30:00Z",
+      "updated_at": "2025-09-21T09:30:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 3,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of a time when you had to deal with a difficult customer or client.",
+      "body": "This question tests your customer service skills, patience, empathy, and ability to turn negative situations into positive outcomes.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        8,
+        4,
+        6
+      ],
+      "created_at": "2025-09-22T14:15:00Z",
+      "updated_at": "2025-09-22T14:15:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 4,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you disagreed with your manager's decision.",
+      "body": "This question assesses your ability to handle disagreements professionally, communicate concerns effectively, and maintain working relationships even when you disagree.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        6
+      ],
+      "created_at": "2025-09-23T11:20:00Z",
+      "updated_at": "2025-09-23T11:20:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 5,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to work with a team member who wasn't pulling their weight.",
+      "body": "This question evaluates your teamwork skills, ability to address performance issues diplomatically, and how you maintain team productivity.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        2,
+        6,
+        1
+      ],
+      "created_at": "2025-09-24T08:45:00Z",
+      "updated_at": "2025-09-24T08:45:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 6,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of a time when you had to meet a tight deadline.",
+      "body": "This question tests your time management skills, ability to work under pressure, and how you prioritize tasks to achieve goals within constraints.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        5,
+        3
+      ],
+      "created_at": "2025-09-25T16:30:00Z",
+      "updated_at": "2025-09-25T16:30:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 7,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you made a mistake at work and how you handled it.",
+      "body": "This question assesses your accountability, learning ability, and how you handle failures or setbacks professionally.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        4
+      ],
+      "created_at": "2025-09-26T12:00:00Z",
+      "updated_at": "2025-09-26T12:00:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 8,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to adapt to a significant change in your workplace.",
+      "body": "This question evaluates your adaptability, flexibility, and how you handle organizational changes or new processes.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        7,
+        3
+      ],
+      "created_at": "2025-09-26T13:15:00Z",
+      "updated_at": "2025-09-26T13:15:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 9,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of a time when you went above and beyond your job requirements.",
+      "body": "This question tests your initiative, dedication, and willingness to exceed expectations to achieve better outcomes.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        1,
+        7
+      ],
+      "created_at": "2025-09-26T14:30:00Z",
+      "updated_at": "2025-09-26T14:30:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 10,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to persuade someone to see things your way.",
+      "body": "This question assesses your communication skills, ability to influence others, and how you build consensus or convince stakeholders.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        1
+      ],
+      "created_at": "2025-09-26T15:45:00Z",
+      "updated_at": "2025-09-26T15:45:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 11,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to learn something new quickly.",
+      "body": "This question evaluates your learning agility, adaptability, and ability to acquire new skills or knowledge under time pressure.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        7,
+        5
+      ],
+      "created_at": "2025-09-26T16:00:00Z",
+      "updated_at": "2025-09-26T16:00:00Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 12,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of a time when you had to give constructive feedback to a colleague.",
+      "body": "This question tests your communication skills, emotional intelligence, and ability to help others improve while maintaining professional relationships.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        1,
+        2
+      ],
+      "created_at": "2025-09-26T17:10:00Z",
+      "updated_at": "2025-09-26T17:10:00Z"
+    }
+  }
+]
