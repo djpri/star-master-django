@@ -99,8 +99,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     # Local apps
     "config",
-    "music",
-    "chords",
+    "questions",
+    "answers",
     # django-tailwind
     "tailwind",
     "theme",
