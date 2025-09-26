@@ -28,3 +28,13 @@ $ heroku open
 For more information about using Python on Heroku, see these Dev Center articles:
 
 - [Python on Heroku](https://devcenter.heroku.com/categories/python)
+
+ENV
+
+USE .env file to set environment variables for local development
+
+use heroku cli to run commands with environment variables from .env file
+
+DEV
+
+heroku local:run py manage.py tailwind dev 
