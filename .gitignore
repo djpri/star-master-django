@@ -14,7 +14,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # django tailwind output
-theme/static
+theme/static/
 
 # macOS files
 .DS_Store
