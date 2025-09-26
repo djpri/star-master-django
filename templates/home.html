@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Welcome to chordsheetz{% endblock %}
+{% block title %}STAR Master{% endblock %}
 
 {% block content %}
 
@@ -9,19 +9,19 @@
   <div class="hero-content text-center text-primary-content">
     <div class="max-w-4xl">
       <div class="mb-8">
-        <i class="fas fa-music text-8xl opacity-80 mb-6 block"></i>
+        <i class="fas fa-star text-8xl opacity-80 mb-6 block"></i>
       </div>
-      <h1 class="text-5xl md:text-7xl font-bold mb-6">Welcome to chordsheetz</h1>
+      <h1 class="text-5xl md:text-7xl font-bold mb-6">STAR Master</h1>
       <p class="text-xl md:text-2xl opacity-90 mb-8 max-w-3xl mx-auto leading-relaxed">
-        Your ultimate platform for discovering, sharing, and managing chord sheets. Join our community of musicians and
-        share your musical arrangements with the world.
+        Master your interview skills with the STAR method. Create, practice, and perfect your responses to common 
+        interview questions using the proven Situation, Task, Action, Result framework.
       </p>
 
       {% if not user.is_authenticated %}
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="{% url 'account_signup' %}" class="btn btn-secondary btn-lg">
           <i class="fas fa-user-plus mr-2"></i>
-          Get Started
+          Start Practicing
         </a>
         <a href="{% url 'account_login' %}" class="btn btn-outline btn-secondary btn-lg">
           <i class="fas fa-sign-in-alt mr-2"></i>
@@ -30,9 +30,9 @@
       </div>
       {% else %}
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#" class="btn btn-secondary btn-lg">
-          <i class="fas fa-search mr-2"></i>
-          Browse Songs
+        <a href="{% url 'questions:list' %}" class="btn btn-secondary btn-lg">
+          <i class="fas fa-question-circle mr-2"></i>
+          Browse Questions
         </a>
         <a href="{% url 'profile' %}" class="btn btn-outline btn-secondary btn-lg">
           <i class="fas fa-user mr-2"></i>
@@ -54,11 +54,11 @@
     <div class="card-body text-center">
       <div class="avatar avatar-placeholder mb-4 mx-auto">
         <div class="bg-primary text-primary-content w-16 rounded-full">
-          <span class="text-2xl"><i class="fas fa-search"></i></span>
+          <span class="text-2xl"><i class="fas fa-question-circle"></i></span>
         </div>
       </div>
-      <h3 class="card-title justify-center text-xl mb-3">Discover Songs</h3>
-      <p class="text-base-content/70">Browse through our extensive catalog of songs from various artists and genres.</p>
+      <h3 class="card-title justify-center text-xl mb-3">Practice Questions</h3>
+      <p class="text-base-content/70">Browse through our curated collection of common interview questions across various industries and roles.</p>
     </div>
   </div>
 
@@ -66,12 +66,12 @@
     <div class="card-body text-center">
       <div class="avatar avatar-placeholder mb-4 mx-auto">
         <div class="bg-secondary text-secondary-content w-16 rounded-full">
-          <span class="text-2xl"><i class="fas fa-file-alt"></i></span>
+          <span class="text-2xl"><i class="fas fa-star"></i></span>
         </div>
       </div>
-      <h3 class="card-title justify-center text-xl mb-3">Share Chord Sheets</h3>
+      <h3 class="card-title justify-center text-xl mb-3">STAR Method</h3>
       <p class="text-base-content/70">
-        Upload and share your own chord sheets with the community. Help others learn your favorite songs.
+        Structure your responses using the proven STAR framework: Situation, Task, Action, Result.
       </p>
     </div>
   </div>
@@ -80,11 +80,11 @@
     <div class="card-body text-center">
       <div class="avatar avatar-placeholder mb-4 mx-auto">
         <div class="bg-accent text-accent-content w-16 rounded-full">
-          <span class="text-2xl"><i class="fas fa-heart"></i></span>
+          <span class="text-2xl"><i class="fas fa-history"></i></span>
         </div>
       </div>
-      <h3 class="card-title justify-center text-xl mb-3">Save Favorites</h3>
-      <p class="text-base-content/70">Keep track of your favorite songs and chord sheets for quick access anytime.</p>
+      <h3 class="card-title justify-center text-xl mb-3">Track Progress</h3>
+      <p class="text-base-content/70">Keep track of your answers and continuously improve your interview responses over time.</p>
     </div>
   </div>
 </div>
@@ -103,12 +103,12 @@
             </div>
           </div>
           <div class="flex-1">
-            <h4 class="card-title text-lg">Create Chord Sheet</h4>
-            <p class="text-base-content/70 text-sm">Share a new chord sheet with the community</p>
+            <h4 class="card-title text-lg">Create Answer</h4>
+            <p class="text-base-content/70 text-sm">Craft a new STAR response to practice questions</p>
           </div>
         </div>
         <div class="card-actions">
-          <a href="#" class="btn btn-primary btn-sm">Create Now</a>
+          <a href="{% url 'questions:list' %}" class="btn btn-primary btn-sm">Start Answering</a>
         </div>
       </div>
     </div>
@@ -118,16 +118,16 @@
         <div class="flex items-center mb-4">
           <div class="avatar mr-4">
             <div class="bg-warning text-warning-content w-12 rounded-lg">
-              <span class="text-xl"><i class="fas fa-star"></i></span>
+              <span class="text-xl"><i class="fas fa-clipboard-list"></i></span>
             </div>
           </div>
           <div class="flex-1">
-            <h4 class="card-title text-lg">My Favorites</h4>
-            <p class="text-base-content/70 text-sm">View your saved favorite songs</p>
+            <h4 class="card-title text-lg">My Answers</h4>
+            <p class="text-base-content/70 text-sm">Review and refine your practice responses</p>
           </div>
         </div>
         <div class="card-actions">
-          <a href="{% url 'profile' %}" class="btn btn-secondary btn-sm">View Favorites</a>
+          <a href="{% url 'profile' %}" class="btn btn-secondary btn-sm">View Answers</a>
         </div>
       </div>
     </div>
@@ -139,19 +139,20 @@
 <div class="hero bg-base-200 rounded-3xl">
   <div class="hero-content text-center py-12">
     <div class="max-w-2xl">
-      <h2 class="text-3xl font-bold mb-4 text-base-content">Ready to Start Your Musical Journey?</h2>
+      <h2 class="text-3xl font-bold mb-4 text-base-content">Ready to Ace Your Next Interview?</h2>
       <p class="text-base-content/70 mb-8 text-lg leading-relaxed">
-        Join thousands of musicians who are already sharing and discovering amazing chord sheets on chordsheetz.
+        Join professionals who are mastering their interview skills with structured STAR method responses. 
+        Practice makes perfect!
       </p>
       {% if not user.is_authenticated %}
       <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg">
         <i class="fas fa-rocket mr-2"></i>
-        Join Now
+        Start Practicing
       </a>
       {% else %}
-      <a href="#" class="btn btn-primary btn-lg">
-        <i class="fas fa-music mr-2"></i>
-        Explore Songs
+      <a href="{% url 'questions:list' %}" class="btn btn-primary btn-lg">
+        <i class="fas fa-question-circle mr-2"></i>
+        Explore Questions
       </a>
       {% endif %}
     </div>
