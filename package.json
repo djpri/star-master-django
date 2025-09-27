@@ -1,10 +1,11 @@
 {
-  "name": "chordsheetz",
+  "name": "star-master",
   "private": true,
   "workspaces": [
     "theme/static_src"
   ],
   "scripts": {
+    "dev": "npm --workspace theme/static_src run dev",
     "build": "npm --workspace theme/static_src run build",
     "heroku-postbuild": "npm run build"
   }

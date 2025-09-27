@@ -20,12 +20,12 @@ class QuestionQuerySet(models.QuerySet):
         """Return questions visible to the user"""
         if not user or not user.is_authenticated:
             # Public approved questions only
-            return self.filter(is_visible_publicly=True)
+            return self.filter(is_public=True, status="APPROVED")
 
         # Own questions + public approved questions
         return self.filter(
             models.Q(owner=user) |
-            models.Q(is_visible_publicly=True)
+            models.Q(is_public=True, status="APPROVED")
         )
 
 

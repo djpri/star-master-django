@@ -13,21 +13,39 @@
     {% tailwind_css %}
   </head>
   <body class="h-full flex flex-col" style="background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #6366f1 100%);">
+    <!-- Admin Mode Banner -->
+    {% if user.is_staff %}
+      <div class="bg-error text-error-content text-xs text-center py-2 px-4 shadow-sm">
+        <i class="fas fa-shield-alt mr-1"></i>
+        <span class="font-semibold">ADMIN MODE</span> - Administrative Access Active
+      </div>
+    {% endif %}
+
     <!-- Navigation -->
-    <div class="navbar bg-primary-500 text-white shadow-lg">
+    <div class="navbar {% if user.is_staff %}bg-warning text-warning-content{% else %}bg-primary-500 text-white{% endif %} shadow-lg">
+      
       <div class="navbar-start">
         <!-- Logo -->
         <a href="{% url 'home' %}" class="btn btn-ghost text-xl">
-          <i class="fas fa-music mr-2"></i>
-          chordsheetz
+          <i class="fas fa-star mr-2"></i>
+          STAR Master
+          {% if user.is_staff %}
+            <span class="badge badge-error badge-xs ml-2">ADMIN</span>
+          {% endif %}
         </a>
 
         <!-- Desktop Navigation Menu -->
         <ul class="menu menu-horizontal px-1 hidden lg:flex">
           <li><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-          <li><a class="nav-link" href="#">Songs</a></li>
-          <li><a class="nav-link" href="#">Artists</a></li>
-          <li><a class="nav-link" href="#">Genres</a></li>
+          <li><a class="nav-link" href="{% url 'questions:list' %}">Questions</a></li>
+          <li><a class="nav-link" href="#">Practice</a></li>
+          <li><a class="nav-link" href="#">Resources</a></li>
+          {% if user.is_staff %}
+            <li><a class="nav-link bg-error/20 hover:bg-error/30 rounded-md" href="{% url 'admin:index' %}">
+              <i class="fas fa-cog mr-1"></i>
+              Admin Panel
+            </a></li>
+          {% endif %}
         </ul>
       </div>
 
@@ -52,17 +70,44 @@
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <i class="fas fa-heart"></i>
-                  My Favorites
+                <a href="{% url 'questions:list' %}">
+                  <i class="fas fa-question-circle"></i>
+                  Browse Questions
                 </a>
               </li>
               <li>
                 <a href="#">
-                  <i class="fas fa-file-alt"></i>
-                  My Chord Sheets
+                  <i class="fas fa-clipboard-list"></i>
+                  My Answers
                 </a>
               </li>
+              {% if user.is_staff %}
+                <li><hr class="my-1" /></li>
+                <li>
+                  <div class="menu-title text-error">
+                    <i class="fas fa-shield-alt mr-1"></i>
+                    Admin Tools
+                  </div>
+                </li>
+                <li>
+                  <a href="{% url 'admin:index' %}" class="text-error">
+                    <i class="fas fa-cog"></i>
+                    Admin Panel
+                  </a>
+                </li>
+                <li>
+                  <a href="{% url 'admin:questions_question_changelist' %}" class="text-error">
+                    <i class="fas fa-question-circle"></i>
+                    Manage Questions
+                  </a>
+                </li>
+                <li>
+                  <a href="{% url 'admin:answers_answer_changelist' %}" class="text-error">
+                    <i class="fas fa-clipboard-list"></i>
+                    Manage Answers
+                  </a>
+                </li>
+              {% endif %}
               <li><hr class="my-1" /></li>
               <li>
                 <a href="{% url 'account_logout' %}">
@@ -94,9 +139,15 @@
             class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-base-content"
           >
             <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="#">Songs</a></li>
-            <li><a href="#">Artists</a></li>
-            <li><a href="#">Genres</a></li>
+            <li><a href="{% url 'questions:list' %}">Questions</a></li>
+            <li><a href="#">Practice</a></li>
+            <li><a href="#">Resources</a></li>
+            {% if user.is_staff %}
+              <li><a href="{% url 'admin:index' %}" class="text-error">
+                <i class="fas fa-cog mr-2"></i>
+                Admin Panel
+              </a></li>
+            {% endif %}
 
             {% if user.is_authenticated %}
             <li><hr class="my-1" /></li>
@@ -107,17 +158,38 @@
               </a>
             </li>
             <li>
-              <a href="#">
-                <i class="fas fa-heart mr-2"></i>
-                My Favorites
+              <a href="{% url 'questions:list' %}">
+                <i class="fas fa-question-circle mr-2"></i>
+                Browse Questions
               </a>
             </li>
             <li>
               <a href="#">
-                <i class="fas fa-file-alt mr-2"></i>
-                My Chord Sheets
+                <i class="fas fa-clipboard-list mr-2"></i>
+                My Answers
               </a>
             </li>
+            {% if user.is_staff %}
+              <li><hr class="my-1" /></li>
+              <li>
+                <div class="menu-title text-error">
+                  <i class="fas fa-shield-alt mr-1"></i>
+                  Admin Tools
+                </div>
+              </li>
+              <li>
+                <a href="{% url 'admin:questions_question_changelist' %}" class="text-error">
+                  <i class="fas fa-question-circle mr-2"></i>
+                  Manage Questions
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'admin:answers_answer_changelist' %}" class="text-error">
+                  <i class="fas fa-clipboard-list mr-2"></i>
+                  Manage Answers
+                </a>
+              </li>
+            {% endif %}
             <li>
               <a href="{% url 'account_logout' %}">
                 <i class="fas fa-sign-out-alt mr-2"></i>
@@ -174,7 +246,7 @@
     >
       <div>
         <p class="text-base-content/70">
-          &copy; 2025 chordsheetz. A platform for sharing chord sheets.
+          &copy; STAR Master
         </p>
         <div class="flex justify-center space-x-4 mt-2">
           <a href="#" class="link link-hover">About</a>
