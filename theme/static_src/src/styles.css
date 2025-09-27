@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: light --default;
@@ -12,8 +13,13 @@
   */
 @source "../../../**/*.{html,py,js}";
 
-/* Define custom colors using CSS custom properties */
+/* Define custom colors and fonts using CSS custom properties */
 @theme {
+  /* Font Families */
+  --font-alan: "Alan Sans", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Custom Colors */
   --color-primary-50: #f3f1ff;
   --color-primary-100: #ebe5ff;
   --color-primary-200: #d9ceff;
@@ -41,14 +47,21 @@
 
 /* Custom base styles */
 @layer base {
+  :root {
+    font-family: var(--font-alan);
+  }
+
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
     @apply bg-base-200;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
+  /* Enhanced typography for STAR Master */
   h1,
   h2,
   h3,
@@ -56,6 +69,13 @@
   h5,
   h6 {
     @apply font-semibold;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    letter-spacing: -0.025em;
+  }
+
+  .btn {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    letter-spacing: -0.01em;
   }
 
   a {
