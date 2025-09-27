@@ -2,7 +2,7 @@
 name: User Story Template
 about: Custom template for project user stories
 title: ''
-labels: ''
+labels: must-have, user-story
 assignees: ''
 
 ---
