@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
 
@@ -36,3 +37,10 @@ if settings.DEBUG:
     urlpatterns += [
         path("__reload__/", include("django_browser_reload.urls")),
     ]
+
+if not settings.TESTING:
+    from debug_toolbar.toolbar import debug_toolbar_urls
+
+    urlpatterns = [
+        *urlpatterns,
+    ] + debug_toolbar_urls()
