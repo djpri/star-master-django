@@ -1,7 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default;
+  themes: light, mytheme --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "mytheme";
+  default: true; /* set as default */
+  prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
+  color-scheme: light; /* color of browser-provided UI */
+
+  /* Base background shades */
+  --color-base-100: oklch(98% 0.02 265); /* clean white with faint violet hue */
+  --color-base-200: oklch(95% 0.03 265);
+  --color-base-300: oklch(92% 0.04 265);
+
+  /* Base content (text) */
+  --color-base-content: oklch(18% 0.05 265); /* deep slate/dark purple text */
+
+  /* Primary branding color – vibrant violet-purple */
+  --color-primary: oklch(54% 0.31 275); /* modern purple */
+  --color-primary-content: oklch(98% 0.01 275); /* white/near-white text on purple */
+
+  /* Secondary accent – blue for secondary CTAs/badges */
+  --color-secondary: oklch(68% 0.27 235);
+  --color-secondary-content: oklch(98% 0.01 235);
+
+  /* Accent color – turquoise for highlights */
+  --color-accent: oklch(65% 0.25 185);
+  --color-accent-content: oklch(98% 0.01 185);
+
+  /* Neutral (card backgrounds, subtle UI elements) */
+  --color-neutral: oklch(50% 0.05 265);
+  --color-neutral-content: oklch(98% 0.01 265);
+
+  /* Info – teal for info alerts */
+  --color-info: oklch(70% 0.2 200);
+  --color-info-content: oklch(98% 0.01 200);
+
+  /* Success – green for success alerts */
+  --color-success: oklch(65% 0.22 145);
+  --color-success-content: oklch(98% 0.01 145);
+
+  /* Warning – yellow-gold for warnings */
+  --color-warning: oklch(80% 0.23 80);
+  --color-warning-content: oklch(20% 0.07 80);
+
+  /* Error – strong red */
+  --color-error: oklch(65% 0.35 28);
+  --color-error-content: oklch(98% 0.01 28);
+
+  /* border radius */
+  --radius-selector: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+
+  /* base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* border size */
+  --border: 1px;
+
+  /* effects */
+  --depth: 1;
+  --noise: 0;
 }
 
 /**
@@ -18,6 +81,8 @@
   /* Font Families */
   --font-alan: "Alan Sans", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --font-montserrat: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 
   /* Custom Colors */
   --color-primary-50: #f3f1ff;
@@ -59,6 +124,7 @@
   body {
     @apply bg-base-200;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    letter-spacing: 0.025em;
   }
 
   /* Enhanced typography for STAR Master */
@@ -68,9 +134,14 @@
   h4,
   h5,
   h6 {
-    @apply font-semibold;
+    @apply font-semibold leading-tight ;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    letter-spacing: -0.025em;
+    letter-spacing: -0.015em;
+    font-family: var(--font-montserrat);
+  }
+
+  p {
+    @apply leading-relaxed;
   }
 
   .btn {
@@ -80,6 +151,7 @@
 
   a {
     @apply text-primary transition-colors duration-200;
+    font-family: var(--font-montserrat);
   }
 
   /* Legacy nav-link class for any remaining usage */
