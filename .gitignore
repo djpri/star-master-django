@@ -20,4 +20,4 @@ theme/static/
 .DS_Store
 
 # misc
-notes.md
+_notes/
