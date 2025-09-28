@@ -1,33 +1,3 @@
-# Technology Stack
-
-## Framework & Core Dependencies
-
-- **Django 5.2**: Web framework
-- **Python**: Runtime (version specified in `.python-version`)
-- **Gunicorn**: WSGI HTTP Server for production
-- **WhiteNoise**: Static file serving middleware
-- **dj-database-url**: Database URL parsing for Heroku
-- **psycopg[binary]**: PostgreSQL adapter
-- **django-allauth**: Authentication
-- **django-crispy-forms**: Form rendering
-- **django-summernote**: Rich text editor for admin interface
-
-## UI
-
-- **Tailwind CSS**: Utility-first CSS framework
-- **Font Awesome**: Icon library
-
-## Database
-
-- **PostgreSQL**: Same database for development and production
-
-## Deployment
-
-- **Heroku**: Primary deployment platform
-- **Docker**: Not used in this setup
-
-## Common Commands
-
 ### Development
 
 ```bash
@@ -45,9 +15,8 @@ heroku local:run python manage.py migrate
 # Start development server (with .env loaded)
 heroku local:run python manage.py runserver
 
-# Alternative: Run with Heroku local web process
-heroku local
-```
+# Note: separate command is needed for reloading tailwind styles in development
+npm run dev
 
 ### Testing
 
@@ -59,15 +28,8 @@ heroku local:run python manage.py test
 heroku local:run python manage.py test --debug-mode
 ```
 
-### Production
+### Migrations
 
-```bash
-# Collect static files (with .env loaded)
-heroku local:run python manage.py collectstatic --no-input
-
-# Run with Gunicorn
-gunicorn --config gunicorn.conf.py config.wsgi
-```
 
 ### Heroku Deployment
 
