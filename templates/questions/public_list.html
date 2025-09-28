@@ -109,14 +109,21 @@
             <!-- Actions -->
             <div class="card-actions justify-end">
               {% if user.is_authenticated %}
-                <button 
-                  class="btn btn-primary btn-sm save-question-btn" 
-                  data-question-id="{{ question.id }}"
-                  data-question-title="{{ question.title }}"
-                >
-                  <i class="fas fa-bookmark mr-1"></i>
-                  Save
-                </button>
+                {% if question.title in saved_question_titles %}
+                  <button class="btn btn-success btn-sm" disabled>
+                    <i class="fas fa-check mr-1"></i>
+                    Saved
+                  </button>
+                {% else %}
+                  <button 
+                    class="btn btn-primary btn-sm save-question-btn" 
+                    data-question-id="{{ question.id }}"
+                    data-question-title="{{ question.title }}"
+                  >
+                    <i class="fas fa-bookmark mr-1"></i>
+                    Save
+                  </button>
+                {% endif %}
               {% else %}
                 <div class="tooltip" data-tip="Sign in to save questions">
                   <button class="btn btn-primary btn-sm btn-disabled">
@@ -235,11 +242,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show toast notification
                     showToast('success', `"${questionTitle}" saved to your collection!`);
                     
-                    // Keep the success state
-                    setTimeout(() => {
-                        this.innerHTML = '<i class="fas fa-check mr-1"></i> Saved';
-                        this.disabled = true;
-                    }, 2000);
+                    // Update all buttons for questions with the same title
+                    const allButtonsForThisTitle = document.querySelectorAll(`[data-question-title="${questionTitle}"]`);
+                    allButtonsForThisTitle.forEach(btn => {
+                        btn.innerHTML = '<i class="fas fa-check mr-1"></i> Saved';
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-success');
+                        btn.disabled = true;
+                    });
                     
                 } else {
                     throw new Error(data.error || 'Failed to save question');
