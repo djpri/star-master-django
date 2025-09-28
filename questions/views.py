@@ -12,11 +12,11 @@ def question_list(request):
         # Redirect unauthenticated users to public questions
         return redirect('questions:public_list')
 
-    # Only show user's own private questions
+    # Only show user's own private questions with optimized queries
     questions = Question.objects.filter(
         owner=request.user,
         is_public=False
-    ).order_by('-created_at')
+    ).select_related('owner').prefetch_related('tags', 'votes').order_by('-created_at')
 
     # Paginate questions (12 per page)
     paginator = Paginator(questions, 12)
@@ -33,9 +33,10 @@ def question_list(request):
 
 def public_question_list(request):
     """Display paginated list of public questions that users can save to their own collection."""
-    # Only show public approved questions
+    # Only show public approved questions with optimized queries
     questions = Question.objects.filter(
-        is_public=True, status=Question.STATUS_APPROVED)
+        is_public=True, status=Question.STATUS_APPROVED
+    ).select_related('owner').prefetch_related('tags', 'votes').order_by('-created_at')
 
     # Paginate questions (12 per page)
     paginator = Paginator(questions, 12)
