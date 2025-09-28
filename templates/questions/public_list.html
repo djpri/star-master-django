@@ -108,6 +108,10 @@
 
             <!-- Actions -->
             <div class="card-actions justify-end">
+              <a href="{% url 'questions:detail' pk=question.pk %}" class="btn btn-outline btn-sm">
+                <i class="fas fa-eye mr-1"></i>
+                View
+              </a>
               {% if user.is_authenticated %}
                 {% if question.title in saved_question_titles %}
                   <button class="btn btn-success btn-sm" disabled>

@@ -115,3 +115,26 @@ def save_public_question(request, question_id):
     messages.success(
         request, f'Question "{public_question.title}" saved to your collection!')
     return redirect('questions:public_list')
+
+
+def question_detail(request, pk):
+    """Display a single question with its answers"""
+    question = get_object_or_404(
+        Question.objects.visible_to_user(request.user), pk=pk)
+
+    # Get answers visible to the user
+    answers = question.answers.visible_to_user(
+        request.user).select_related('user')
+
+    # Check if current user has an answer for this question
+    user_answer = None
+    if request.user.is_authenticated:
+        user_answer = answers.filter(user=request.user).first()
+
+    context = {
+        'question': question,
+        'answers': answers,
+        'user_answer': user_answer,
+    }
+
+    return render(request, 'questions/detail.html', context)
