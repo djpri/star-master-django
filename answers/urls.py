@@ -4,8 +4,7 @@ from . import views
 app_name = 'answers'
 
 urlpatterns = [
-    # Add your URL patterns here
-    # path('create/<int:question_id>/', views.create_answer, name='create'),
-    # path('<int:pk>/', views.answer_detail, name='detail'),
+    path('create/<int:question_id>/', views.create_answer, name='create'),
+    path('<int:pk>/', views.answer_detail, name='detail'),
     # path('<int:pk>/edit/', views.edit_answer, name='edit'),
 ]
