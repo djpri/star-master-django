@@ -43,10 +43,21 @@ def public_question_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    # Get saved question titles for the current user (if authenticated)
+    saved_question_titles = set()
+    if request.user.is_authenticated:
+        saved_question_titles = set(
+            Question.objects.filter(
+                owner=request.user,
+                is_public=False
+            ).values_list('title', flat=True)
+        )
+
     context = {
         'questions': page_obj,
         'page_obj': page_obj,
         'is_public_view': True,
+        'saved_question_titles': saved_question_titles,
     }
 
     return render(request, 'questions/public_list.html', context)
@@ -66,10 +77,13 @@ def save_public_question(request, question_id):
         status=Question.STATUS_APPROVED
     )
 
-    # Check if user already has this question saved
+    # Check if user already has this exact question saved
+    # We check for title AND that it's not public (indicating it's a saved copy)
+    # AND that it has an empty body (indicating it was copied from public, not user-created)
     existing_question = Question.objects.filter(
         owner=request.user,
-        title=public_question.title
+        title=public_question.title,
+        is_public=False,
     ).first()
 
     if existing_question:
