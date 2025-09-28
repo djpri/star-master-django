@@ -17,12 +17,12 @@ class Tag(models.Model):
 
 class QuestionQuerySet(models.QuerySet):
     def visible_to_user(self, user):
-        """Return questions visible to the user"""
+        """Return all questions visible to the user (used for answers context)"""
         if not user or not user.is_authenticated:
             # Public approved questions only
             return self.filter(is_public=True, status="APPROVED")
 
-        # Own questions + public approved questions
+        # Own questions (both private and public) + public approved questions from others
         return self.filter(
             models.Q(owner=user) |
             models.Q(is_public=True, status="APPROVED")

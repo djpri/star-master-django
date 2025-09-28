@@ -35,18 +35,38 @@
         </a>
 
         <!-- Desktop Navigation Menu -->
-        <ul class="menu menu-horizontal px-1 hidden lg:flex">
-          <li><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-          <li><a class="nav-link" href="{% url 'questions:list' %}">Questions</a></li>
-          <li><a class="nav-link" href="#">Practice</a></li>
-          <li><a class="nav-link" href="#">Resources</a></li>
+        <div class="hidden lg:flex items-center space-x-4">
+          <a class="nav-link" href="{% url 'home' %}">Home</a>
+          
+          <!-- Questions Dropdown -->
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="px-3 py-2 rounded-md text-white text-sm font-semibold hover:bg-primary hover:text-primary-content transition-colors duration-200 cursor-pointer">
+              Questions
+              <i class="fas fa-chevron-down ml-1 text-xs"></i>
+            </div>
+            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-base-content">
+              {% if user.is_authenticated %}
+                <li><a href="{% url 'questions:list' %}">
+                  <i class="fas fa-bookmark mr-2"></i>
+                  My Questions
+                </a></li>
+              {% endif %}
+              <li><a href="{% url 'questions:public_list' %}">
+                <i class="fas fa-globe mr-2"></i>
+                Public Questions
+              </a></li>
+            </ul>
+          </div>
+          
+          <a class="nav-link" href="#">Practice</a>
+          <a class="nav-link" href="#">Resources</a>
           {% if user.is_staff %}
-            <li><a class="nav-link bg-error/20 hover:bg-error/30 rounded-md" href="{% url 'admin:index' %}">
+            <a class="nav-link bg-error/20 hover:bg-error/30 rounded-md" href="{% url 'admin:index' %}">
               <i class="fas fa-cog mr-1"></i>
               Admin Panel
-            </a></li>
+            </a>
           {% endif %}
-        </ul>
+        </div>
       </div>
 
       <div class="navbar-end">
@@ -71,8 +91,14 @@
               </li>
               <li>
                 <a href="{% url 'questions:list' %}">
-                  <i class="fas fa-question-circle"></i>
-                  Browse Questions
+                  <i class="fas fa-bookmark"></i>
+                  My Questions
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'questions:public_list' %}">
+                  <i class="fas fa-globe"></i>
+                  Public Questions
                 </a>
               </li>
               <li>
@@ -139,7 +165,16 @@
             class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-base-content"
           >
             <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'questions:list' %}">Questions</a></li>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'questions:list' %}">
+                <i class="fas fa-bookmark mr-2"></i>
+                My Questions
+              </a></li>
+            {% endif %}
+            <li><a href="{% url 'questions:public_list' %}">
+              <i class="fas fa-globe mr-2"></i>
+              Public Questions
+            </a></li>
             <li><a href="#">Practice</a></li>
             <li><a href="#">Resources</a></li>
             {% if user.is_staff %}
@@ -159,8 +194,14 @@
             </li>
             <li>
               <a href="{% url 'questions:list' %}">
-                <i class="fas fa-question-circle mr-2"></i>
-                Browse Questions
+                <i class="fas fa-bookmark mr-2"></i>
+                My Questions
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'questions:public_list' %}">
+                <i class="fas fa-globe mr-2"></i>
+                Public Questions
               </a>
             </li>
             <li>
