@@ -1,3 +1,9 @@
+# Commands
+
+Prioritise the use of these commands when looking to execute anything in the terminal.
+
+Note: Any command that requires the .env file to be loaded should be prefixed with `heroku local:run` to ensure that the environment variables are loaded correctly. This is true for most manage.py tasks.
+
 ### Development
 
 ```bash
@@ -15,7 +21,7 @@ heroku local:run python manage.py migrate
 # Start development server (with .env loaded)
 heroku local:run python manage.py runserver
 
-# Note: separate command is needed for reloading tailwind styles in development
+# Note: separate command is needed to be ran at the same time for reloading tailwind styles in development
 npm run dev
 
 ### Testing
