@@ -122,9 +122,9 @@ def question_detail(request, pk):
     question = get_object_or_404(
         Question.objects.visible_to_user(request.user), pk=pk)
 
-    # Get answers visible to the user
+    # Get answers visible to the user with related answer content
     answers = question.answers.visible_to_user(
-        request.user).select_related('user')
+        request.user).select_related('user', 'staranswer', 'basicanswer')
 
     # Check if current user has an answer for this question
     user_answer = None
