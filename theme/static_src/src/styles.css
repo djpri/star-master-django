@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: light, mytheme --default;
@@ -20,7 +20,9 @@
 
   /* Primary branding color – vibrant violet-purple */
   --color-primary: oklch(54% 0.31 275); /* modern purple */
-  --color-primary-content: oklch(98% 0.01 275); /* white/near-white text on purple */
+  --color-primary-content: oklch(
+    98% 0.01 275
+  ); /* white/near-white text on purple */
 
   /* Secondary accent – blue for secondary CTAs/badges */
   --color-secondary: oklch(68% 0.27 235);
@@ -116,7 +118,6 @@
     font-family: var(--font-alan);
   }
 
-
   html {
     scroll-behavior: smooth;
   }
@@ -134,7 +135,7 @@
   h4,
   h5,
   h6 {
-    @apply font-semibold leading-tight ;
+    @apply font-semibold leading-tight;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     letter-spacing: -0.015em;
     font-family: var(--font-montserrat);
@@ -156,6 +157,7 @@
 
   /* Legacy nav-link class for any remaining usage */
   .nav-link {
-    @apply px-3 py-2 rounded-md text-white text-sm font-semibold hover:bg-primary hover:text-primary-content transition-colors duration-200;
+    @apply px-2 lg:px-3 py-2 rounded-md text-white text-sm font-semibold hover:bg-primary hover:text-primary-content transition-colors duration-200;
+    font-family: var(--font-montserrat);
   }
 }
