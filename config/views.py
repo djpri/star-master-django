@@ -18,8 +18,3 @@ def profile(request):
         'favorites': [],  # Will be populated later when favorites are implemented
     }
     return render(request, 'account/profile.html', context)
-
-
-def tailwind_test(request):
-    """Tailwind CSS test page view."""
-    return render(request, 'tailwind_test.html')
