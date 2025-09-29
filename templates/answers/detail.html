@@ -97,7 +97,7 @@
           </div>
           
           <div class="flex items-center gap-2">
-            <div class="badge badge-{{ answer.answer_type|lower == 'star' and 'primary' or 'secondary' }}">
+            <div class="badge {% if answer.answer_type|lower == 'star' %}badge-primary{% else %}badge-secondary{% endif %}">
               {{ answer.answer_type }}
             </div>
             {% if answer.is_public %}
