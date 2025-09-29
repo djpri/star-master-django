@@ -9,7 +9,11 @@
     <div class="mb-6">
       <nav class="text-sm breadcrumbs">
         <ul>
-          <li><a href="{% url 'questions:list' %}">Questions</a></li>
+          {% if question.is_public %}
+            <li><a href="{% url 'questions:public_list' %}">Public Questions</a></li>
+          {% else %}
+            <li><a href="{% url 'questions:list' %}">Questions</a></li>
+          {% endif %}
           <li>{{ question.title|truncatewords:5 }}</li>
         </ul>
       </nav>
@@ -17,12 +21,18 @@
       <div class="flex items-center justify-between">
         <div>
           <h1 class="text-3xl font-bold mb-2">{{ question.title }}</h1>
-          <p class="text-base-content/70">
-            Practice your interview response using the STAR method
-          </p>
+          {% if question.is_public %}
+            <p class="text-base-content/70">
+              View community answers and save this question to your personal collection
+            </p>
+          {% else %}
+            <p class="text-base-content/70">
+              Practice your interview response using the STAR method
+            </p>
+          {% endif %}
         </div>
         
-        {% if user.is_authenticated and not user_answer %}
+        {% if user.is_authenticated and not user_answer and not question.is_public %}
           <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
             <i class="fas fa-plus mr-2"></i>
             Create Answer
@@ -96,8 +106,40 @@
       </div>
     </div>
 
-    <!-- User's Answer (if exists) -->
-    {% if user_answer %}
+    <!-- Public Question Info -->
+    {% if question.is_public %}
+      <div class="card bg-info/10 border border-info/20 shadow-lg mb-6">
+        <div class="card-body">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0">
+              <i class="fas fa-info-circle text-info text-2xl"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-lg mb-2">Community Question Template</h3>
+              <p class="text-base-content/80 mb-3">
+                This is a public question template shared by the community. You can save it to your personal collection to create and practice your own answer using the STAR method.
+              </p>
+              {% if user.is_authenticated %}
+                <a href="{% url 'questions:save_public' question_id=question.pk %}" class="btn btn-primary btn-sm">
+                  <i class="fas fa-bookmark mr-2"></i>
+                  Save to My Collection
+                </a>
+              {% else %}
+                <a href="{% url 'account_login' %}" class="btn btn-primary btn-sm">
+                  <i class="fas fa-sign-in-alt mr-2"></i>
+                  Login to Save Question
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Answers Section (only for private questions) -->
+    {% if not question.is_public %}
+      <!-- User's Answer (if exists) -->
+      {% if user_answer %}
       <div class="card bg-primary/10 border border-primary/20 shadow-lg mb-6">
         <div class="card-body">
           <div class="flex items-center justify-between mb-4">
@@ -107,13 +149,24 @@
             </h3>
             <div class="flex items-center gap-2">
               <div class="badge badge-primary">{{ user_answer.answer_type }}</div>
+              {% if user_answer.is_public %}
+                <div class="badge badge-success badge-outline">
+                  <i class="fas fa-globe mr-1"></i>
+                  Public
+                </div>
+              {% else %}
+                <div class="badge badge-ghost">
+                  <i class="fas fa-lock mr-1"></i>
+                  Private
+                </div>
+              {% endif %}
               <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-sm btn-circle">
                   <i class="fas fa-ellipsis-v"></i>
                 </div>
                 <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                   <li><a href="{% url 'answers:detail' pk=user_answer.pk %}">
-                    <i class="fas fa-eye mr-2"></i>View Details
+                    <i class="fas fa-external-link-alt mr-2"></i>View in Detail Page
                   </a></li>
                   <li><a href="#" class="text-warning">
                     <i class="fas fa-edit mr-2"></i>Edit Answer
@@ -123,24 +176,59 @@
             </div>
           </div>
           
-          <div class="text-sm text-base-content/70 mb-3">
-            Created {{ user_answer.created_at|date:"M d, Y" }}
+          <div class="text-sm text-base-content/70 mb-4">
+            Created {{ user_answer.created_at|date:"M d, Y 'at' g:i A" }}
             {% if user_answer.updated_at != user_answer.created_at %}
-              • Updated {{ user_answer.updated_at|date:"M d, Y" }}
+              <span class="mx-1">•</span>
+              <span>Updated {{ user_answer.updated_at|date:"M d, Y" }}</span>
             {% endif %}
           </div>
-          
-          <div class="card-actions">
-            <a href="{% url 'answers:detail' pk=user_answer.pk %}" class="btn btn-primary btn-sm">
-              <i class="fas fa-eye mr-2"></i>
-              View Full Answer
-            </a>
-          </div>
+
+          <!-- Full Answer Content -->
+          {% if user_answer.answer_type == 'STAR' and user_answer.staranswer %}
+            <div class="space-y-4">
+              <div class="border-l-4 border-primary pl-4">
+                <h4 class="font-semibold mb-2 flex items-center">
+                  <span class="badge badge-primary badge-sm mr-2">S</span>
+                  Situation
+                </h4>
+                <p class="text-base-content/90 whitespace-pre-wrap">{{ user_answer.staranswer.situation }}</p>
+              </div>
+
+              <div class="border-l-4 border-secondary pl-4">
+                <h4 class="font-semibold mb-2 flex items-center">
+                  <span class="badge badge-secondary badge-sm mr-2">T</span>
+                  Task
+                </h4>
+                <p class="text-base-content/90 whitespace-pre-wrap">{{ user_answer.staranswer.task }}</p>
+              </div>
+
+              <div class="border-l-4 border-accent pl-4">
+                <h4 class="font-semibold mb-2 flex items-center">
+                  <span class="badge badge-accent badge-sm mr-2">A</span>
+                  Action
+                </h4>
+                <p class="text-base-content/90 whitespace-pre-wrap">{{ user_answer.staranswer.action }}</p>
+              </div>
+
+              <div class="border-l-4 border-success pl-4">
+                <h4 class="font-semibold mb-2 flex items-center">
+                  <span class="badge badge-success badge-sm mr-2">R</span>
+                  Result
+                </h4>
+                <p class="text-base-content/90 whitespace-pre-wrap">{{ user_answer.staranswer.result }}</p>
+              </div>
+            </div>
+          {% elif user_answer.basicanswer %}
+            <div class="prose max-w-none">
+              <p class="text-base-content/90 whitespace-pre-wrap">{{ user_answer.basicanswer.text }}</p>
+            </div>
+          {% endif %}
         </div>
       </div>
-    {% endif %}
+      {% endif %}
 
-    <!-- Other Answers -->
+      <!-- Other Answers -->
     {% if answers %}
       <div class="mb-6">
         <h3 class="text-xl font-bold mb-4 flex items-center">
@@ -148,58 +236,99 @@
           {% if user_answer %}
             Other Answers ({{ answers.count|add:"-1" }})
           {% else %}
-            Answers ({{ answers.count }})
+            Community Answers ({{ answers.count }})
           {% endif %}
         </h3>
 
-        <div class="space-y-4">
+        <div class="space-y-6">
           {% for answer in answers %}
             {% if answer != user_answer %}
               <div class="card bg-base-100 shadow-lg">
                 <div class="card-body">
                   <!-- Answer Header -->
-                  <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-3">
                       <div class="avatar avatar-placeholder">
-                        <div class="bg-neutral text-neutral-content w-8 rounded-full">
-                          <span class="text-xs">{{ answer.user.username|first|upper }}</span>
+                        <div class="bg-neutral text-neutral-content w-10 rounded-full">
+                          <span class="text-sm">{{ answer.user.username|first|upper }}</span>
                         </div>
                       </div>
                       <div>
                         <div class="font-medium">{{ answer.user.username }}</div>
                         <div class="text-xs text-base-content/60">
-                          {{ answer.created_at|date:"M d, Y" }}
+                          {{ answer.created_at|date:"M d, Y 'at' g:i A" }}
+                          {% if answer.updated_at != answer.created_at %}
+                            <span class="mx-1">•</span>
+                            <span>Updated {{ answer.updated_at|date:"M d, Y" }}</span>
+                          {% endif %}
                         </div>
                       </div>
                     </div>
                     
                     <div class="flex items-center gap-2">
-                      <div class="badge {% if answer.answer_type|lower == 'star' %}badge-primary{% else %}badge-secondary{% endif %} badge-sm">
+                      <div class="badge {% if answer.answer_type|lower == 'star' %}badge-primary{% else %}badge-secondary{% endif %}">
                         {{ answer.answer_type }}
                       </div>
                       {% if answer.is_public %}
-                        <div class="badge badge-success badge-outline badge-xs">
+                        <div class="badge badge-success badge-outline">
                           <i class="fas fa-globe mr-1"></i>
                           Public
+                        </div>
+                      {% else %}
+                        <div class="badge badge-ghost">
+                          <i class="fas fa-lock mr-1"></i>
+                          Private
                         </div>
                       {% endif %}
                     </div>
                   </div>
 
-                  <!-- Answer Preview -->
-                  <div class="text-sm text-base-content/80 mb-3">
-                    {% if answer.answer_type == 'STAR' and answer.staranswer %}
-                      <p class="line-clamp-2">{{ answer.staranswer.situation|truncatewords:20 }}</p>
-                    {% elif answer.basicanswer %}
-                      <p class="line-clamp-2">{{ answer.basicanswer.text|truncatewords:20 }}</p>
-                    {% endif %}
-                  </div>
+                  <!-- Full Answer Content -->
+                  {% if answer.answer_type == 'STAR' and answer.staranswer %}
+                    <div class="space-y-4">
+                      <div class="border-l-4 border-primary pl-4">
+                        <h4 class="font-semibold mb-2 flex items-center">
+                          <span class="badge badge-primary badge-sm mr-2">S</span>
+                          Situation
+                        </h4>
+                        <p class="text-base-content/90 whitespace-pre-wrap">{{ answer.staranswer.situation }}</p>
+                      </div>
+
+                      <div class="border-l-4 border-secondary pl-4">
+                        <h4 class="font-semibold mb-2 flex items-center">
+                          <span class="badge badge-secondary badge-sm mr-2">T</span>
+                          Task
+                        </h4>
+                        <p class="text-base-content/90 whitespace-pre-wrap">{{ answer.staranswer.task }}</p>
+                      </div>
+
+                      <div class="border-l-4 border-accent pl-4">
+                        <h4 class="font-semibold mb-2 flex items-center">
+                          <span class="badge badge-accent badge-sm mr-2">A</span>
+                          Action
+                        </h4>
+                        <p class="text-base-content/90 whitespace-pre-wrap">{{ answer.staranswer.action }}</p>
+                      </div>
+
+                      <div class="border-l-4 border-success pl-4">
+                        <h4 class="font-semibold mb-2 flex items-center">
+                          <span class="badge badge-success badge-sm mr-2">R</span>
+                          Result
+                        </h4>
+                        <p class="text-base-content/90 whitespace-pre-wrap">{{ answer.staranswer.result }}</p>
+                      </div>
+                    </div>
+                  {% elif answer.basicanswer %}
+                    <div class="prose max-w-none">
+                      <p class="text-base-content/90 whitespace-pre-wrap">{{ answer.basicanswer.text }}</p>
+                    </div>
+                  {% endif %}
 
                   <!-- Actions -->
-                  <div class="card-actions justify-end">
+                  <div class="card-actions justify-end mt-4">
                     <a href="{% url 'answers:detail' pk=answer.pk %}" class="btn btn-ghost btn-sm">
-                      <i class="fas fa-eye mr-1"></i>
-                      View Details
+                      <i class="fas fa-external-link-alt mr-1"></i>
+                      View in Detail Page
                     </a>
                   </div>
                 </div>
@@ -208,54 +337,55 @@
           {% endfor %}
         </div>
       </div>
-    {% endif %}
+      {% endif %}
 
-    <!-- Empty State for Answers -->
-    {% if not answers or answers.count == 0 or answers.count == 1 and user_answer %}
-      <div class="card bg-base-200 shadow-lg">
-        <div class="card-body text-center py-12">
-          <i class="fas fa-comments text-4xl text-base-content/30 mb-4"></i>
-          <h3 class="text-xl font-semibold mb-2">
-            {% if user_answer %}
-              No Other Answers Yet
-            {% else %}
-              No Answers Yet
+      <!-- Empty State for Answers -->
+      {% if not answers or answers.count == 0 or answers.count == 1 and user_answer %}
+        <div class="card bg-base-200 shadow-lg">
+          <div class="card-body text-center py-12">
+            <i class="fas fa-comments text-4xl text-base-content/30 mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">
+              {% if user_answer %}
+                No Other Answers Yet
+              {% else %}
+                No Answers Yet
+              {% endif %}
+            </h3>
+            <p class="text-base-content/70 mb-4">
+              {% if user_answer %}
+                No other users have shared their responses to this question yet.
+              {% else %}
+                Be the first to answer this interview question and help build the community knowledge base.
+              {% endif %}
+            </p>
+            
+            {% if user.is_authenticated and not user_answer %}
+              <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>
+                Create Your Answer
+              </a>
             {% endif %}
-          </h3>
-          <p class="text-base-content/70 mb-4">
-            {% if user_answer %}
-              You're the first to answer this question! Other users haven't shared their responses yet.
-            {% else %}
-              Be the first to answer this interview question and help build the community knowledge base.
-            {% endif %}
-          </p>
-          
-          {% if user.is_authenticated and not user_answer %}
-            <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
-              <i class="fas fa-plus mr-2"></i>
-              Create Your Answer
-            </a>
-          {% endif %}
+          </div>
         </div>
-      </div>
+      {% endif %}
     {% endif %}
 
     <!-- Back Navigation -->
     <div class="mt-8">
-      <a href="{% url 'questions:list' %}" class="btn btn-ghost">
-        <i class="fas fa-arrow-left mr-2"></i>
-        Back to Questions
-      </a>
+      {% if question.is_public %}
+        <a href="{% url 'questions:public_list' %}" class="btn btn-ghost">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Back to Public Questions
+        </a>
+      {% else %}
+        <a href="{% url 'questions:list' %}" class="btn btn-ghost">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Back to Questions
+        </a>
+      {% endif %}
     </div>
   </div>
 </div>
 
-<style>
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
+
 {% endblock %}
