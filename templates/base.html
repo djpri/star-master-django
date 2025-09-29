@@ -11,8 +11,40 @@
       rel="stylesheet"
     />
     {% tailwind_css %}
+    <style>
+      /* Fixed background hack for mobile devices */
+      .fixed-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #6366f1 100%);
+        z-index: -1;
+      }
+      
+      /* Ensure content is above the background */
+      body {
+        position: relative;
+        z-index: 1;
+      }
+      
+      /* Additional mobile optimization */
+      @media (max-width: 768px) {
+        .fixed-bg {
+          /* Use transform3d to trigger hardware acceleration */
+          transform: translate3d(0, 0, 0);
+          /* Ensure it covers the full viewport on mobile */
+          min-height: 100vh;
+          min-height: 100dvh; /* Dynamic viewport height for modern browsers */
+        }
+      }
+    </style>
   </head>
-  <body class="h-full flex flex-col" style="background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #6366f1 100%);">
+  <body class="h-full flex flex-col">
+    <!-- Fixed Background Container -->
+    <div class="fixed-bg"></div>
+    
     <!-- Admin Mode Banner -->
     {% if user.is_staff %}
       <div class="bg-error text-error-content text-xs text-center py-2 px-4 shadow-sm">
