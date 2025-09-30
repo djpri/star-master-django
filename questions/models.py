@@ -8,11 +8,32 @@ User = settings.AUTH_USER_MODEL
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=60, unique=True)
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=60)
+    is_public = models.BooleanField(default=False)
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="tags", null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        # Ensure unique combinations - public tags have no owner (NULL), personal tags are unique per owner
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'owner'],
+                name='unique_tag_per_user'
+            ),
+            models.UniqueConstraint(
+                fields=['name'],
+                condition=models.Q(is_public=True),
+                name='unique_public_tag'
+            )
+        ]
+        ordering = ['name']
 
     def __str__(self):
-        return self.name
+        if self.is_public:
+            return f"{self.name} (public)"
+        return f"{self.name} ({self.owner.username if self.owner else 'no owner'})"
 
 
 class QuestionQuerySet(models.QuerySet):
