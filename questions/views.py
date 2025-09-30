@@ -3,19 +3,21 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
-from .models import Question
+from django.db import models
+
+from .forms import QuestionForm
+from .models import Question, Tag
 
 
 def question_list(request):
-    """Display paginated list of user's personal questions (private collection)."""
+    """Display paginated list of user's personal questions (both private and public)."""
     if not request.user.is_authenticated:
         # Redirect unauthenticated users to public questions
         return redirect('questions:public_list')
 
-    # Only show user's own private questions with optimized queries
+    # Show user's own questions (both private and public) with optimized queries
     questions = Question.objects.filter(
-        owner=request.user,
-        is_public=False
+        owner=request.user
     ).select_related('owner').prefetch_related('tags', 'votes').order_by('-created_at')
 
     # Paginate questions (12 per page)
@@ -115,3 +117,79 @@ def save_public_question(request, question_id):
     messages.success(
         request, f'Question "{public_question.title}" saved to your collection!')
     return redirect('questions:public_list')
+
+
+@login_required
+def question_create(request):
+    """Allow users to create a new interview question."""
+
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, user=request.user)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.owner = request.user
+
+            is_public = question.is_public
+            if request.user.is_superuser:
+                question.status = Question.STATUS_APPROVED
+                approval_message = 'Your question has been created successfully!'
+            elif is_public:
+                question.status = Question.STATUS_PENDING
+                approval_message = 'Your question is pending review by a moderator.'
+            else:
+                question.status = Question.STATUS_APPROVED
+                approval_message = 'Your question has been created successfully!'
+
+            question.save()
+            form.save()  # This will handle tags via the custom save method
+
+            messages.success(request, approval_message)
+            return redirect('questions:detail', pk=question.pk)
+    else:
+        # Pre-fill the form based on query parameter
+        initial_data = {}
+        public_param = request.GET.get('public', '').lower()
+        if public_param == 'true':
+            initial_data['is_public'] = True
+        elif public_param == 'false':
+            initial_data['is_public'] = False
+
+        form = QuestionForm(initial=initial_data, user=request.user)
+
+        # Pass context about whether this is a public question
+        is_public_question = public_param == 'true'
+
+    # Get available tags for the user (public tags + user's personal tags)
+    available_tags = Tag.objects.filter(
+        models.Q(is_public=True) | models.Q(owner=request.user)
+    ).order_by('name')
+
+    context = {
+        'form': form,
+        'is_public_question': is_public_question,
+        'available_tags': available_tags,
+    }
+    return render(request, 'questions/create.html', context)
+
+
+def question_detail(request, pk):
+    """Display a single question with its answers"""
+    question = get_object_or_404(
+        Question.objects.visible_to_user(request.user), pk=pk)
+
+    # Get answers visible to the user with related answer content
+    answers = question.answers.visible_to_user(
+        request.user).select_related('user', 'staranswer', 'basicanswer')
+
+    # Check if current user has an answer for this question
+    user_answer = None
+    if request.user.is_authenticated:
+        user_answer = answers.filter(user=request.user).first()
+
+    context = {
+        'question': question,
+        'answers': answers,
+        'user_answer': user_answer,
+    }
+
+    return render(request, 'questions/detail.html', context)

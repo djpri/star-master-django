@@ -5,6 +5,11 @@ whitenoise>=6,<7
 django-allauth>=0.57,<1.0
 django-browser-reload
 django-tailwind
+django-debug-toolbar
+
+# Testing
+pytest>=8,<9
+pytest-django>=4.8,<5
 
 # Uncomment to use a Postgres database.
 psycopg[binary]

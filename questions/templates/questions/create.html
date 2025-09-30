@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+
+{% block title %}Create Question - STAR Master{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-10">
+      <div class="avatar avatar-placeholder mb-4">
+        <div class="bg-secondary text-secondary-content w-16 rounded-full">
+          <i class="fas fa-question text-2xl text-white"></i>
+        </div>
+      </div>
+      <h1 class="text-3xl font-bold">Create a New Interview Question</h1>
+      <p class="text-base-content/70 max-w-2xl mx-auto mt-3">
+        {% if is_public_question %}
+          Create a question to share with the community. Your question will be reviewed before going live.
+        {% else %}
+          Create a question for your personal practice collection.
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-2xl mb-6">
+          <i class="fas fa-pen mr-2"></i>
+          Question Details
+        </h2>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+          <div class="space-y-6">
+            <div class="form-control">
+              <label class="label pb-1" for="{{ form.title.id_for_label }}">
+                <span class="label-text font-semibold flex items-center">
+                  <span class="badge badge-primary badge-sm mr-2">Q</span>
+                  {{ form.title.label }}
+                </span>
+              </label>
+              {{ form.title }}
+              {% if form.title.help_text %}
+                <label class="label">
+                  <span class="label-text-alt">{{ form.title.help_text }}</span>
+                </label>
+              {% endif %}
+              {% if form.title.errors %}
+                <label class="label">
+                  <span class="label-text-alt text-error">{{ form.title.errors|join:', ' }}</span>
+                </label>
+              {% endif %}
+            </div>
+
+            <div class="form-control">
+              <label class="label" for="{{ form.body.id_for_label }}">
+                <span class="label-text font-semibold">
+                  {{ form.body.label }}
+                </span>
+              </label>
+              {{ form.body }}
+              {% if form.body.help_text %}
+                <label class="label">
+                  <span class="label-text-alt">{{ form.body.help_text }}</span>
+                </label>
+              {% endif %}
+              {% if form.body.errors %}
+                <label class="label">
+                  <span class="label-text-alt text-error">{{ form.body.errors|join:', ' }}</span>
+                </label>
+              {% endif %}
+            </div>
+
+            <!-- Tags Section -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold flex items-center">
+                  <i class="fas fa-tags mr-2"></i>
+                  Tags
+                </span>
+              </label>
+              
+              <!-- Selected tags display -->
+              <div id="selected-tags" class="flex flex-wrap gap-2 mb-3 min-h-[2.5rem] p-2 border border-base-300 rounded-lg bg-base-200/30">
+                <span class="text-sm text-base-content/50" id="no-tags-message">No tags selected</span>
+              </div>
+              
+              <!-- Tag selection dropdown -->
+              <div class="flex gap-2 mb-2">
+                <select id="tag-select" class="select select-bordered flex-1">
+                  <option value="">Select an existing tag...</option>
+                  {% for tag in available_tags %}
+                    <option value="{{ tag.name }}" data-public="{{ tag.is_public }}">
+                      {{ tag.name }}
+                    </option>
+                  {% endfor %}
+                </select>
+                <button type="button" id="add-selected-tag-btn" class="btn btn-primary">
+                  <i class="fas fa-plus mr-1"></i>
+                  Add
+                </button>
+              </div>
+              
+              <!-- Create new tag -->
+              <div class="flex gap-2">
+                <input 
+                  type="text" 
+                  id="new-tag-input" 
+                  class="input input-bordered flex-1" 
+                  placeholder="Create a new tag..."
+                  maxlength="50"
+                />
+                <button type="button" id="create-tag-btn" class="btn btn-secondary">
+                  <i class="fas fa-sparkles mr-1"></i>
+                  Create
+                </button>
+              </div>
+              
+              <label class="label">
+                <span class="label-text-alt">{{ form.tags_input.help_text }}</span>
+              </label>
+              
+              <!-- Hidden input to store selected tags -->
+              {{ form.tags_input }}
+              {{ form.tags }}
+            </div>
+
+            <!-- Hidden field for is_public -->
+            {{ form.is_public }}
+            
+            {% if is_public_question %}
+              <div class="alert alert-soft alert-info">
+                <i class="fas fa-info-circle mr-2"></i>
+                <span>
+                  Public questions require moderator approval before appearing in the community list.
+                </span>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="divider my-8"></div>
+
+          <div class="card-actions justify-end gap-3">
+            <a href="{% url 'questions:list' %}" class="btn btn-ghost">
+              <i class="fas fa-arrow-left mr-2"></i>
+              Back to My Questions
+            </a>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save mr-2"></i>
+              Save Question
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tag management functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedTagsContainer = document.getElementById('selected-tags');
+    const noTagsMessage = document.getElementById('no-tags-message');
+    const tagsInput = document.getElementById('tags-input');
+    const tagSelect = document.getElementById('tag-select');
+    const addSelectedTagBtn = document.getElementById('add-selected-tag-btn');
+    const newTagInput = document.getElementById('new-tag-input');
+    const createTagBtn = document.getElementById('create-tag-btn');
+    
+    let selectedTags = [];
+    
+    // Initialize from existing tags (for edit mode)
+    if (tagsInput.value) {
+      selectedTags = tagsInput.value.split(',').filter(tag => tag.trim());
+      updateTagsDisplay();
+    }
+    
+    // Add selected tag from dropdown
+    addSelectedTagBtn.addEventListener('click', function() {
+      const selectedOption = tagSelect.options[tagSelect.selectedIndex];
+      const tagName = selectedOption.value.trim();
+      
+      if (tagName && !selectedTags.includes(tagName)) {
+        selectedTags.push(tagName);
+        updateTagsDisplay();
+        tagSelect.selectedIndex = 0; // Reset dropdown
+      }
+    });
+    
+    // Create new tag
+    createTagBtn.addEventListener('click', function() {
+      const tagName = newTagInput.value.trim();
+      
+      if (tagName && !selectedTags.includes(tagName)) {
+        // Validate tag name
+        if (tagName.length > 50) {
+          alert('Tag name must be 50 characters or less.');
+          return;
+        }
+        
+        selectedTags.push(tagName);
+        updateTagsDisplay();
+        newTagInput.value = ''; // Clear input
+      } else if (selectedTags.includes(tagName)) {
+        alert('This tag is already selected.');
+      }
+    });
+    
+    // Allow Enter key to create tag
+    newTagInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        createTagBtn.click();
+      }
+    });
+    
+    // Remove tag
+    function removeTag(tagName) {
+      selectedTags = selectedTags.filter(tag => tag !== tagName);
+      updateTagsDisplay();
+    }
+    
+    // Update tags display
+    function updateTagsDisplay() {
+      // Update hidden input
+      tagsInput.value = selectedTags.join(',');
+      
+      // Update visual display
+      if (selectedTags.length === 0) {
+        noTagsMessage.style.display = 'inline';
+        selectedTagsContainer.querySelectorAll('.badge').forEach(badge => badge.remove());
+      } else {
+        noTagsMessage.style.display = 'none';
+        
+        // Clear existing badges
+        selectedTagsContainer.querySelectorAll('.badge').forEach(badge => badge.remove());
+        
+        // Add badges for each tag
+        selectedTags.forEach(tagName => {
+          const badge = document.createElement('div');
+          badge.className = 'badge badge-primary gap-2';
+          badge.innerHTML = `
+            <i class="fas fa-tag text-xs"></i>
+            <span>${tagName}</span>
+            <button type="button" class="btn btn-ghost btn-xs btn-circle" onclick="event.preventDefault();">
+              <i class="fas fa-times"></i>
+            </button>
+          `;
+          
+          // Add click handler to remove button
+          const removeBtn = badge.querySelector('button');
+          removeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            removeTag(tagName);
+          });
+          
+          selectedTagsContainer.appendChild(badge);
+        });
+      }
+    }
+  });
+</script>
+{% endblock %}

@@ -15,7 +15,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-import debug_toolbar
 from django.contrib import admin
 from django.urls import path, include
 
@@ -27,7 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("profile/", views.profile, name="profile"),
-    path("tailwind-test/", views.tailwind_test, name="tailwind_test"),
+
     path("questions/", include("questions.urls")),
     path("answers/", include("answers.urls")),
 ]
@@ -38,9 +37,12 @@ if settings.DEBUG:
         path("__reload__/", include("django_browser_reload.urls")),
     ]
 
-if not settings.TESTING:
-    from debug_toolbar.toolbar import debug_toolbar_urls
-
-    urlpatterns = [
-        *urlpatterns,
-    ] + debug_toolbar_urls()
+if settings.DEBUG and not settings.TESTING:
+    try:
+        from debug_toolbar.toolbar import debug_toolbar_urls
+    except ModuleNotFoundError:
+        pass
+    else:
+        urlpatterns = [
+            *urlpatterns,
+        ] + debug_toolbar_urls()
