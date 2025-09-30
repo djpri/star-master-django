@@ -11,13 +11,3 @@ The platform provides a structured approach to crafting responses, allowing user
 theme - django-tailwind app for styling
 questions - main app for handling question urls and models
 answers - main app for handling answer urls and models
-
-## Site structure
-
-- home
-- accounts (handled by django-allauth)
-- questions (paginated list of questions)
--- question id (shows question details and list of answers)
--- answer id (shows answer details)
--- answer id ?=edit (edit answer details)
-- create answer ?=<question_id> (create a new answer for a specific question)

@@ -7,5 +7,9 @@ django-browser-reload
 django-tailwind
 django-debug-toolbar
 
+# Testing
+pytest>=8,<9
+pytest-django>=4.8,<5
+
 # Uncomment to use a Postgres database.
 psycopg[binary]
