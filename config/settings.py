@@ -175,15 +175,25 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 # Use IS_HEROKU_APP to determine to use the local dev database or the Heroku
+# Use SQLite for testing to speed up test execution
 
-DATABASES = {
-    "default": dj_database_url.config(
-        env="DATABASE_URL",
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-    ),
-}
+if TESTING:
+    # Use SQLite for tests (faster and doesn't require PostgreSQL setup)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    DATABASES = {
+        "default": dj_database_url.config(
+            env="DATABASE_URL",
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+        ),
+    }
 
 
 # Password validation
