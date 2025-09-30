@@ -4,8 +4,11 @@ from .models import Tag, Question, QuestionVote
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
+    list_display = ('name', 'slug', 'is_public', 'owner', 'created_at')
+    list_filter = ('is_public', 'created_at')
+    search_fields = ('name', 'owner__username')
     prepopulated_fields = {'slug': ('name',)}
+    readonly_fields = ('created_at',)
 
 
 @admin.register(Question)
