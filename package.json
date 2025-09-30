@@ -7,16 +7,6 @@
   "scripts": {
     "dev": "npm --workspace theme/static_src run dev",
     "build": "npm --workspace theme/static_src run build",
-    "heroku-postbuild": "npm run build",
-    "server": "heroku local:run python manage.py runserver",
-    "migrate": "heroku local:run python manage.py migrate",
-    "makemigrations": "heroku local:run python manage.py makemigrations",
-    "createsuperuser": "heroku local:run python manage.py createsuperuser",
-    "collectstatic": "heroku local:run python manage.py collectstatic --noinput",
-    "test": "heroku local:run python test",
-    "dev:all": "concurrently \"npm run dev\" \"npm run server\""
-  },
-  "devDependencies": {
-    "concurrently": "^9.2.1"
+    "heroku-postbuild": "npm run build"
   }
 }
