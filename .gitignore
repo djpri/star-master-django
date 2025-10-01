@@ -25,3 +25,7 @@ _notes/
 
 # IDE files
 .idea/
+
+# env files
+.env
+.env.*
