@@ -238,6 +238,11 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 
+# Additional locations of static files
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
 if IS_HEROKU_APP:
     STORAGES = {
         # Enable WhiteNoise's GZip (and Brotli, if installed) compression of static assets:
