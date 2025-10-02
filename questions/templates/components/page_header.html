@@ -1,0 +1,18 @@
+{# Page Header Component #}
+{# Usage: {% include "components/page_header.html" with title="Title" icon="fas fa-icon" description="Description" actions=actions_html %} #}
+<div class="mb-8">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-4xl font-bold text-base-content">
+      <i class="{{ icon|default:'fas fa-bookmark' }} text-primary mr-3"></i>
+      {{ title }}
+    </h1>
+    {% if actions %}
+      {{ actions }}
+    {% endif %}
+  </div>
+  {% if description %}
+    <p class="text-lg text-base-content/70 max-w-3xl">
+      {{ description }}
+    </p>
+  {% endif %}
+</div>

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Interview Questions - STAR Master{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <!-- Header Section -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-4xl font-bold text-base-content">
+        <i class="fas fa-bookmark text-primary mr-3"></i>
+        My Interview Questions
+      </h1>
+      {% if user.is_authenticated %}
+      <div class="flex flex-wrap gap-2 justify-end">
+          <a href="{% url 'questions:create' %}?public=false" class="btn btn-primary">
+            <i class="fas fa-plus mr-2"></i>
+            Create Question
+          </a>
+          <a href="{% url 'questions:public_list' %}" class="btn btn-outline btn-primary">
+            <i class="fas fa-globe mr-2"></i>
+            Browse Public Questions
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    <p class="text-lg text-base-content/70 max-w-3xl">
+      {% if user.is_authenticated %}
+        Your personal collection of interview questions. Practice your responses using the STAR method 
+        (Situation, Task, Action, Result) to create compelling, structured answers.
+      {% else %}
+        Sign in to create your personal collection of interview questions and practice your responses.
+      {% endif %}
+    </p>
+  </div>
+
+  <!-- Stats Section -->
+  {% if questions %}
+    {% include "components/stats_section.html" %}
+  {% endif %}
+
+  <!-- Questions Grid -->
+  {% if questions %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      {% for question in questions %}
+        {% include "components/user_question_card.html" %}
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% include "components/pagination.html" %}
+
+  {% else %}
+    <!-- Empty State -->
+    <div class="hero bg-base-200 rounded-3xl">
+      <div class="hero-content text-center py-12">
+        <div class="max-w-md">
+          <i class="fas fa-bookmark text-6xl text-base-content/30 mb-6"></i>
+          <h2 class="text-2xl font-bold mb-4 text-base-content">No Questions in Your Collection</h2>
+          <p class="text-base-content/70 mb-6">
+            {% if not user.is_authenticated %}
+              Sign in to save questions to your personal collection and start practicing your interview skills.
+            {% else %}
+              Your question collection is empty. Browse our public questions to get started!
+            {% endif %}
+          </p>
+          {% if not user.is_authenticated %}
+            <a href="{% url 'account_login' %}" class="btn btn-primary">
+              <i class="fas fa-sign-in-alt mr-2"></i>
+              Sign In
+            </a>
+          {% else %}
+            <a href="{% url 'questions:public_list' %}" class="btn btn-primary">
+              <i class="fas fa-globe mr-2"></i>
+              Browse Public Questions
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Styles -->
+{% include "components/styles.html" %}
+{% endblock %}

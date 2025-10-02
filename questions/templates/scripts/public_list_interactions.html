@@ -1,0 +1,138 @@
+{# Public List Interactions Script #}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const saveButtons = document.querySelectorAll('.save-question-btn');
+  const approveButtons = document.querySelectorAll('.approve-question-btn');
+
+  saveButtons.forEach(button => {
+    button.addEventListener('click', async function() {
+      const questionId = this.dataset.questionId;
+      const questionTitle = this.dataset.questionTitle;
+      const originalHTML = this.innerHTML;
+      
+      // Show loading state
+      this.innerHTML = '<span class="loading loading-spinner loading-xs"></span> Saving...';
+      this.disabled = true;
+      
+      try {
+        const response = await fetch(`/questions/save/${questionId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          // Show success state
+          this.innerHTML = '<i class="fas fa-check mr-1"></i> Saved!';
+          this.classList.remove('btn-primary');
+          this.classList.add('btn-success');
+          
+          // Show toast notification
+          showToast('success', `"${questionTitle}" saved to your collection!`);
+          
+          // Update all buttons for questions with the same title
+          const allButtonsForThisTitle = document.querySelectorAll(`[data-question-title="${questionTitle}"]`);
+          allButtonsForThisTitle.forEach(btn => {
+            btn.innerHTML = '<i class="fas fa-check mr-1"></i> Saved';
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-success');
+            btn.disabled = true;
+          });
+          
+        } else {
+          throw new Error(data.error || 'Failed to save question');
+        }
+        
+      } catch (error) {
+        // Show error state
+        this.innerHTML = originalHTML;
+        this.disabled = false;
+        showToast('error', error.message || 'Failed to save question. Please try again.');
+      }
+    });
+  });
+
+  approveButtons.forEach(button => {
+    button.addEventListener('click', async function() {
+      const questionId = this.dataset.questionId;
+      const questionTitle = this.dataset.questionTitle;
+      const originalHTML = this.innerHTML;
+
+      this.innerHTML = '<span class="loading loading-spinner loading-xs"></span> Approving...';
+      this.disabled = true;
+
+      try {
+        const response = await fetch(`/questions/approve/${questionId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          showToast('success', `"${questionTitle}" approved!`);
+
+          const card = this.closest('.pending-question-card');
+          if (card) {
+            card.remove();
+            updatePendingCount();
+          }
+        } else {
+          throw new Error(data.error || 'Failed to approve question');
+        }
+      } catch (error) {
+        this.innerHTML = originalHTML;
+        this.disabled = false;
+        showToast('error', error.message || 'Failed to approve question. Please try again.');
+      }
+    });
+  });
+
+  function updatePendingCount() {
+    const pendingBadge = document.querySelector('[data-pending-count]');
+    if (!pendingBadge) {
+      return;
+    }
+
+    const remaining = document.querySelectorAll('.pending-question-card').length;
+    pendingBadge.textContent = remaining === 1 ? '1 pending' : `${remaining} pending`;
+
+    if (remaining === 0) {
+      const pendingSection = document.getElementById('pending-questions-section');
+      if (pendingSection) {
+        pendingSection.remove();
+      }
+    }
+  }
+  
+  function showToast(type, message) {
+    const toastContainer = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    
+    const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+    const icon = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+    
+    toast.className = `alert ${alertClass} mb-2`;
+    toast.innerHTML = `
+      <i class="${icon}"></i>
+      <span>${message}</span>
+    `;
+    
+    toastContainer.appendChild(toast);
+    
+    // Remove toast after 5 seconds
+    setTimeout(() => {
+      toast.remove();
+    }, 5000);
+  }
+});
+</script>

@@ -1,0 +1,53 @@
+{# User's own answer card for detail page #}
+<div class="card bg-primary/10 border border-primary/20 shadow-lg mb-6">
+  <div class="card-body">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="card-title">
+        <i class="fas fa-star text-primary mr-2"></i>
+        Your Answer
+      </h3>
+      <div class="flex items-center gap-2">
+        <div class="badge badge-primary">{{ user_answer.answer_type }}</div>
+        {% if user_answer.is_public %}
+          <div class="badge badge-success badge-outline">
+            <i class="fas fa-globe mr-1"></i>
+            Public
+          </div>
+        {% else %}
+          <div class="badge badge-ghost">
+            <i class="fas fa-lock mr-1"></i>
+            Private
+          </div>
+        {% endif %}
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn btn-ghost btn-sm btn-circle">
+            <i class="fas fa-ellipsis-v"></i>
+          </div>
+          <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+            <li><a href="{% url 'answers:detail' pk=user_answer.pk %}">
+              <i class="fas fa-external-link-alt mr-2"></i>View in Detail Page
+            </a></li>
+            <li><a href="#" class="text-warning">
+              <i class="fas fa-edit mr-2"></i>Edit Answer
+            </a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-sm text-base-content/70 mb-4">
+      Created {{ user_answer.created_at|date:"M d, Y 'at' g:i A" }}
+      {% if user_answer.updated_at != user_answer.created_at %}
+        <span class="mx-1">•</span>
+        <span>Updated {{ user_answer.updated_at|date:"M d, Y" }}</span>
+      {% endif %}
+    </div>
+
+    <!-- Full Answer Content -->
+    {% if user_answer.answer_type == 'STAR' and user_answer.staranswer %}
+      {% include "detail/star_answer.html" with star_answer=user_answer.staranswer %}
+    {% elif user_answer.basicanswer %}
+      {% include "detail/basic_answer.html" with basic_answer=user_answer.basicanswer %}
+    {% endif %}
+  </div>
+</div>

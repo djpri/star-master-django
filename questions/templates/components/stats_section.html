@@ -1,0 +1,22 @@
+{# Stats section for list.html #}
+<div class="stats stats-vertical lg:stats-horizontal shadow mb-8 w-full">
+  <div class="stat">
+    <div class="stat-figure text-primary">
+      <i class="fas fa-bookmark text-3xl"></i>
+    </div>
+    <div class="stat-title">My Questions</div>
+    <div class="stat-value text-primary">{{ page_obj.paginator.count }}</div>
+    <div class="stat-desc">In your collection</div>
+  </div>
+  
+  {% if user.is_authenticated %}
+  <div class="stat">
+    <div class="stat-figure text-secondary">
+      <i class="fas fa-star text-3xl"></i>
+    </div>
+    <div class="stat-title">Your Answers</div>
+    <div class="stat-value text-secondary">{{ user.answers.count }}</div>
+    <div class="stat-desc">Responses created</div>
+  </div>
+  {% endif %}
+</div>

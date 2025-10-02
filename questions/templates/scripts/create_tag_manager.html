@@ -1,0 +1,104 @@
+<script>
+  // Tag management functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectedTagsContainer = document.getElementById('selected-tags');
+    const noTagsMessage = document.getElementById('no-tags-message');
+    const tagsInput = document.getElementById('tags-input');
+    const tagSelect = document.getElementById('tag-select');
+    const addSelectedTagBtn = document.getElementById('add-selected-tag-btn');
+    const newTagInput = document.getElementById('new-tag-input');
+    const createTagBtn = document.getElementById('create-tag-btn');
+    
+    let selectedTags = [];
+    
+    // Initialize from existing tags (for edit mode)
+    if (tagsInput.value) {
+      selectedTags = tagsInput.value.split(',').filter(tag => tag.trim());
+      updateTagsDisplay();
+    }
+    
+    // Add selected tag from dropdown
+    addSelectedTagBtn.addEventListener('click', function() {
+      const selectedOption = tagSelect.options[tagSelect.selectedIndex];
+      const tagName = selectedOption.value.trim();
+      
+      if (tagName && !selectedTags.includes(tagName)) {
+        selectedTags.push(tagName);
+        updateTagsDisplay();
+        tagSelect.selectedIndex = 0; // Reset dropdown
+      }
+    });
+    
+    // Create new tag
+    createTagBtn.addEventListener('click', function() {
+      const tagName = newTagInput.value.trim();
+      
+      if (tagName && !selectedTags.includes(tagName)) {
+        // Validate tag name
+        if (tagName.length > 50) {
+          alert('Tag name must be 50 characters or less.');
+          return;
+        }
+        
+        selectedTags.push(tagName);
+        updateTagsDisplay();
+        newTagInput.value = ''; // Clear input
+      } else if (selectedTags.includes(tagName)) {
+        alert('This tag is already selected.');
+      }
+    });
+    
+    // Allow Enter key to create tag
+    newTagInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        createTagBtn.click();
+      }
+    });
+    
+    // Remove tag
+    function removeTag(tagName) {
+      selectedTags = selectedTags.filter(tag => tag !== tagName);
+      updateTagsDisplay();
+    }
+    
+    // Update tags display
+    function updateTagsDisplay() {
+      // Update hidden input
+      tagsInput.value = selectedTags.join(',');
+      
+      // Update visual display
+      if (selectedTags.length === 0) {
+        noTagsMessage.style.display = 'inline';
+        selectedTagsContainer.querySelectorAll('.badge').forEach(badge => badge.remove());
+      } else {
+        noTagsMessage.style.display = 'none';
+        
+        // Clear existing badges
+        selectedTagsContainer.querySelectorAll('.badge').forEach(badge => badge.remove());
+        
+        // Add badges for each tag
+        selectedTags.forEach(tagName => {
+          const badge = document.createElement('div');
+          badge.className = 'badge badge-primary gap-2';
+          badge.innerHTML = `
+            <i class="fas fa-tag text-xs"></i>
+            <span>${tagName}</span>
+            <button type="button" class="btn btn-ghost btn-xs btn-circle" onclick="event.preventDefault();">
+              <i class="fas fa-times"></i>
+            </button>
+          `;
+          
+          // Add click handler to remove button
+          const removeBtn = badge.querySelector('button');
+          removeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            removeTag(tagName);
+          });
+          
+          selectedTagsContainer.appendChild(badge);
+        });
+      }
+    }
+  });
+</script>

@@ -32,7 +32,7 @@ def question_list(request):
         'page_obj': page_obj,
     }
 
-    return render(request, 'questions/list.html', context)
+    return render(request, 'list.html', context)
 
 
 def public_question_list(request):
@@ -72,7 +72,7 @@ def public_question_list(request):
         'pending_questions': pending_questions,
     }
 
-    return render(request, 'questions/public_list.html', context)
+    return render(request, 'public_list.html', context)
 
 
 @login_required
@@ -293,7 +293,7 @@ def question_create(request):
         'is_public_question': is_public_question,
         'available_tags': available_tags,
     }
-    return render(request, 'questions/create.html', context)
+    return render(request, 'create.html', context)
 
 
 def question_detail(request, pk):
@@ -329,4 +329,4 @@ def question_detail(request, pk):
         'already_saved': already_saved,
     }
 
-    return render(request, 'questions/detail.html', context)
+    return render(request, 'detail.html', context)

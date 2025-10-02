@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Public Interview Questions - STAR Master{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div class="container mx-auto px-4 py-8">
+  <!-- Header Section -->
+  <div class="mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h1 class="text-4xl font-bold text-base-content">
+        <i class="fas fa-globe text-primary mr-3"></i>
+        Public Interview Questions
+      </h1>
+      {% if user.is_authenticated %}
+        <div class="flex flex-wrap gap-2 justify-end">
+          <a href="{% url 'questions:create' %}?public=true" class="btn btn-primary">
+            <i class="fas fa-plus mr-2"></i>
+            Create Public Question
+          </a>
+          <a href="{% url 'questions:list' %}" class="btn btn-outline btn-primary">
+            <i class="fas fa-bookmark mr-2"></i>
+            My Questions
+          </a>
+        </div>
+      {% endif %}
+    </div>
+    <p class="text-lg text-base-content/70 max-w-3xl">
+      Browse our collection of curated interview questions. Save any question to your personal collection 
+      to practice your responses using the STAR method (Situation, Task, Action, Result).
+    </p>
+  </div>
+
+  <!-- Info Alert -->
+  <div class="alert alert-info mb-8">
+    <i class="fas fa-info-circle"></i>
+    <div>
+      <h3 class="font-bold">How it works</h3>
+      <div class="text-sm">
+        These are example questions curated by our community. Click "Save" to add any question to your personal collection, 
+        where you can then create and practice your own answers.
+      </div>
+    </div>
+  </div>
+
+  {# Pending Questions Section #}
+  {% if pending_questions %}
+    {% include "components/pending_questions_section.html" %}
+  {% endif %}
+
+  <!-- Stats Section -->
+  {% if questions %}
+  <div class="stats shadow mb-8 w-full">
+    <div class="stat">
+      <div class="stat-figure text-primary">
+        <i class="fas fa-globe text-3xl"></i>
+      </div>
+      <div class="stat-title">Public Questions</div>
+      <div class="stat-value text-primary">{{ page_obj.paginator.count }}</div>
+      <div class="stat-desc">Available to save</div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Questions Grid -->
+  {% if questions %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      {% for question in questions %}
+        {% include "components/public_question_card.html" %}
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% include "components/pagination.html" %}
+
+  {% else %}
+    <!-- Empty State -->
+    {% include "components/empty_state.html" with icon="fas fa-globe" title="No Public Questions Available" message="There are no approved public questions available at the moment. Check back later for new examples!" %}
+  {% endif %}
+</div>
+
+<!-- Toast Container -->
+{% include "components/toast_container.html" %}
+
+<!-- Styles -->
+{% include "components/styles.html" %}
+
+<!-- Scripts -->
+{% include "scripts/public_list_interactions.html" %}
+{% endblock %}

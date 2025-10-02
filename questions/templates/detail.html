@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}{{ question.title }} - STAR Master{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-6">
+      <nav class="text-sm breadcrumbs">
+        <ul>
+          {% if question.is_public %}
+            <li><a href="{% url 'questions:public_list' %}">Public Questions</a></li>
+          {% else %}
+            <li><a href="{% url 'questions:list' %}">Questions</a></li>
+          {% endif %}
+          <li>{{ question.title|truncatewords:5 }}</li>
+        </ul>
+      </nav>
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold mb-2">{{ question.title }}</h1>
+          {% if question.is_public %}
+            <p class="text-base-content/70">
+              View community answers and save this question to your personal collection
+            </p>
+          {% else %}
+            <p class="text-base-content/70">
+              Practice your interview response using the STAR method
+            </p>
+          {% endif %}
+        </div>
+        
+        {% if user.is_authenticated and not user_answer and not question.is_public %}
+          <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
+            <i class="fas fa-plus mr-2"></i>
+            Create Answer
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Question Details -->
+    <div class="card bg-base-100 shadow-xl mb-6">
+      <div class="card-body">
+        <!-- Question Header -->
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <div class="badge badge-primary">Question</div>
+            {% if question.is_public %}
+              <div class="badge badge-success badge-outline">
+                <i class="fas fa-globe mr-1"></i>
+                Public
+              </div>
+            {% else %}
+              <div class="badge badge-ghost">
+                <i class="fas fa-lock mr-1"></i>
+                Private
+              </div>
+            {% endif %}
+          </div>
+          
+          {% if question.tags.all %}
+            <div class="flex flex-wrap gap-1">
+              {% for tag in question.tags.all %}
+                <div class="badge badge-outline badge-xs">{{ tag.name }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Question Body -->
+        {% if question.body %}
+          <div class="prose max-w-none mb-4">
+            <p class="text-base-content/90 whitespace-pre-wrap">{{ question.body }}</p>
+          </div>
+        {% endif %}
+
+        <!-- Question Meta -->
+        <div class="flex items-center justify-between text-sm text-base-content/60">
+          <div class="flex items-center gap-4">
+            <span>
+              <i class="fas fa-user mr-1"></i>
+              {{ question.owner.username }}
+            </span>
+            <span>
+              <i class="fas fa-calendar mr-1"></i>
+              {{ question.created_at|date:"M d, Y" }}
+            </span>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <span>
+              <i class="fas fa-comments mr-1"></i>
+              {{ answers.count }} answer{{ answers.count|pluralize }}
+            </span>
+            {% if question.votes.all %}
+              <span>
+                <i class="fas fa-star mr-1"></i>
+                {{ question.votes.all|length }} vote{{ question.votes.all|length|pluralize }}
+              </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Public Question Info -->
+    {% if question.is_public %}
+      {% include "detail/public_status_card.html" %}
+    {% endif %}
+
+    <!-- Answers Section (only for private questions) -->
+    {% if not question.is_public %}
+      <!-- User's Answer (if exists) -->
+      {% if user_answer %}
+        {% include "detail/user_answer_card.html" %}
+      {% endif %}
+
+      <!-- Other Answers -->
+    {% if answers %}
+      <div class="mb-6">
+        <h3 class="text-xl font-bold mb-4 flex items-center">
+          <i class="fas fa-comments mr-2"></i>
+          {% if user_answer %}
+            Other Answers ({{ answers.count|add:"-1" }})
+          {% else %}
+            Community Answers ({{ answers.count }})
+          {% endif %}
+        </h3>
+
+        <div class="space-y-6">
+          {% for answer in answers %}
+            {% if answer != user_answer %}
+              {% include "detail/community_answer_card.html" %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Empty State for Answers -->
+      {% if not answers or answers.count == 0 or answers.count == 1 and user_answer %}
+        <div class="card bg-base-200 shadow-lg">
+          <div class="card-body text-center py-12">
+            <i class="fas fa-comments text-4xl text-base-content/30 mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">
+              {% if user_answer %}
+                No Other Answers Yet
+              {% else %}
+                No Answers Yet
+              {% endif %}
+            </h3>
+            <p class="text-base-content/70 mb-4">
+              {% if user_answer %}
+                No other users have shared their responses to this question yet.
+              {% else %}
+                Be the first to answer this interview question and help build the community knowledge base.
+              {% endif %}
+            </p>
+            
+            {% if user.is_authenticated and not user_answer %}
+              <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>
+                Create Your Answer
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    <!-- Back Navigation -->
+    <div class="mt-8">
+      {% if question.is_public %}
+        <a href="{% url 'questions:public_list' %}" class="btn btn-ghost">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Back to Public Questions
+        </a>
+      {% else %}
+        <a href="{% url 'questions:list' %}" class="btn btn-ghost">
+          <i class="fas fa-arrow-left mr-2"></i>
+          Back to Questions
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

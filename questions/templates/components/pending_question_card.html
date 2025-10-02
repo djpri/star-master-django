@@ -1,0 +1,30 @@
+{# Pending Question Card Component #}
+<div class="card bg-base-200 pending-question-card" data-question-id="{{ question.id }}">
+  <div class="card-body space-y-2">
+    <div class="flex items-start justify-between gap-2">
+      <h3 class="card-title text-base">{{ question.title }}</h3>
+      <span class="badge badge-warning badge-sm">Pending</span>
+    </div>
+    {% if question.body %}
+      <p class="text-sm text-base-content/70 line-clamp-3">{{ question.body|truncatewords:20 }}</p>
+    {% endif %}
+    <div class="flex items-center justify-between text-xs text-base-content/60">
+      <span><i class="fas fa-user mr-1"></i>{{ question.owner.username }}</span>
+      <span><i class="fas fa-calendar mr-1"></i>{{ question.created_at|date:"M d, Y" }}</span>
+    </div>
+    <div class="card-actions justify-end pt-2">
+      <a href="{% url 'questions:detail' pk=question.pk %}" class="btn btn-outline btn-sm">
+        <i class="fas fa-eye mr-1"></i>
+        View
+      </a>
+      <button
+        class="btn btn-primary btn-sm approve-question-btn"
+        data-question-id="{{ question.id }}"
+        data-question-title="{{ question.title }}"
+      >
+        <i class="fas fa-check mr-1"></i>
+        Approve
+      </button>
+    </div>
+  </div>
+</div>

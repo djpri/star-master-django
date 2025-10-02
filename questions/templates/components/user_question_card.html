@@ -1,0 +1,111 @@
+{# User's personal question card for list.html #}
+<div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+  <div class="card-body">
+    <!-- Question Header -->
+    <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="badge badge-secondary badge-sm">
+          <i class="fas fa-user"></i>
+        </div>
+        {% if question.is_public %}
+          {% if question.status == question.STATUS_DENIED %}
+            <div class="badge badge-error badge-sm gap-2" data-testid="public-badge" title="Public question request was denied.">
+              <i class="fas fa-globe"></i>
+              Public
+            </div>
+            <div class="badge badge-error badge-sm gap-2" title="Moderator denied this request. Only you can see it for now.">
+              <i class="fas fa-times-circle"></i>
+              Request denied
+            </div>
+          {% elif question.status == question.STATUS_PENDING %}
+            <div class="badge badge-info badge-sm gap-2" data-testid="public-badge" title="Public question awaiting moderator approval.">
+              <i class="fas fa-globe"></i>
+              Public
+            </div>
+            <div class="badge badge-warning badge-sm gap-2" title="Awaiting moderator approval.">
+              <i class="fas fa-hourglass-half"></i>
+              Pending review
+            </div>
+          {% else %}
+            <div class="badge badge-success badge-sm gap-2" data-testid="public-badge" title="Publicly visible to everyone.">
+              <i class="fas fa-globe"></i>
+              Public
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="badge badge-neutral badge-sm gap-2" title="Only you can see this question.">
+            <i class="fas fa-lock"></i>
+            Private
+          </div>
+        {% endif %}
+      </div>
+      {% if question.tags.all %}
+        <div class="flex flex-wrap gap-1">
+          {% for tag in question.tags.all|slice:":2" %}
+            <div class="badge badge-outline badge-xs">{{ tag.name }}</div>
+          {% endfor %}
+          {% if question.tags.count > 2 %}
+            <div class="badge badge-outline badge-xs">+{{ question.tags.count|add:"-2" }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Question Title -->
+    <h3 class="card-title text-base mb-2 line-clamp-2">
+      {{ question.title }}
+    </h3>
+
+    <!-- Question Body Preview -->
+    {% if question.body %}
+      <p class="text-sm text-base-content/70 mb-4 line-clamp-3">
+        {{ question.body|truncatewords:20 }}
+      </p>
+    {% endif %}
+
+    <!-- Question Meta -->
+    <div class="flex items-center justify-between text-xs text-base-content/60 mb-4">
+      <span>
+        <i class="fas fa-user mr-1"></i>
+        {{ question.owner.username }}
+      </span>
+      <span>
+        <i class="fas fa-calendar mr-1"></i>
+        {{ question.created_at|date:"M d, Y" }}
+      </span>
+    </div>
+
+    <!-- Answer Stats -->
+    <div class="flex items-center justify-between text-xs text-base-content/60 mb-4">
+      <span>
+        <i class="fas fa-comments mr-1"></i>
+        {{ question.answers.count }} answer{{ question.answers.count|pluralize }}
+      </span>
+      {% if question.votes.all %}
+        <span>
+          <i class="fas fa-star mr-1"></i>
+          {{ question.votes.all|length }} vote{{ question.votes.all|length|pluralize }}
+        </span>
+      {% endif %}
+    </div>
+
+    <!-- Actions -->
+    <div class="card-actions justify-end">
+      {% if user.is_authenticated %}
+        <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary btn-sm">
+          <i class="fas fa-plus mr-1"></i>
+          Create Answer
+        </a>
+        <a href="{% url 'questions:detail' pk=question.pk %}" class="btn btn-outline btn-sm">
+          <i class="fas fa-eye mr-1"></i>
+          View Details
+        </a>
+      {% else %}
+        <a href="{% url 'questions:detail' pk=question.pk %}" class="btn btn-primary btn-sm">
+          <i class="fas fa-eye mr-1"></i>
+          View
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>

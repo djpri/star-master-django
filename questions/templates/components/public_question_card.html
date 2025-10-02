@@ -1,0 +1,92 @@
+{# Public Question Card Component #}
+<div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+  <div class="card-body">
+    <!-- Question Header -->
+    <div class="flex items-start justify-between mb-3">
+      <div class="badge badge-success badge-sm">
+        <i class="fas fa-check mr-1"></i>
+        Public
+      </div>
+      {% if question.tags.all %}
+        <div class="flex flex-wrap gap-1">
+          {% for tag in question.tags.all|slice:":2" %}
+            <div class="badge badge-outline badge-xs">{{ tag.name }}</div>
+          {% endfor %}
+          {% if question.tags.count > 2 %}
+            <div class="badge badge-outline badge-xs">+{{ question.tags.count|add:"-2" }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Question Title -->
+    <h3 class="card-title text-base mb-2 line-clamp-2">
+      {{ question.title }}
+    </h3>
+
+    <!-- Question Body Preview -->
+    {% if question.body %}
+      <p class="text-sm text-base-content/70 mb-4 line-clamp-3">
+        {{ question.body|truncatewords:20 }}
+      </p>
+    {% endif %}
+
+    <!-- Question Meta -->
+    <div class="flex items-center justify-between text-xs text-base-content/60 mb-4">
+      <span>
+        <i class="fas fa-user mr-1"></i>
+        {{ question.owner.username }}
+      </span>
+      <span>
+        <i class="fas fa-calendar mr-1"></i>
+        {{ question.created_at|date:"M d, Y" }}
+      </span>
+    </div>
+
+    <!-- Community Stats -->
+    <div class="flex items-center justify-between text-xs text-base-content/60 mb-4">
+      <span>
+        <i class="fas fa-eye mr-1"></i>
+        Example question
+      </span>
+      {% if question.votes.all %}
+        <span>
+          <i class="fas fa-star mr-1"></i>
+          {{ question.votes.all|length }} rating{{ question.votes.all|length|pluralize }}
+        </span>
+      {% endif %}
+    </div>
+
+    <!-- Actions -->
+    <div class="card-actions justify-end">
+      <a href="{% url 'questions:detail' pk=question.pk %}" class="btn btn-outline btn-sm">
+        <i class="fas fa-eye mr-1"></i>
+        View
+      </a>
+      {% if user.is_authenticated %}
+        {% if question.title in saved_question_titles %}
+          <button class="btn btn-success btn-sm" disabled>
+            <i class="fas fa-check mr-1"></i>
+            Saved
+          </button>
+        {% else %}
+          <button 
+            class="btn btn-primary btn-sm save-question-btn" 
+            data-question-id="{{ question.id }}"
+            data-question-title="{{ question.title }}"
+          >
+            <i class="fas fa-bookmark mr-1"></i>
+            Save
+          </button>
+        {% endif %}
+      {% else %}
+        <div class="tooltip" data-tip="Sign in to save questions">
+          <button class="btn btn-primary btn-sm btn-disabled">
+            <i class="fas fa-bookmark mr-1"></i>
+            Save
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

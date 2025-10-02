@@ -1,0 +1,34 @@
+{# STAR answer display component #}
+<div class="space-y-4">
+  <div class="border-l-4 border-primary pl-4">
+    <h4 class="font-semibold mb-2 flex items-center">
+      <span class="badge badge-primary badge-sm mr-2">S</span>
+      Situation
+    </h4>
+    <p class="text-base-content/90 whitespace-pre-wrap">{{ star_answer.situation }}</p>
+  </div>
+
+  <div class="border-l-4 border-secondary pl-4">
+    <h4 class="font-semibold mb-2 flex items-center">
+      <span class="badge badge-secondary badge-sm mr-2">T</span>
+      Task
+    </h4>
+    <p class="text-base-content/90 whitespace-pre-wrap">{{ star_answer.task }}</p>
+  </div>
+
+  <div class="border-l-4 border-accent pl-4">
+    <h4 class="font-semibold mb-2 flex items-center">
+      <span class="badge badge-accent badge-sm mr-2">A</span>
+      Action
+    </h4>
+    <p class="text-base-content/90 whitespace-pre-wrap">{{ star_answer.action }}</p>
+  </div>
+
+  <div class="border-l-4 border-success pl-4">
+    <h4 class="font-semibold mb-2 flex items-center">
+      <span class="badge badge-success badge-sm mr-2">R</span>
+      Result
+    </h4>
+    <p class="text-base-content/90 whitespace-pre-wrap">{{ star_answer.result }}</p>
+  </div>
+</div>

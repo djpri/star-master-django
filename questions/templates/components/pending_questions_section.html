@@ -1,0 +1,19 @@
+{# Pending Questions Section Component #}
+<div class="card border border-warning bg-base-100 shadow-lg mb-10" id="pending-questions-section">
+  <div class="card-body">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="text-2xl font-semibold text-warning">Pending Questions</h2>
+      <span class="badge badge-warning badge-outline" data-pending-count>
+        {{ pending_questions|length }} pending
+      </span>
+    </div>
+    <p class="text-sm text-base-content/70">
+      These public questions are awaiting review. Publish or update them once you're ready.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" id="pending-questions-grid">
+      {% for pending in pending_questions %}
+        {% include "components/pending_question_card.html" with question=pending %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
