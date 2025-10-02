@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db import models
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from .forms import QuestionForm
 from .models import Question, Tag
@@ -71,6 +72,14 @@ def save_public_question(request, question_id):
     if request.method != 'POST':
         return JsonResponse({'error': 'Only POST requests allowed'}, status=405)
 
+    redirect_target = request.POST.get('next') or request.GET.get('next')
+    if redirect_target and not url_has_allowed_host_and_scheme(
+        redirect_target,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        redirect_target = None
+
     # Get the public question
     public_question = get_object_or_404(
         Question,
@@ -93,7 +102,7 @@ def save_public_question(request, question_id):
             return JsonResponse({'error': 'You already have this question saved'}, status=400)
         messages.warning(
             request, 'You already have this question saved to your collection.')
-        return redirect('questions:public_list')
+        return redirect(redirect_target or 'questions:public_list')
 
     # Create a copy for the user (title only, no description)
     user_question = Question.objects.create(
@@ -116,7 +125,7 @@ def save_public_question(request, question_id):
 
     messages.success(
         request, f'Question "{public_question.title}" saved to your collection!')
-    return redirect('questions:public_list')
+    return redirect(redirect_target or 'questions:public_list')
 
 
 @login_required
@@ -186,10 +195,19 @@ def question_detail(request, pk):
     if request.user.is_authenticated:
         user_answer = answers.filter(user=request.user).first()
 
+    already_saved = False
+    if question.is_public and request.user.is_authenticated:
+        already_saved = Question.objects.filter(
+            owner=request.user,
+            title=question.title,
+            is_public=False,
+        ).exists()
+
     context = {
         'question': question,
         'answers': answers,
         'user_answer': user_answer,
+        'already_saved': already_saved,
     }
 
     return render(request, 'questions/detail.html', context)
