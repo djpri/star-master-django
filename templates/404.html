@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found | STAR Master{% endblock %}
+
+{% block content %}
+<section class="hero min-h-[60vh]">
+  <div class="hero-content flex-col-reverse gap-10 lg:flex-row lg:items-center">
+    <div class="space-y-6 text-center lg:text-left">
+      <span class="badge badge-error badge-lg uppercase tracking-widest">404</span>
+      <h1 class="text-4xl font-bold text-base-content md:text-5xl">
+        Oops! We can't find that page.
+      </h1>
+      <p class="text-base-content/80 leading-relaxed max-w-xl">
+        The page you were looking for may have moved, been renamed, or never existed. Let's get you back to crafting brilliant STAR stories.
+      </p>
+      <div class="flex flex-wrap justify-center lg:justify-start gap-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">
+          <i class="fas fa-home mr-2"></i>
+          Back to home
+        </a>
+        <a href="{% url 'questions:public_list' %}" class="btn btn-ghost">
+          <i class="fas fa-star mr-2"></i>
+          Browse public questions
+        </a>
+        <a href="{% url 'account_login' %}" class="btn btn-ghost">
+          <i class="fas fa-user mr-2"></i>
+          Sign in to your account
+        </a>
+      </div>
+    </div>
+    <div class="card bg-base-100/80 backdrop-blur shadow-xl w-full max-w-sm">
+      <div class="card-body space-y-4">
+        <h2 class="card-title text-base-content">
+          Need a quick win?
+        </h2>
+        <ul class="space-y-2 text-base-content/80">
+          <li class="flex items-start gap-3">
+            <i class="fas fa-compass text-primary mt-1"></i>
+            <span>Use the navigation bar to jump straight into your STAR practice toolkit.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <i class="fas fa-question-circle text-secondary mt-1"></i>
+            <span>Explore curated interview prompts to spark fresh ideas for your next story.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <i class="fas fa-envelope-open-text text-accent mt-1"></i>
+            <span>If you're stuck, use the Contact link in the footer and we'll be happy to help.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
