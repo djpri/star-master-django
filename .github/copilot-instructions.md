@@ -11,3 +11,13 @@ The platform provides a structured approach to crafting responses, allowing user
 theme - django-tailwind app for styling
 questions - main app for handling question urls and models
 answers - main app for handling answer urls and models
+
+## Agent Mode
+
+Commands will be run in powershell. When the agent opens up a new terminal, the venv is not activated. You will need to run the activate command before a python command will work. We also need to use heroku local:run to run pyton commands so that the environment variables are loaded from the .env file. Be pessimistc about whether the env will be needed or not, so assume it will be needed and use heroku local:run for all python commands.
+
+### Example
+
+```powershell
+.\.venv\Scripts\Activate.ps1; heroku local:run python manage.py runserver
+```
