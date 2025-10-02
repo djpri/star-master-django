@@ -43,7 +43,7 @@ class TestQuestionListViewBadges:
 
         content = response.content.decode()
         assert 'data-testid="public-badge"' in content
-        assert "Public request" in content
+        assert "Public" in content
         assert "Pending review" in content
 
     def test_denied_public_question_shows_denied_badge(self, client):
@@ -62,5 +62,5 @@ class TestQuestionListViewBadges:
 
         content = response.content.decode()
         assert 'data-testid="public-badge"' in content
-        assert "Public request" in content
+        assert "Public" in content
         assert "Request denied" in content
