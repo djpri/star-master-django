@@ -237,13 +237,29 @@ def deny_public_question(request, question_id):
 def question_create(request):
     """Allow users to create a new interview question."""
 
+    public_param = (request.GET.get('public') or '').lower()
+    force_public = public_param == 'true'
+    force_private = public_param == 'false'
+
+    initial_data = {}
+    if force_public:
+        initial_data['is_public'] = True
+    elif force_private:
+        initial_data['is_public'] = False
+
     if request.method == 'POST':
-        form = QuestionForm(request.POST, user=request.user)
+        post_data = request.POST.copy()
+        if force_public:
+            post_data['is_public'] = 'true'
+
+        form = QuestionForm(post_data, user=request.user)
         if form.is_valid():
             question = form.save(commit=False)
             question.owner = request.user
 
-            is_public = question.is_public
+            is_public = form.cleaned_data.get('is_public', False)
+            question.is_public = is_public
+
             if request.user.is_superuser:
                 question.status = Question.STATUS_APPROVED
                 approval_message = 'Your question has been created successfully!'
@@ -260,18 +276,12 @@ def question_create(request):
             messages.success(request, approval_message)
             return redirect('questions:detail', pk=question.pk)
     else:
-        # Pre-fill the form based on query parameter
-        initial_data = {}
-        public_param = request.GET.get('public', '').lower()
-        if public_param == 'true':
-            initial_data['is_public'] = True
-        elif public_param == 'false':
-            initial_data['is_public'] = False
-
         form = QuestionForm(initial=initial_data, user=request.user)
 
-        # Pass context about whether this is a public question
-        is_public_question = public_param == 'true'
+    truthy_values = {'true', '1', 'on', 'yes'}
+    form_data_public = str(form.data.get('is_public', '')).lower()
+    is_public_question = force_public or form_data_public in truthy_values or form.initial.get(
+        'is_public') is True
 
     # Get available tags for the user (public tags + user's personal tags)
     available_tags = Tag.objects.filter(
