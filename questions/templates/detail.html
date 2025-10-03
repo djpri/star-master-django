@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load ui_extras %}
 
 {% block title %}{{ question.title }} - STAR Master{% endblock %}
 
@@ -61,13 +62,7 @@
             {% endif %}
           </div>
           
-          {% if question.tags.all %}
-            <div class="flex flex-wrap gap-1">
-              {% for tag in question.tags.all %}
-                <div class="badge badge-outline badge-xs">{{ tag.name }}</div>
-              {% endfor %}
-            </div>
-          {% endif %}
+          {% include 'components/tag_list.html' with tags=question.tags.all max_visible=5 component_id=question.pk|prefixed_id:'detail_question' %}
         </div>
 
         <!-- Question Body -->

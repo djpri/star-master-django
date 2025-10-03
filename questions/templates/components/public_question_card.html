@@ -1,3 +1,4 @@
+{% load ui_extras %}
 {# Public Question Card Component #}
 <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
   <div class="card-body">
@@ -7,16 +8,7 @@
         <i class="fas fa-check mr-1"></i>
         Public
       </div>
-      {% if question.tags.all %}
-        <div class="flex flex-wrap gap-1">
-          {% for tag in question.tags.all|slice:":2" %}
-            <div class="badge badge-outline badge-xs">{{ tag.name }}</div>
-          {% endfor %}
-          {% if question.tags.count > 2 %}
-            <div class="badge badge-outline badge-xs">+{{ question.tags.count|add:"-2" }}</div>
-          {% endif %}
-        </div>
-      {% endif %}
+      {% include 'components/tag_list.html' with tags=question.tags.all max_visible=2 component_id=question.pk|prefixed_id:'public_question' %}
     </div>
 
     <!-- Question Title -->
