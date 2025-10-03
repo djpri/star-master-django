@@ -1,0 +1,35 @@
+<!-- Question Card -->
+<div class="card bg-base-200 shadow-lg mb-8">
+  <div class="card-body">
+    <div class="flex items-start justify-between mb-4">
+      <div class="badge badge-primary">Question</div>
+      {% if question.tags.all %}
+        <div class="flex flex-wrap gap-1">
+          {% for tag in question.tags.all|slice:":3" %}
+            <div class="badge badge-outline badge-xs">{{ tag.name }}</div>
+          {% endfor %}
+          {% if question.tags.count > 3 %}
+            <div class="badge badge-outline badge-xs">+{{ question.tags.count|add:"-3" }}</div>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <h2 class="text-xl font-semibold mb-3">{{ question.title }}</h2>
+    
+    {% if question.body %}
+      <p class="text-base-content/80">{{ question.body }}</p>
+    {% endif %}
+
+    <div class="flex items-center justify-between text-sm text-base-content/60 mt-4">
+      <span>
+        <i class="fas fa-user mr-1"></i>
+        {{ question.owner.username }}
+      </span>
+      <span>
+        <i class="fas fa-calendar mr-1"></i>
+        {{ question.created_at|date:"M d, Y" }}
+      </span>
+    </div>
+  </div>
+</div>

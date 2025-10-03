@@ -1,0 +1,37 @@
+<!-- Answer Header -->
+<div class="flex items-center justify-between mb-6">
+  <div class="flex items-center gap-3">
+    <div class="avatar avatar-placeholder">
+      <div class="bg-primary text-primary-content w-10 rounded-full">
+        <span class="text-sm">{{ answer.user.username|first|upper }}</span>
+      </div>
+    </div>
+    <div>
+      <div class="font-semibold">{{ answer.user.username }}</div>
+      <div class="text-sm text-base-content/60">
+        {{ answer.created_at|date:"M d, Y 'at' g:i A" }}
+        {% if answer.updated_at != answer.created_at %}
+          <span class="mx-1">•</span>
+          <span>Updated {{ answer.updated_at|date:"M d, Y" }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  <div class="flex items-center gap-2">
+    <div class="badge {% if answer.answer_type|lower == 'star' %}badge-primary{% else %}badge-secondary{% endif %}">
+      {{ answer.answer_type }}
+    </div>
+    {% if answer.is_public %}
+      <div class="badge badge-success badge-outline">
+        <i class="fas fa-globe mr-1"></i>
+        Public
+      </div>
+    {% else %}
+      <div class="badge badge-ghost">
+        <i class="fas fa-lock mr-1"></i>
+        Private
+      </div>
+    {% endif %}
+  </div>
+</div>

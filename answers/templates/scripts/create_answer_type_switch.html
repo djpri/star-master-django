@@ -1,0 +1,7 @@
+<script>
+function switchAnswerType(type) {
+  const currentUrl = new URL(window.location);
+  currentUrl.searchParams.set('type', type);
+  window.location.href = currentUrl.toString();
+}
+</script>

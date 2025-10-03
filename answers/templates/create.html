@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Create Answer - STAR Master{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    {% include "components/page_header.html" %}
+    {% include "components/question_context_card.html" %}
+    {% include "create/answer_type_selector.html" %}
+    {% include "create/answer_form.html" %}
+  </div>
+</div>
+
+{% include "scripts/create_answer_type_switch.html" %}
+{% endblock %}

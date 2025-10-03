@@ -1,0 +1,82 @@
+<!-- STAR Form Fields -->
+<div class="space-y-6">
+  <div class="form-control">
+    <label class="label">
+      <span class="label-text font-semibold flex items-center">
+        <span class="badge badge-primary badge-sm mr-2">S</span>
+        {{ form.situation.label }}
+      </span>
+    </label>
+    {{ form.situation }}
+    {% if form.situation.help_text %}
+      <label class="label">
+        <span class="label-text-alt">{{ form.situation.help_text }}</span>
+      </label>
+    {% endif %}
+    {% if form.situation.errors %}
+      <label class="label">
+        <span class="label-text-alt text-error">{{ form.situation.errors.0 }}</span>
+      </label>
+    {% endif %}
+  </div>
+
+  <div class="form-control">
+    <label class="label">
+      <span class="label-text font-semibold flex items-center">
+        <span class="badge badge-secondary badge-sm mr-2">T</span>
+        {{ form.task.label }}
+      </span>
+    </label>
+    {{ form.task }}
+    {% if form.task.help_text %}
+      <label class="label">
+        <span class="label-text-alt">{{ form.task.help_text }}</span>
+      </label>
+    {% endif %}
+    {% if form.task.errors %}
+      <label class="label">
+        <span class="label-text-alt text-error">{{ form.task.errors.0 }}</span>
+      </label>
+    {% endif %}
+  </div>
+
+  <div class="form-control">
+    <label class="label">
+      <span class="label-text font-semibold flex items-center">
+        <span class="badge badge-accent badge-sm mr-2">A</span>
+        {{ form.action.label }}
+      </span>
+    </label>
+    {{ form.action }}
+    {% if form.action.help_text %}
+      <label class="label">
+        <span class="label-text-alt">{{ form.action.help_text }}</span>
+      </label>
+    {% endif %}
+    {% if form.action.errors %}
+      <label class="label">
+        <span class="label-text-alt text-error">{{ form.action.errors.0 }}</span>
+      </label>
+    {% endif %}
+  </div>
+
+  <div class="form-control">
+    <label class="label">
+      <span class="label-text font-semibold flex items-center">
+        <span class="badge badge-success badge-sm mr-2">R</span>
+        {{ form.result.label }}
+      </span>
+    </label>
+    {{ form.result }}
+    {% if form.result.help_text %}
+      <label class="label">
+        <span class="label-text-alt">{{ form.result.help_text }}</span>
+      </label>
+    {% endif %}
+    {% if form.result.errors %}
+      <label class="label">
+        <span class="label-text-alt text-error">{{ form.result.errors.0 }}</span>
+      </label>
+    {% endif %}
+  </div>
+</div>

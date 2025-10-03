@@ -1,0 +1,31 @@
+<!-- Header -->
+<div class="mb-6">
+  <nav class="text-sm breadcrumbs">
+    <ul>
+      <li><a href="{% url 'questions:list' %}">Questions</a></li>
+      <li><a href="{% url 'questions:detail' pk=question.pk %}">{{ question.title|truncatewords:5 }}</a></li>
+      <li>Answer</li>
+    </ul>
+  </nav>
+  
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold mb-2">Answer Details</h1>
+      <p class="text-base-content/70">
+        {{ answer.answer_type|title }} answer by {{ answer.user.username }}
+      </p>
+    </div>
+    
+    {% if answer.user == request.user %}
+      <div class="dropdown dropdown-end">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+          <i class="fas fa-ellipsis-v"></i>
+        </div>
+        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+          <li><a href="#" class="text-warning"><i class="fas fa-edit mr-2"></i>Edit Answer</a></li>
+          <li><a href="#" class="text-error"><i class="fas fa-trash mr-2"></i>Delete Answer</a></li>
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+</div>

@@ -22,7 +22,7 @@ def create_answer(request, question_id):
             'back_url': 'questions:list',
             'back_text': 'Back to Questions'
         }
-        return render(request, 'answers/error.html', context, status=404)
+        return render(request, 'error.html', context, status=404)
 
     # Handle form submission
     if request.method == 'POST':
@@ -67,7 +67,7 @@ def create_answer(request, question_id):
         'answer_type': answer_type,
     }
 
-    return render(request, 'answers/create.html', context)
+    return render(request, 'create.html', context)
 
 
 def answer_detail(request, pk):
@@ -89,4 +89,4 @@ def answer_detail(request, pk):
         'question': answer.question,
     }
 
-    return render(request, 'answers/detail.html', context)
+    return render(request, 'detail.html', context)
