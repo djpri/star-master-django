@@ -24,14 +24,6 @@ def create_answer(request, question_id):
         }
         return render(request, 'answers/error.html', context, status=404)
 
-    # Check if user already has an answer for this question
-    existing_answer = Answer.objects.filter(
-        question=question, user=request.user).first()
-    if existing_answer:
-        messages.warning(
-            request, 'You already have an answer for this question. You can edit it instead.')
-        return redirect('answers:detail', pk=existing_answer.pk)
-
     # Handle form submission
     if request.method == 'POST':
         answer_type = request.POST.get('answer_type', 'STAR')

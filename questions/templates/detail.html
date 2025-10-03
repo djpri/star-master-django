@@ -32,7 +32,7 @@
           {% endif %}
         </div>
         
-        {% if user.is_authenticated and not user_answer and not question.is_public %}
+        {% if user.is_authenticated and not question.is_public %}
           <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
             <i class="fas fa-plus mr-2"></i>
             Create Answer
@@ -113,61 +113,19 @@
 
     <!-- Answers Section (only for private questions) -->
     {% if not question.is_public %}
-      <!-- User's Answer (if exists) -->
-      {% if user_answer %}
-        {% include "detail/user_answer_card.html" %}
-      {% endif %}
-
-      <!-- Other Answers -->
-    {% if answers %}
+      {% if answers %}
       <div class="mb-6">
         <h3 class="text-xl font-bold mb-4 flex items-center">
           <i class="fas fa-comments mr-2"></i>
-          {% if user_answer %}
-            Other Answers ({{ answers.count|add:"-1" }})
-          {% else %}
-            Community Answers ({{ answers.count }})
-          {% endif %}
+          Your Answers ({{ answers.count }})
         </h3>
 
         <div class="space-y-6">
           {% for answer in answers %}
-            {% if answer != user_answer %}
-              {% include "detail/community_answer_card.html" %}
-            {% endif %}
+            {% include "detail/community_answer_card.html" %}
           {% endfor %}
         </div>
       </div>
-      {% endif %}
-
-      <!-- Empty State for Answers -->
-      {% if not answers or answers.count == 0 or answers.count == 1 and user_answer %}
-        <div class="card bg-base-200 shadow-lg">
-          <div class="card-body text-center py-12">
-            <i class="fas fa-comments text-4xl text-base-content/30 mb-4"></i>
-            <h3 class="text-xl font-semibold mb-2">
-              {% if user_answer %}
-                No Other Answers Yet
-              {% else %}
-                No Answers Yet
-              {% endif %}
-            </h3>
-            <p class="text-base-content/70 mb-4">
-              {% if user_answer %}
-                No other users have shared their responses to this question yet.
-              {% else %}
-                Be the first to answer this interview question and help build the community knowledge base.
-              {% endif %}
-            </p>
-            
-            {% if user.is_authenticated and not user_answer %}
-              <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
-                <i class="fas fa-plus mr-2"></i>
-                Create Your Answer
-              </a>
-            {% endif %}
-          </div>
-        </div>
       {% endif %}
     {% endif %}
 

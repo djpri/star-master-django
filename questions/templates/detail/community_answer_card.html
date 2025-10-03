@@ -12,7 +12,7 @@
         <div>
           <div class="font-medium">{{ answer.user.username }}</div>
           <div class="text-xs text-base-content/60">
-            {{ answer.created_at|date:"M d, Y 'at' g:i A" }}
+            {{ answer.created_at|date:"M d, Y \a\t g:i A" }}
             {% if answer.updated_at != answer.created_at %}
               <span class="mx-1">•</span>
               <span>Updated {{ answer.updated_at|date:"M d, Y" }}</span>
@@ -25,17 +25,6 @@
         <div class="badge {% if answer.answer_type|lower == 'star' %}badge-primary{% else %}badge-secondary{% endif %}">
           {{ answer.answer_type }}
         </div>
-        {% if answer.is_public %}
-          <div class="badge badge-success badge-outline">
-            <i class="fas fa-globe mr-1"></i>
-            Public
-          </div>
-        {% else %}
-          <div class="badge badge-ghost">
-            <i class="fas fa-lock mr-1"></i>
-            Private
-          </div>
-        {% endif %}
       </div>
     </div>
 

@@ -65,8 +65,6 @@ class Answer(models.Model):
             models.Index(fields=["answer_type"]),
         ]
         ordering = ["-created_at"]
-        # One answer per user per question
-        unique_together = ("question", "user")
 
     def __str__(self):
         return f"{self.answer_type} answer by {self.user} on {self.question_id}"
