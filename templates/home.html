@@ -5,8 +5,11 @@
 
 {% block content %}
 
+<!-- Particle Canvas Background -->
+<canvas id="particle-canvas" aria-hidden="true" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-none"></canvas>
+
 <!-- Hero Section -->
-<div class="hero min-h-[70vh] bg-gradient-to-br from-primary-300 via-primary-focus to-secondary rounded-3xl mb-12">
+<div id="hero-section" class="hero min-h-[70vh] bg-gradient-to-bl from-white via-secondary to-primary rounded-3xl mb-12 relative z-10 content-visible">
   <div class="hero-content flex-col lg:flex-row-reverse text-primary-content lg:px-14">
     <img
       src="{% static 'images/star_master_hero.webp' %}"
@@ -48,7 +51,7 @@
 </div>
 
 <!-- Features Section -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+<div id="features-section" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 relative z-10 content-visible">
   <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
     <div class="card-body text-center">
       <div class="avatar avatar-placeholder mb-4 mx-auto">
@@ -90,7 +93,7 @@
 
 {% if user.is_authenticated %}
 <!-- Quick Actions Section -->
-<div class="mb-12">
+<div id="quick-actions-section" class="mb-12 relative z-10 content-visible">
   <h2 class="text-3xl font-bold text-center mb-8 text-base-content">Quick Actions</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
     <!-- Create Answer -->
@@ -137,7 +140,7 @@
 {% endif %}
 
 <!-- Call to Action -->
-<div class="hero bg-base-200 rounded-3xl">
+<div id="cta-section" class="hero bg-base-200 rounded-3xl relative z-10 content-visible">
   <div class="hero-content text-center py-12">
     <div class="max-w-2xl">
       <h2 class="text-3xl font-bold mb-4 text-base-content">Ready to Ace Your Next Interview?</h2>
@@ -159,4 +162,84 @@
     </div>
   </div>
 </div>
+
+<!-- Stargazing Mode Controls -->
+<div class="fixed bottom-6 right-6 z-30">
+  <!-- Watch the stars button (visible by default) -->
+  <button id="stargazing-btn" class="btn btn-primary btn-circle btn-lg shadow-lg hover:shadow-xl transition-all duration-300 content-visible">
+    <i class="fas fa-star text-xl"></i>
+  </button>
+  
+  <!-- Exit stargazing button (hidden by default) -->
+  <button id="exit-stargazing-btn" class="btn btn-neutral btn-md shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 pointer-events-none absolute bottom-6 right-0">
+    <i class="fas fa-times mr-1"></i>
+    Exit
+  </button>
+</div>
+
+<!-- Particle Effect Script -->
+<script src="{% static 'js/particle-effect.js' %}"></script>
+
+<!-- Stargazing Mode Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const stargazingBtn = document.getElementById('stargazing-btn');
+  const exitBtn = document.getElementById('exit-stargazing-btn');
+  const contentSections = document.querySelectorAll('.content-visible');
+  const body = document.body;
+  
+  function enterStargazingMode() {
+    // Add stargazing mode class to body for background transition
+    body.classList.add('stargazing-mode');
+    
+    // Hide all content sections with transition
+    contentSections.forEach(section => {
+      section.classList.remove('content-visible');
+      section.classList.add('content-hidden');
+    });
+    
+    // Hide main stargazing button and show exit button
+    stargazingBtn.classList.remove('content-visible');
+    stargazingBtn.classList.add('content-hidden');
+    
+    setTimeout(() => {
+      stargazingBtn.style.display = 'none';
+      exitBtn.classList.remove('opacity-0', 'pointer-events-none');
+      exitBtn.classList.add('opacity-100');
+    }, 800);
+  }
+  
+  function exitStargazingMode() {
+    // Remove stargazing mode class from body
+    body.classList.remove('stargazing-mode');
+    
+    // Show all content sections with transition
+    contentSections.forEach(section => {
+      section.classList.remove('content-hidden');
+      section.classList.add('content-visible');
+    });
+    
+    // Hide exit button and show main stargazing button
+    exitBtn.classList.remove('opacity-100');
+    exitBtn.classList.add('opacity-0', 'pointer-events-none');
+    
+    setTimeout(() => {
+      stargazingBtn.style.display = 'flex';
+      stargazingBtn.classList.remove('content-hidden');
+      stargazingBtn.classList.add('content-visible');
+    }, 200);
+  }
+  
+  // Event listeners
+  stargazingBtn.addEventListener('click', enterStargazingMode);
+  exitBtn.addEventListener('click', exitStargazingMode);
+  
+  // Optional: Exit stargazing mode with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && body.classList.contains('stargazing-mode')) {
+      exitStargazingMode();
+    }
+  });
+});
+</script>
 {% endblock %}

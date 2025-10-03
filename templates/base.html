@@ -39,6 +39,24 @@
           min-height: 100dvh; /* Dynamic viewport height for modern browsers */
         }
       }
+      
+      /* Stargazing mode styles */
+      .stargazing-mode .fixed-bg {
+        background: #000000 !important;
+        transition: background 1.5s ease-in-out;
+      }
+      
+      .content-hidden {
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+      }
+      
+      .content-visible {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+      }
     </style>
   </head>
   <body class="h-full flex flex-col">
@@ -47,14 +65,14 @@
     
     <!-- Admin Mode Banner -->
     {% if user.is_staff %}
-      <div class="bg-error text-error-content text-xs text-center py-2 px-4 shadow-sm">
+      <div class="bg-error text-error-content text-xs text-center py-2 px-4 shadow-sm z-20">
         <i class="fas fa-shield-alt mr-1"></i>
         <span class="font-semibold">ADMIN MODE</span> - Administrative Access Active
       </div>
     {% endif %}
     
     <!-- Navigation -->
-    <div class="navbar {% if user.is_staff %}bg-warning text-warning-content{% else %}bg-primary-500 text-white{% endif %} shadow-lg">
+    <div class="navbar {% if user.is_staff %}bg-warning text-warning-content{% else %}bg-primary-500 text-white{% endif %} shadow-lg relative z-20">
       
       <div class="navbar-start">
         <!-- Logo -->
@@ -90,7 +108,6 @@
             </ul>
           </div>
           
-          <a class="nav-link" href="#">Practice</a>
           <a class="nav-link" href="#">Resources</a>
           {% if user.is_staff %}
             <a class="nav-link bg-error/20 hover:bg-error/30 rounded-md" href="{% url 'admin:index' %}">
