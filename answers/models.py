@@ -15,7 +15,8 @@ class AnswerQuerySet(models.QuerySet):
             # Public answers on approved public questions
             return self.filter(
                 is_public=True,
-                question__is_visible_publicly=True
+                question__is_public=True,
+                question__status="APPROVED"
             )
 
         # Own answers + public answers on visible questions

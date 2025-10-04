@@ -8,11 +8,11 @@ This file contains critical instructions for understanding and implementing busi
 
 ## Questions
 
-- Questions are split up into two categories: ***Public*** and ***Private***.
-- ***Public*** questions are designed to be used as read-only examples that users can copy to their own list of private questions.
+- Questions are split up into two categories: **Public** and **Private**.
+- **Public** questions are designed to be used as read-only examples that users can copy to their own list of private questions. Even users who are not logged in can view public questions, but cannot perform any actions on them.
 - **Public** questions are not designed to have answers linked to them, and this will be made clear in the user interface. This rule should be enforced on the backend as well.
-- **Public** questions 
-- ***Private*** questions are only visible to the user. The user can create, edit, and delete their own private questions. Admins can also view and manage private questions from the admin panel, but even admins will only see their own private questions in the user interface.
+- **Public** questions
+- **Private** questions are only visible to the user. The user can create, edit, and delete their own private questions. Admins can also view and manage private questions from the admin panel, but even admins will only see their own private questions in the user interface.
 
 ## Answers
 

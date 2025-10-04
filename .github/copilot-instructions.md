@@ -21,3 +21,7 @@ Commands will be run in powershell. When the agent opens up a new terminal, the 
 ```powershell
 .\.venv\Scripts\Activate.ps1; heroku local:run python manage.py runserver
 ```
+
+### Additional Notes
+
+- Django's ORM cannot use property methods in database lookups - it expects actual database fields.

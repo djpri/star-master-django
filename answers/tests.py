@@ -7,6 +7,87 @@ User = get_user_model()
 
 
 @pytest.mark.django_db
+class TestAnswerVisibility:
+    """Test answer visibility for different user types"""
+
+    def test_anonymous_user_can_view_public_answers_on_approved_questions(self):
+        """Test that anonymous users can view public answers on approved public questions"""
+        # Create test user and approved public question
+        user = User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='testpass123'
+        )
+        question = Question.objects.create(
+            title='Public Test Question',
+            body='This is a public question.',
+            owner=user,
+            is_public=True,
+            status=Question.STATUS_APPROVED
+        )
+
+        # Create a public answer
+        public_answer = StarAnswer.objects.create(
+            question=question,
+            user=user,
+            is_public=True,
+            situation='Public situation',
+            task='Public task',
+            action='Public action',
+            result='Public result'
+        )
+
+        # Create a private answer (should not be visible)
+        private_answer = StarAnswer.objects.create(
+            question=question,
+            user=user,
+            is_public=False,
+            situation='Private situation',
+            task='Private task',
+            action='Private action',
+            result='Private result'
+        )
+
+        # Test anonymous user can only see public answers
+        anonymous_visible = Answer.objects.visible_to_user(None)
+        public_answer_ids = [answer.id for answer in anonymous_visible]
+        assert public_answer.id in public_answer_ids
+        assert private_answer.id not in public_answer_ids
+
+    def test_anonymous_user_cannot_view_answers_on_pending_questions(self):
+        """Test that anonymous users cannot view answers on pending public questions"""
+        # Create test user and pending public question
+        user = User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='testpass123'
+        )
+        question = Question.objects.create(
+            title='Pending Test Question',
+            body='This is a pending public question.',
+            owner=user,
+            is_public=True,
+            status=Question.STATUS_PENDING
+        )
+
+        # Create a public answer
+        public_answer = StarAnswer.objects.create(
+            question=question,
+            user=user,
+            is_public=True,
+            situation='Public situation',
+            task='Public task',
+            action='Public action',
+            result='Public result'
+        )
+
+        # Test anonymous user cannot see answers on pending questions
+        anonymous_visible = Answer.objects.visible_to_user(None)
+        public_answer_ids = [answer.id for answer in anonymous_visible]
+        assert public_answer.id not in public_answer_ids
+
+
+@pytest.mark.django_db
 class TestMultipleAnswers:
     """Test that users can create multiple answers for the same question"""
 
