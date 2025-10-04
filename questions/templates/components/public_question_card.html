@@ -1,7 +1,7 @@
 {% load ui_extras %}
 {# Public Question Card Component #}
-<div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-  <div class="card-body">
+<div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
+  <div class="card-body flex flex-col h-full">
     <!-- Question Header -->
     <div class="flex items-start justify-between mb-3">
       <div class="badge badge-success badge-sm">
@@ -50,7 +50,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="card-actions justify-end">
+    <div class="card-actions justify-end mt-auto">
       <a href="{% url 'questions:detail' pk=question.pk %}" class="btn btn-outline btn-sm">
         <i class="fas fa-eye mr-1"></i>
         View

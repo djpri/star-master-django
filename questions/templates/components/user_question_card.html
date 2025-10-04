@@ -1,7 +1,7 @@
 {% load ui_extras %}
 {# User's personal question card for list.html #}
-<div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-  <div class="card-body">
+<div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
+  <div class="card-body flex flex-col h-full">
     <!-- Question Header -->
     <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
       <div class="flex flex-wrap items-center gap-2">
@@ -82,7 +82,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="card-actions justify-end">
+    <div class="card-actions justify-end mt-auto">
       {% if user.is_authenticated %}
         {% comment %}
         According to business logic, public questions should not have answers linked to them.

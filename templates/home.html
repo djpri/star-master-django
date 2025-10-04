@@ -97,8 +97,8 @@
   <h2 class="text-3xl font-bold text-center mb-8 text-base-content">Quick Actions</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
     <!-- Create Answer -->
-    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-      <div class="card-body">
+    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
+      <div class="card-body flex flex-col h-full">
         <div class="flex items-center mb-4">
           <div class="avatar avatar-placeholder mr-4">
             <div class="bg-success text-success-content w-12 rounded-lg">
@@ -110,15 +110,15 @@
             <p class="text-base-content/70 text-sm">Craft a new STAR response to practice questions</p>
           </div>
         </div>
-        <div class="card-actions justify-end">
+        <div class="card-actions justify-end mt-auto">
           <a href="{% url 'questions:list' %}" class="btn btn-primary btn-sm">Start Answering</a>
         </div>
       </div>
     </div>
 
     <!-- My Answers -->
-    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-      <div class="card-body">
+    <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
+      <div class="card-body flex flex-col h-full">
         <div class="flex items-center mb-4">
           <div class="avatar avatar-placeholder mr-4">
             <div class="bg-warning text-warning-content w-12 rounded-lg">
@@ -130,7 +130,7 @@
             <p class="text-base-content/70 text-sm">Review and refine your practice responses</p>
           </div>
         </div>
-        <div class="card-actions justify-end">
+        <div class="card-actions justify-end mt-auto">
           <a href="{% url 'profile' %}" class="btn btn-secondary btn-sm">View Answers</a>
         </div>
       </div>
