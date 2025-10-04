@@ -24,6 +24,16 @@ def create_answer(request, question_id):
         }
         return render(request, 'error.html', context, status=404)
 
+    # Business rule: Public questions should not have answers linked to them
+    if question.is_public:
+        context = {
+            'error_title': 'Cannot Create Answer',
+            'error_message': 'You cannot create answers for public questions. Public questions are designed to be used as read-only examples.',
+            'back_url': 'questions:list',
+            'back_text': 'Back to Questions'
+        }
+        return render(request, 'error.html', context, status=404)
+
     # Handle form submission
     if request.method == 'POST':
         answer_type = request.POST.get('answer_type', 'STAR')

@@ -7,6 +7,93 @@ User = get_user_model()
 
 
 @pytest.mark.django_db
+class TestPublicQuestionAnswerRestrictions:
+    """Test that public questions cannot have answers created for them"""
+
+    def test_create_answer_for_public_question_returns_404(self):
+        """Test that trying to create an answer for a public question returns 404"""
+        from django.test import Client
+        from django.urls import reverse
+
+        # Create test user
+        user = User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='testpass123'
+        )
+
+        # Create public question
+        public_question = Question.objects.create(
+            title='Public Test Question',
+            body='This is a public question.',
+            owner=user,
+            is_public=True,
+            status=Question.STATUS_APPROVED
+        )
+
+        # Create private question for comparison
+        private_question = Question.objects.create(
+            title='Private Test Question',
+            body='This is a private question.',
+            owner=user,
+            is_public=False
+        )
+
+        client = Client()
+        client.login(username='testuser', password='testpass123')
+
+        # Test that accessing create answer for public question returns 404
+        public_url = reverse('answers:create', kwargs={
+                             'question_id': public_question.pk})
+        response = client.get(public_url)
+        assert response.status_code == 404
+
+        # Test that accessing create answer for private question works
+        private_url = reverse('answers:create', kwargs={
+                              'question_id': private_question.pk})
+        response = client.get(private_url)
+        assert response.status_code == 200
+
+    def test_post_answer_for_public_question_returns_404(self):
+        """Test that posting an answer for a public question returns 404"""
+        from django.test import Client
+        from django.urls import reverse
+
+        # Create test user and public question
+        user = User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='testpass123'
+        )
+
+        public_question = Question.objects.create(
+            title='Public Test Question',
+            body='This is a public question.',
+            owner=user,
+            is_public=True,
+            status=Question.STATUS_APPROVED
+        )
+
+        client = Client()
+        client.login(username='testuser', password='testpass123')
+
+        # Test that posting a STAR answer for public question returns 404
+        url = reverse('answers:create', kwargs={
+                      'question_id': public_question.pk})
+        response = client.post(url, {
+            'answer_type': 'STAR',
+            'situation': 'Test situation',
+            'task': 'Test task',
+            'action': 'Test action',
+            'result': 'Test result',
+        })
+        assert response.status_code == 404
+
+        # Verify no answer was created
+        assert Answer.objects.filter(question=public_question).count() == 0
+
+
+@pytest.mark.django_db
 class TestAnswerVisibility:
     """Test answer visibility for different user types"""
 
