@@ -1,0 +1,526 @@
+[
+  {
+    "model": "questions.question",
+    "pk": 1,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to manage multiple projects simultaneously.",
+      "body": "This question assesses your organizational skills, ability to prioritize tasks, and how you maintain quality while juggling multiple responsibilities.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        5,
+        1
+      ],
+      "created_at": "2025-08-15T03:02:41Z",
+      "updated_at": "2025-08-21T13:46:32Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 2,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you identified and implemented a process improvement.",
+      "body": "This question evaluates your analytical thinking, initiative to drive change, and ability to enhance operational efficiency.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        7,
+        3
+      ],
+      "created_at": "2025-01-18T15:21:45Z",
+      "updated_at": "2025-03-04T18:05:50Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 3,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you had to collaborate with a difficult team member.",
+      "body": "This question tests your interpersonal skills, patience, and ability to work effectively with diverse personalities to achieve common goals.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        2,
+        6,
+        4
+      ],
+      "created_at": "2025-03-13T21:12:16Z",
+      "updated_at": "2025-12-08T09:37:13Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 4,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to deliver bad news to a stakeholder.",
+      "body": "This question assesses your communication skills, honesty, and ability to handle difficult conversations professionally.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        1
+      ],
+      "created_at": "2025-02-16T09:03:37Z",
+      "updated_at": "2025-07-25T00:30:52Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 5,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to work under minimal supervision.",
+      "body": "This question evaluates your self-motivation, autonomy, and ability to take initiative without constant guidance.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        1,
+        5
+      ],
+      "created_at": "2025-02-02T04:55:37Z",
+      "updated_at": "2025-10-22T16:41:54Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 6,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you turned a dissatisfied customer into a loyal one.",
+      "body": "This question tests your customer service excellence, problem-solving abilities, and commitment to customer satisfaction.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        8,
+        4,
+        3
+      ],
+      "created_at": "2025-11-10T21:12:05Z",
+      "updated_at": "2025-11-14T09:21:33Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 7,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to make a decision without all the information you needed.",
+      "body": "This question assesses your decision-making skills, risk management, and ability to operate effectively under uncertainty.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        1
+      ],
+      "created_at": "2025-05-01T22:15:55Z",
+      "updated_at": "2025-05-07T12:59:20Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 8,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to balance competing priorities.",
+      "body": "This question evaluates your time management, strategic thinking, and ability to make trade-offs to achieve optimal outcomes.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        5,
+        3
+      ],
+      "created_at": "2025-09-25T22:17:56Z",
+      "updated_at": "2025-11-13T07:38:18Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 9,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you received critical feedback and how you responded.",
+      "body": "This question tests your receptiveness to feedback, emotional intelligence, and commitment to personal growth.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        1
+      ],
+      "created_at": "2025-03-03T00:08:31Z",
+      "updated_at": "2025-03-19T07:14:48Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 10,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to influence stakeholders without formal authority.",
+      "body": "This question assesses your persuasion skills, networking abilities, and capacity to drive outcomes through influence rather than control.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        1,
+        2
+      ],
+      "created_at": "2025-05-19T11:28:34Z",
+      "updated_at": "2025-06-22T08:17:32Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 11,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to handle a crisis or emergency at work.",
+      "body": "This question evaluates your composure under pressure, quick thinking, and ability to manage urgent situations effectively.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        1,
+        5
+      ],
+      "created_at": "2025-01-09T00:36:11Z",
+      "updated_at": "2025-03-19T02:41:03Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 12,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you championed diversity and inclusion in the workplace.",
+      "body": "This question tests your cultural awareness, leadership in creating inclusive environments, and commitment to equity.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        1,
+        2
+      ],
+      "created_at": "2025-02-01T07:00:44Z",
+      "updated_at": "2025-12-21T09:53:03Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 13,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you failed to meet expectations and what you learned.",
+      "body": "This question assesses your accountability, resilience, and ability to extract lessons from setbacks.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        4
+      ],
+      "created_at": "2025-07-22T21:30:29Z",
+      "updated_at": "2025-10-31T21:59:09Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 14,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to negotiate a win-win outcome.",
+      "body": "This question evaluates your negotiation skills, creative problem-solving, and ability to find mutually beneficial solutions.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        3,
+        6
+      ],
+      "created_at": "2025-02-13T16:38:59Z",
+      "updated_at": "2025-07-24T10:02:06Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 15,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you mentored or coached a colleague.",
+      "body": "This question tests your leadership development skills, patience, and commitment to helping others grow professionally.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        1,
+        4,
+        2
+      ],
+      "created_at": "2025-03-31T01:37:37Z",
+      "updated_at": "2025-07-31T19:02:11Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 16,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to challenge the status quo.",
+      "body": "This question assesses your courage to question existing practices, critical thinking, and ability to drive meaningful change.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        7,
+        1,
+        4
+      ],
+      "created_at": "2025-03-22T17:19:44Z",
+      "updated_at": "2025-07-28T17:09:26Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 17,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to manage stakeholder expectations.",
+      "body": "This question evaluates your communication skills, transparency, and ability to align diverse interests.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        1
+      ],
+      "created_at": "2025-10-02T02:27:05Z",
+      "updated_at": "2025-11-01T09:52:43Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 18,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you demonstrated cultural sensitivity in a work situation.",
+      "body": "This question tests your awareness of cultural differences, adaptability, and ability to work effectively in diverse environments.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        2
+      ],
+      "created_at": "2025-03-02T05:15:17Z",
+      "updated_at": "2025-06-19T06:08:56Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 19,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you took ownership of a problem that wasn't originally your responsibility.",
+      "body": "This question assesses your accountability, initiative, and willingness to contribute beyond your defined role.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        1,
+        2,
+        3
+      ],
+      "created_at": "2025-10-23T00:36:32Z",
+      "updated_at": "2025-12-07T17:20:05Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 20,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to work with limited guidance or unclear requirements.",
+      "body": "This question evaluates your ability to navigate ambiguity, ask clarifying questions, and make progress despite uncertainty.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        4,
+        1
+      ],
+      "created_at": "2025-07-24T22:16:44Z",
+      "updated_at": "2025-10-11T09:02:16Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 21,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you had to say no to a request and how you handled it.",
+      "body": "This question tests your boundary-setting skills, assertiveness, and ability to manage expectations diplomatically.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        6,
+        5
+      ],
+      "created_at": "2025-04-22T05:11:00Z",
+      "updated_at": "2025-11-23T19:47:10Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 22,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you leveraged data or metrics to drive a decision.",
+      "body": "This question assesses your analytical skills, data literacy, and ability to make evidence-based decisions.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        7
+      ],
+      "created_at": "2025-03-21T00:54:36Z",
+      "updated_at": "2025-09-04T19:31:07Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 23,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to build rapport with a new team quickly.",
+      "body": "This question evaluates your interpersonal skills, emotional intelligence, and ability to integrate into new environments.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        2,
+        4
+      ],
+      "created_at": "2025-06-30T07:47:08Z",
+      "updated_at": "2025-08-08T06:22:18Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 24,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you had to manage scope creep on a project.",
+      "body": "This question tests your project management skills, assertiveness, and ability to maintain focus on defined objectives.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        5,
+        1,
+        4
+      ],
+      "created_at": "2025-09-02T12:13:18Z",
+      "updated_at": "2025-11-10T15:55:49Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 25,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to deliver a presentation to senior leadership.",
+      "body": "This question assesses your communication skills, confidence, and ability to tailor messages to executive audiences.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        4,
+        1
+      ],
+      "created_at": "2025-07-12T15:25:17Z",
+      "updated_at": "2025-07-16T11:50:59Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 26,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to recover from a setback or failure.",
+      "body": "This question evaluates your resilience, problem-solving abilities, and capacity to maintain performance after disappointment.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        7
+      ],
+      "created_at": "2025-01-04T05:53:06Z",
+      "updated_at": "2025-06-22T22:14:29Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 27,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you improved team morale or engagement.",
+      "body": "This question tests your leadership skills, emotional intelligence, and ability to create positive team dynamics.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        1,
+        2,
+        4
+      ],
+      "created_at": "2025-08-17T19:14:32Z",
+      "updated_at": "2025-09-14T07:31:23Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 28,
+    "fields": {
+      "owner": 1,
+      "title": "Tell me about a time when you had to work with a remote or distributed team.",
+      "body": "This question assesses your virtual collaboration skills, communication abilities, and capacity to maintain productivity across distances.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        2,
+        4,
+        5
+      ],
+      "created_at": "2025-09-08T05:42:19Z",
+      "updated_at": "2025-11-13T16:25:04Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 29,
+    "fields": {
+      "owner": 1,
+      "title": "Describe a situation where you had to prioritize quality over speed.",
+      "body": "This question evaluates your judgment, commitment to excellence, and ability to make principled decisions under pressure.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        5
+      ],
+      "created_at": "2025-09-17T01:43:30Z",
+      "updated_at": "2025-11-30T18:03:04Z"
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 30,
+    "fields": {
+      "owner": 1,
+      "title": "Give me an example of when you successfully managed a budget or reduced costs.",
+      "body": "This question tests your financial acumen, resourcefulness, and ability to deliver results within financial constraints.",
+      "is_public": true,
+      "status": "APPROVED",
+      "tags": [
+        3,
+        5,
+        1
+      ],
+      "created_at": "2025-04-05T17:54:12Z",
+      "updated_at": "2025-04-30T06:27:24Z"
+    }
+  }
+]
