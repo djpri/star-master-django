@@ -71,7 +71,7 @@
     <div class="flex items-center justify-between text-xs text-base-content/60 mb-4">
       <span>
         <i class="fas fa-comments mr-1"></i>
-        {{ question.answers.count }} answer{{ question.answers.count|pluralize }}
+        {{ question.answer_count }} answer{{ question.answer_count|pluralize }}
       </span>
       {% if question.votes.all %}
         <span>
