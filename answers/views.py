@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import Http404
+from django.views.decorators.http import require_POST
 from questions.models import Question
 from .models import Answer, StarAnswer, BasicAnswer
 from .forms import AnswerTypeChoiceForm, StarAnswerForm, BasicAnswerForm
@@ -100,3 +101,24 @@ def answer_detail(request, pk):
     }
 
     return render(request, 'detail.html', context)
+
+
+@login_required
+@require_POST
+def answer_delete(request, pk):
+    """Delete an answer - only owner can delete their own answers"""
+    answer = get_object_or_404(Answer, pk=pk, user=request.user)
+
+    # Store answer details for success message before deletion
+    answer_type = answer.answer_type
+    question_title = answer.question.title
+    question_pk = answer.question.pk
+
+    answer.delete()
+
+    messages.success(
+        request,
+        f'Your {answer_type} answer for "{question_title}" has been deleted.'
+    )
+
+    return redirect('questions:detail', pk=question_pk)

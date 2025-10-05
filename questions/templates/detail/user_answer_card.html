@@ -8,19 +8,7 @@
       </h3>
       <div class="flex items-center gap-2">
         <div class="badge badge-primary">{{ user_answer.answer_type }}</div>
-        <div class="dropdown dropdown-end">
-          <div tabindex="0" role="button" class="btn btn-ghost btn-sm btn-circle">
-            <i class="fas fa-ellipsis-v"></i>
-          </div>
-          <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-            <li><a href="{% url 'answers:detail' pk=user_answer.pk %}">
-              <i class="fas fa-external-link-alt mr-2"></i>View in Detail Page
-            </a></li>
-            <li><a href="#" class="text-warning">
-              <i class="fas fa-edit mr-2"></i>Edit Answer
-            </a></li>
-          </ul>
-        </div>
+        {% include 'components/answer_actions_menu.html' with answer=user_answer %}
       </div>
     </div>
     
