@@ -23,17 +23,17 @@ def create_answer(request, question_id):
             'back_url': 'questions:list',
             'back_text': 'Back to Questions'
         }
-        return render(request, 'error.html', context, status=404)
+        return render(request, 'answers/error.html', context, status=404)
 
-    # Business rule: Public questions should not have answers linked to them
-    if question.is_public:
+    # Business rule: Public questions (approved public questions) should not have answers linked to them
+    if question.is_visible_publicly:
         context = {
             'error_title': 'Cannot Create Answer',
             'error_message': 'You cannot create answers for public questions. Public questions are designed to be used as read-only examples.',
             'back_url': 'questions:list',
             'back_text': 'Back to Questions'
         }
-        return render(request, 'error.html', context, status=404)
+        return render(request, 'answers/error.html', context, status=404)
 
     # Handle form submission
     if request.method == 'POST':
@@ -45,6 +45,8 @@ def create_answer(request, question_id):
                 answer = form.save(commit=False)
                 answer.question = question
                 answer.user = request.user
+                # Default to private since they can only answer private questions
+                answer.is_public = False
                 answer.save()
                 messages.success(
                     request, 'Your STAR answer has been created successfully!')
@@ -55,6 +57,8 @@ def create_answer(request, question_id):
                 answer = form.save(commit=False)
                 answer.question = question
                 answer.user = request.user
+                # Default to private since they can only answer private questions
+                answer.is_public = False
                 answer.save()
                 messages.success(
                     request, 'Your answer has been created successfully!')
@@ -78,7 +82,7 @@ def create_answer(request, question_id):
         'answer_type': answer_type,
     }
 
-    return render(request, 'create.html', context)
+    return render(request, 'answers/create.html', context)
 
 
 def answer_detail(request, pk):
@@ -100,7 +104,7 @@ def answer_detail(request, pk):
         'question': answer.question,
     }
 
-    return render(request, 'detail.html', context)
+    return render(request, 'answers/detail.html', context)
 
 
 @login_required

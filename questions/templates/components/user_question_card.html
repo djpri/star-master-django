@@ -88,10 +88,10 @@
     <div class="card-actions justify-end mt-auto">
       {% if user.is_authenticated %}
         {% comment %}
-        According to business logic, public questions should not have answers linked to them.
-        Only show "Create Answer" button for private questions.
+        According to business logic, public questions (approved public questions) should not have answers linked to them.
+        Only show "Create Answer" button for questions that are not visible publicly.
         {% endcomment %}
-        {% if not question.is_public %}
+        {% if not question.is_visible_publicly %}
           <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary btn-sm">
             <i class="fas fa-plus mr-1"></i>
             Create Answer

@@ -24,7 +24,7 @@ class StarAnswerForm(forms.ModelForm):
 
     class Meta:
         model = StarAnswer
-        fields = ['situation', 'task', 'action', 'result', 'is_public']
+        fields = ['situation', 'task', 'action', 'result']
         widgets = {
             'situation': forms.Textarea(attrs={
                 'class': 'textarea textarea-bordered w-full',
@@ -45,24 +45,19 @@ class StarAnswerForm(forms.ModelForm):
                 'class': 'textarea textarea-bordered w-full',
                 'rows': 4,
                 'placeholder': 'Share the results and outcomes...'
-            }),
-            'is_public': forms.CheckboxInput(attrs={
-                'class': 'checkbox checkbox-primary'
             })
         }
         labels = {
             'situation': 'Situation',
             'task': 'Task',
             'action': 'Action',
-            'result': 'Result',
-            'is_public': 'Make this answer publicly visible'
+            'result': 'Result'
         }
         help_texts = {
             'situation': 'Set the scene - describe the context and background',
             'task': 'What needed to be done? What was your responsibility?',
             'action': 'What specific steps did you take to address the situation?',
-            'result': 'What was the outcome? What did you learn or achieve?',
-            'is_public': 'Other users will be able to see your answer if you make it public'
+            'result': 'What was the outcome? What did you learn or achieve?'
         }
 
 
@@ -71,22 +66,17 @@ class BasicAnswerForm(forms.ModelForm):
 
     class Meta:
         model = BasicAnswer
-        fields = ['text', 'is_public']
+        fields = ['text']
         widgets = {
             'text': forms.Textarea(attrs={
                 'class': 'textarea textarea-bordered w-full',
                 'rows': 8,
                 'placeholder': 'Write your answer here...'
-            }),
-            'is_public': forms.CheckboxInput(attrs={
-                'class': 'checkbox checkbox-primary'
             })
         }
         labels = {
-            'text': 'Your Answer',
-            'is_public': 'Make this answer publicly visible'
+            'text': 'Your Answer'
         }
         help_texts = {
-            'text': 'Provide a comprehensive answer to the interview question',
-            'is_public': 'Other users will be able to see your answer if you make it public'
+            'text': 'Provide a comprehensive answer to the interview question'
         }

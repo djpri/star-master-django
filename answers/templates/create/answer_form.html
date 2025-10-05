@@ -16,20 +16,6 @@
         {% include "create/basic_form_fields.html" %}
       {% endif %}
 
-      <!-- Visibility Setting -->
-      <div class="divider my-6"></div>
-      <div class="form-control">
-        <label class="label cursor-pointer justify-start">
-          {{ form.is_public }}
-          <span class="label-text ml-3">{{ form.is_public.label }}</span>
-        </label>
-        {% if form.is_public.help_text %}
-          <label class="label">
-            <span class="label-text-alt">{{ form.is_public.help_text }}</span>
-          </label>
-        {% endif %}
-      </div>
-
       <!-- Form Actions -->
       <div class="card-actions justify-end mt-8">
         <a href="{% url 'questions:detail' pk=question.pk %}" class="btn btn-ghost">
