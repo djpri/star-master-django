@@ -6,6 +6,7 @@ from .views.public_question_list import public_question_list
 from .views.question_create import question_create
 from .views.question_delete import question_delete
 from .views.question_detail import question_detail
+from .views.question_edit import question_edit
 from .views.question_list import question_list
 from .views.save_public_question import save_public_question
 
@@ -21,5 +22,6 @@ urlpatterns = [
     path('deny/<int:question_id>/', deny_public_question, name='deny_public'),
     path('create/', question_create, name='create'),
     path('<int:pk>/', question_detail, name='detail'),
+    path('<int:pk>/edit/', question_edit, name='edit'),
     path('<int:pk>/delete/', question_delete, name='delete'),
 ]
