@@ -25,6 +25,7 @@
         <div class="badge {% if answer.answer_type|lower == 'star' %}badge-primary{% else %}badge-secondary{% endif %}">
           {{ answer.answer_type }}
         </div>
+        {% include "components/answer_actions_menu.html" with answer=answer %}
       </div>
     </div>
 
