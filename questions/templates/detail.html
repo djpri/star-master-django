@@ -62,7 +62,10 @@
             {% endif %}
           </div>
           
-          {% include 'components/tag_list.html' with tags=question.tags.all max_visible=5 component_id=question.pk|prefixed_id:'detail_question' %}
+          <div class="flex items-center gap-2">
+            {% include 'components/tag_list.html' with tags=question.tags.all max_visible=5 component_id=question.pk|prefixed_id:'detail_question' %}
+            {% include 'components/question_actions_menu.html' %}
+          </div>
         </div>
 
         <!-- Question Body -->
