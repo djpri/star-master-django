@@ -108,6 +108,53 @@ def answer_detail(request, pk):
 
 
 @login_required
+def answer_edit(request, pk):
+    """Edit an existing answer - only owner can edit their own answers"""
+    answer = get_object_or_404(Answer, pk=pk, user=request.user)
+
+    # Get the specific answer type instance
+    if hasattr(answer, 'staranswer'):
+        specific_answer = answer.staranswer
+        form_class = StarAnswerForm
+        answer_type = 'STAR'
+    elif hasattr(answer, 'basicanswer'):
+        specific_answer = answer.basicanswer
+        form_class = BasicAnswerForm
+        answer_type = 'BASIC'
+    else:
+        # Fallback - shouldn't happen in normal use
+        raise Http404("Answer type not found")
+
+    if request.method == 'POST':
+        form = form_class(request.POST, instance=specific_answer)
+        if form.is_valid():
+            answer_instance = form.save(commit=False)
+            # Ensure ownership and privacy settings remain unchanged
+            answer_instance.user = request.user
+            answer_instance.is_public = False  # Keep answers private
+            answer_instance.save()
+
+            messages.success(
+                request,
+                f'Your {answer_type} answer has been updated successfully!'
+            )
+            return redirect('answers:detail', pk=answer.pk)
+    else:
+        form = form_class(instance=specific_answer)
+
+    context = {
+        'form': form,
+        'answer': answer,
+        'specific_answer': specific_answer,
+        'question': answer.question,
+        'answer_type': answer_type,
+        'is_edit_mode': True,
+    }
+
+    return render(request, 'answers/edit.html', context)
+
+
+@login_required
 @require_POST
 def answer_delete(request, pk):
     """Delete an answer - only owner can delete their own answers"""
