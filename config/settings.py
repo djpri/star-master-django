@@ -70,6 +70,9 @@ if IS_HEROKU_APP:
     # For maximum security, consider enabling HTTP Strict Transport Security (HSTS) headers too:
     # https://docs.djangoproject.com/en/5.2/ref/middleware/#http-strict-transport-security
     SECURE_SSL_REDIRECT = True
+elif os.environ.get("ENVIRONMENT") == "development":
+    # During local development, allow all host headers
+    ALLOWED_HOSTS = ["*"]
 else:
     ALLOWED_HOSTS = [".localhost", "127.0.0.1", "[::1]", "0.0.0.0", "[::]"]
 
