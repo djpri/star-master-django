@@ -34,24 +34,28 @@
     </p>
   </div>
 
-  <!-- Stats Section -->
-  {% if questions %}
-    {% include "components/stats_section.html" %}
+  <!-- Filter/Search Bar - Show if there are questions OR if filters are active -->
+  {% if questions or selected_tag or search_query %}
+    {% include "components/filter_search_bar.html" %}
   {% endif %}
 
   <!-- Questions Grid -->
   {% if questions %}
+    <!-- Top Pagination -->
+    {% include "components/pagination.html" %}
+
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       {% for question in questions %}
         {% include "components/user_question_card.html" %}
       {% endfor %}
     </div>
 
-    <!-- Pagination -->
+    <!-- Bottom Pagination -->
     {% include "components/pagination.html" %}
 
   {% else %}
-    <!-- Empty State -->
+    <!-- Empty State - Only show if NO active filters -->
+    {% if not selected_tag and not search_query %}
     <div class="hero bg-base-200 rounded-3xl">
       <div class="hero-content text-center py-12">
         <div class="max-w-md">
@@ -78,6 +82,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
   {% endif %}
 </div>
 

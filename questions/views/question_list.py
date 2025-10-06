@@ -1,5 +1,7 @@
-from questions.models import Question
-from django.db.models import Count
+from questions.models import Question, Tag
+from django.db.models import Count, Q, Prefetch
+from django.contrib.postgres.search import SearchQuery, SearchRank
+from django.db import connection
 
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
@@ -11,27 +13,117 @@ def question_list(request):
         # Redirect unauthenticated users to public questions
         return redirect('questions:public_list')
 
+    # Get filter and search parameters
+    tag_filter = request.GET.get('tag', '').strip()
+    search_query = request.GET.get('search', '').strip()
+
     # Show user's own questions (both private and public) with optimized queries
-    # Annotate with answer count to avoid N+1 queries in the template
     questions = Question.objects.filter(
         owner=request.user
-    ).select_related('owner').prefetch_related('tags', 'votes').annotate(
-        answer_count=Count('answers')
-    ).order_by('-created_at')
+    ).select_related('owner').prefetch_related('tags')
+
+    # Apply tag filter if provided
+    selected_tag = None
+    if tag_filter:
+        # Filter questions that have the specified tag (case-insensitive)
+        questions = questions.filter(tags__name__iexact=tag_filter)
+        # Get the actual tag name for display
+        try:
+            selected_tag = Tag.objects.filter(
+                Q(owner=request.user, name__iexact=tag_filter) |
+                Q(is_public=True, name__iexact=tag_filter)
+            ).first().name
+        except AttributeError:
+            selected_tag = tag_filter
+
+    # Apply search filter if provided
+    # Search across question title (partial match), body, and answer content (full-text search)
+    if search_query:
+        if connection.vendor == 'postgresql':
+            # Use PostgreSQL full-text search for body and answers
+            search = SearchQuery(search_query, search_type='websearch')
+
+            # Partial match on title + full-text search on body
+            questions_with_search = questions.filter(
+                Q(title__icontains=search_query) |
+                Q(search_vector=search)
+            )
+
+            # Also find questions that have answers matching the search query
+            from answers.models import Answer
+            matching_answer_question_ids = Answer.objects.filter(
+                user=request.user,
+                search_vector=search
+            ).values_list('question_id', flat=True).distinct()
+
+            # Combine both querysets (questions matching OR having matching answers)
+            questions = questions.filter(
+                Q(id__in=questions_with_search.values_list('id', flat=True)) |
+                Q(id__in=matching_answer_question_ids)
+            ).distinct()
+        else:
+            # Fallback to basic search for non-Postgres databases (e.g., SQLite in tests)
+            from answers.models import Answer
+            matching_answer_question_ids = Answer.objects.filter(
+                user=request.user,
+                question__in=questions
+            ).filter(
+                Q(staranswer__situation__icontains=search_query) |
+                Q(staranswer__task__icontains=search_query) |
+                Q(staranswer__action__icontains=search_query) |
+                Q(staranswer__result__icontains=search_query) |
+                Q(basicanswer__text__icontains=search_query)
+            ).values_list('question_id', flat=True).distinct()
+
+            questions = questions.filter(
+                Q(title__icontains=search_query) |
+                Q(body__icontains=search_query) |
+                Q(id__in=matching_answer_question_ids)
+            ).distinct()
+
+    # Order by most recent and make distinct to avoid duplicates from tag filter
+    questions = questions.distinct().order_by('-created_at')
 
     # Paginate questions (12 per page)
     paginator = Paginator(questions, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # Get user's answer count to avoid N+1 query in stats section
-    from answers.models import Answer
-    user_answer_count = Answer.objects.filter(user=request.user).count()
+    # Force evaluation and get the actual list of questions for this page
+    # This prevents re-evaluation of the queryset later
+    questions_list = list(page_obj.object_list)
+
+    if questions_list:
+        question_ids = [q.id for q in questions_list]
+
+        # Get answer counts for questions on this page - single query
+        from answers.models import Answer
+        answer_counts = dict(
+            Answer.objects.filter(question_id__in=question_ids)
+            .values('question_id')
+            .annotate(count=Count('id'))
+            .values_list('question_id', 'count')
+        )
+
+        # Attach counts to questions as attributes
+        for question in questions_list:
+            question.answer_count = answer_counts.get(question.id, 0)
+
+    # Replace the queryset with our evaluated list to prevent re-querying
+    page_obj.object_list = questions_list
+
+    # Get all available tags for the filter dropdown
+    # Include both public tags and user's private tags
+    available_tags = Tag.objects.filter(
+        Q(is_public=True) | Q(owner=request.user)
+    ).distinct().order_by('name')
 
     context = {
         'questions': page_obj,
         'page_obj': page_obj,
-        'user_answer_count': user_answer_count,
+        'available_tags': available_tags,
+        'selected_tag': selected_tag,
+        'search_query': search_query,
     }
 
     return render(request, 'list.html', context)

@@ -1,0 +1,112 @@
+{# Filter and Search Bar Component #}
+<div class="bg-base-200 rounded-lg shadow p-4 mb-8">
+  <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <!-- Left: Question Count -->
+    <div class="flex items-center gap-2">
+      <i class="fas fa-bookmark text-primary"></i>
+      <span class="font-semibold text-base-content">
+        {% if page_obj.paginator.count == 0 %}
+          0 Questions found
+        {% else %}
+          Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }} Question{{ page_obj.paginator.count|pluralize }}
+        {% endif %}
+      </span>
+    </div>
+
+    <!-- Right: Filters and Search -->
+    <div class="flex flex-col sm:flex-row gap-2 flex-1 lg:flex-initial lg:min-w-[500px] xl:min-w-[600px]">
+      <!-- Tag Filter Dropdown -->
+      <div class="dropdown dropdown-end">
+        <label tabindex="0" class="btn btn-outline btn-sm gap-2">
+          <i class="fas fa-filter"></i>
+          {% if selected_tag %}
+            {{ selected_tag }}
+            <span class="badge badge-primary badge-xs">1</span>
+          {% else %}
+            Filter by Tag
+          {% endif %}
+        </label>
+        <div tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-64 max-h-96 overflow-y-auto mt-2">
+          {% if selected_tag %}
+            <li>
+              <a href="?{% if search_query %}search={{ search_query }}&{% endif %}page=1" class="text-error">
+                <i class="fas fa-times"></i>
+                Clear Filter
+              </a>
+            </li>
+            <div class="divider my-1"></div>
+          {% endif %}
+          
+          {% if available_tags %}
+            {% for tag in available_tags %}
+              <li>
+                <a href="?tag={{ tag.name|urlencode }}{% if search_query %}&search={{ search_query }}{% endif %}&page=1"
+                   class="{% if selected_tag == tag.name %}active{% endif %}">
+                  <i class="fas fa-tag"></i>
+                  {{ tag.name }}
+                  {% if tag.is_public %}
+                    <span class="badge badge-ghost badge-xs">public</span>
+                  {% endif %}
+                </a>
+              </li>
+            {% endfor %}
+          {% else %}
+            <li class="disabled">
+              <a class="text-base-content/50">
+                <i class="fas fa-info-circle"></i>
+                No tags available
+              </a>
+            </li>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Search Form -->
+      <form method="get" class="join flex-1">
+        {% if selected_tag %}
+          <input type="hidden" name="tag" value="{{ selected_tag }}">
+        {% endif %}
+        <input 
+          type="search" 
+          name="search" 
+          value="{{ search_query|default:'' }}" 
+          placeholder="Search questions & answers..." 
+          class="input input-bordered input-sm join-item flex-1 min-w-0"
+        />
+        <button type="submit" class="btn btn-primary btn-sm join-item">
+          <i class="fas fa-search"></i>
+        </button>
+        {% if search_query %}
+          <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}page=1" class="btn btn-outline btn-sm join-item">
+            <i class="fas fa-times"></i>
+          </a>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <!-- Active Filters Display -->
+  {% if selected_tag or search_query %}
+    <div class="flex flex-wrap gap-2 mt-3 pt-3 border-t border-base-300">
+      <span class="text-sm text-base-content/70">Active filters:</span>
+      {% if selected_tag %}
+        <div class="badge badge-primary gap-2">
+          <i class="fas fa-tag text-xs"></i>
+          {{ selected_tag }}
+          <a href="?{% if search_query %}search={{ search_query }}&{% endif %}page=1" class="text-primary-content hover:text-error">
+            <i class="fas fa-times text-xs"></i>
+          </a>
+        </div>
+      {% endif %}
+      {% if search_query %}
+        <div class="badge badge-secondary gap-2">
+          <i class="fas fa-search text-xs"></i>
+          "{{ search_query }}"
+          <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}page=1" class="text-secondary-content hover:text-error">
+            <i class="fas fa-times text-xs"></i>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
