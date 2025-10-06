@@ -182,7 +182,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Use IS_HEROKU_APP to determine to use the local dev database or the Heroku
+# Use NEON_DB_PROD for production (Heroku) and NEON_DB_DEV for development
 # Use SQLite for testing to speed up test execution
 
 if TESTING:
@@ -193,10 +193,21 @@ if TESTING:
             "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-else:
+elif IS_HEROKU_APP:
+    # Production database configuration
     DATABASES = {
         "default": dj_database_url.config(
-            env="DATABASE_URL",
+            env="NEON_DB_PROD",
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True,
+        ),
+    }
+else:
+    # Development database configuration
+    DATABASES = {
+        "default": dj_database_url.config(
+            env="NEON_DB_DEV",
             conn_max_age=600,
             conn_health_checks=True,
             ssl_require=True,
