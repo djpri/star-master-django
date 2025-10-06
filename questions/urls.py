@@ -1,6 +1,7 @@
 from django.urls import path
 
 from .views.approve_public_question import approve_public_question
+from .views.check_tag_exists import check_tag_exists
 from .views.deny_public_question import deny_public_question
 from .views.public_question_list import public_question_list
 from .views.question_create import question_create
@@ -20,6 +21,7 @@ urlpatterns = [
     path('approve/<int:question_id>/',
          approve_public_question, name='approve_public'),
     path('deny/<int:question_id>/', deny_public_question, name='deny_public'),
+    path('ajax/check-tag-exists/', check_tag_exists, name='check_tag_exists'),
     path('create/', question_create, name='create'),
     path('<int:pk>/', question_detail, name='detail'),
     path('<int:pk>/edit/', question_edit, name='edit'),

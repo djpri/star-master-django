@@ -77,27 +77,46 @@ class QuestionForm(forms.ModelForm):
 
                 tags_to_add = []
                 for tag_name in tag_names:
-                    # First, try to find a public tag
-                    tag = Tag.objects.filter(
-                        name__iexact=tag_name, is_public=True).first()
-
-                    # If no public tag, try to find user's personal tag
-                    if not tag and self.user:
-                        tag = Tag.objects.filter(
-                            name__iexact=tag_name, owner=self.user, is_public=False).first()
-
-                    # If still no tag, create a new personal tag for the user
-                    if not tag and self.user:
-                        tag = Tag.objects.create(
-                            name=tag_name,
-                            slug=slugify(tag_name),
-                            owner=self.user,
-                            is_public=False
-                        )
-
+                    tag = self._get_or_create_tag(tag_name)
                     if tag:
                         tags_to_add.append(tag)
 
                 instance.tags.set(tags_to_add)
 
         return instance
+
+    def _get_or_create_tag(self, tag_name):
+        """
+        Efficiently get or create a tag following business logic rules.
+        Priority: 1) Public tags, 2) User's personal tags, 3) Create new personal tag
+        """
+        if not self.user:
+            return None
+
+        # First, try to find a public tag (case-insensitive)
+        tag = Tag.objects.filter(
+            name__iexact=tag_name, is_public=True
+        ).first()
+
+        if tag:
+            return tag
+
+        # If no public tag, try to find existing personal tag first
+        tag = Tag.objects.filter(
+            name__iexact=tag_name,
+            owner=self.user,
+            is_public=False
+        ).first()
+
+        # If not found, create new personal tag
+        if not tag:
+            tag, created = Tag.objects.get_or_create(
+                name=tag_name,  # Use exact case for uniqueness
+                owner=self.user,
+                is_public=False,
+                defaults={
+                    'slug': slugify(tag_name),
+                }
+            )
+
+        return tag

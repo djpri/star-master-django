@@ -250,3 +250,106 @@ class TestQuestionFormTagFunctionality:
 
         assert Tag.objects.count() == initial_tag_count
         assert question.tags.count() == 0
+
+    def test_get_or_create_tag_finds_existing_public_tag(self, user, public_tag):
+        """Test _get_or_create_tag method efficiently finds existing public tag."""
+        form = QuestionForm(user=user)
+
+        # Should find the existing public tag (case-insensitive)
+        tag = form._get_or_create_tag("leadership")
+
+        assert tag == public_tag
+        assert tag.is_public is True
+
+    def test_get_or_create_tag_finds_existing_personal_tag(self, user, personal_tag):
+        """Test _get_or_create_tag method efficiently finds existing personal tag."""
+        form = QuestionForm(user=user)
+
+        # Should find the existing personal tag (case-insensitive)
+        tag = form._get_or_create_tag("mypersonaltag")
+
+        assert tag == personal_tag
+        assert tag.is_public is False
+        assert tag.owner == user
+
+    def test_get_or_create_tag_creates_new_personal_tag(self, user):
+        """Test _get_or_create_tag method creates new personal tag when none exists."""
+        form = QuestionForm(user=user)
+        initial_count = Tag.objects.count()
+
+        # Should create a new personal tag
+        tag = form._get_or_create_tag("BrandNewTag")
+
+        assert Tag.objects.count() == initial_count + 1
+        assert tag.name == "BrandNewTag"
+        assert tag.is_public is False
+        assert tag.owner == user
+        assert tag.slug == "brandnewtag"
+
+    def test_get_or_create_tag_prefers_public_over_personal_with_same_name(self, user, public_tag):
+        """Test that public tags are preferred over personal tags with the same name."""
+        # Create a personal tag with the same name as the public tag
+        personal_tag_same_name = Tag.objects.create(
+            name="Leadership",
+            slug="leadership-personal",
+            is_public=False,
+            owner=user,
+        )
+
+        form = QuestionForm(user=user)
+
+        # Should find the public tag, not the personal one
+        tag = form._get_or_create_tag("Leadership")
+
+        assert tag == public_tag
+        assert tag.is_public is True
+        assert tag != personal_tag_same_name
+
+    def test_get_or_create_tag_returns_none_without_user(self):
+        """Test _get_or_create_tag returns None when no user is provided."""
+        form = QuestionForm()  # No user provided
+
+        tag = form._get_or_create_tag("TestTag")
+
+        assert tag is None
+
+    def test_form_efficiently_handles_duplicate_tag_names(self, user):
+        """Test that the form efficiently handles duplicate tag names using get_or_create."""
+        # Create an initial tag
+        form_data = {
+            "title": "Test Question 1",
+            "body": "Test body",
+            "is_public": False,
+            "tags_input": "UniqueTag",
+        }
+        form1 = QuestionForm(data=form_data, user=user)
+        assert form1.is_valid()
+
+        question1 = form1.save(commit=False)
+        question1.owner = user
+        question1 = form1.save()
+
+        initial_tag_count = Tag.objects.count()
+
+        # Try to create another question with the same tag name
+        form_data2 = {
+            "title": "Test Question 2",
+            "body": "Test body 2",
+            "is_public": False,
+            "tags_input": "UniqueTag",  # Same tag name
+        }
+        form2 = QuestionForm(data=form_data2, user=user)
+        assert form2.is_valid()
+
+        question2 = form2.save(commit=False)
+        question2.owner = user
+        question2 = form2.save()
+
+        # Should not create a new tag, should reuse existing one
+        assert Tag.objects.count() == initial_tag_count
+
+        # Both questions should have the same tag
+        tag1 = question1.tags.first()
+        tag2 = question2.tags.first()
+        assert tag1 == tag2
+        assert tag1.name == "UniqueTag"

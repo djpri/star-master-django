@@ -43,16 +43,40 @@
         selectedTags.push(tagName);
         updateTagsDisplay();
         newTagInput.value = ''; // Clear input
+        resetCreateButton();
       } else if (selectedTags.includes(tagName)) {
         alert('This tag is already selected.');
       }
+    });
+    
+    // Check for existing tags as user types
+    let checkTimeout;
+    newTagInput.addEventListener('input', function() {
+      const tagName = this.value.trim();
+      
+      // Clear previous timeout
+      if (checkTimeout) {
+        clearTimeout(checkTimeout);
+      }
+      
+      if (!tagName) {
+        resetCreateButton();
+        return;
+      }
+      
+      // Debounce the check to avoid excessive API calls
+      checkTimeout = setTimeout(() => {
+        checkTagExists(tagName);
+      }, 300);
     });
     
     // Allow Enter key to create tag
     newTagInput.addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
         e.preventDefault();
-        createTagBtn.click();
+        if (!createTagBtn.disabled) {
+          createTagBtn.click();
+        }
       }
     });
     
@@ -99,6 +123,56 @@
           selectedTagsContainer.appendChild(badge);
         });
       }
+    }
+    
+    // Check if tag exists via AJAX
+    async function checkTagExists(tagName) {
+      try {
+        const response = await fetch(`{% url 'questions:check_tag_exists' %}?name=${encodeURIComponent(tagName)}`, {
+          method: 'GET',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        
+        if (data.exists) {
+          setButtonState('exists');
+        } else {
+          setButtonState('create');
+        }
+      } catch (error) {
+        console.error('Error checking tag existence:', error);
+        setButtonState('create'); // Default to create on error
+      }
+    }
+    
+    // Update button state based on tag existence
+    function setButtonState(state) {
+      const btn = createTagBtn;
+      const icon = btn.querySelector('i');
+      
+      if (state === 'exists') {
+        btn.disabled = true;
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-disabled');
+        btn.innerHTML = '<i class="fas fa-check mr-1"></i>Tag Exists';
+      } else if (state === 'create') {
+        btn.disabled = false;
+        btn.classList.remove('btn-disabled');
+        btn.classList.add('btn-secondary');
+        btn.innerHTML = '<i class="fas fa-sparkles mr-1"></i>Create';
+      }
+    }
+    
+    // Reset button to default create state
+    function resetCreateButton() {
+      setButtonState('create');
     }
   });
 </script>

@@ -14,6 +14,13 @@ This file contains critical instructions for understanding and implementing busi
 - **Public** questions
 - **Private** questions are only visible to the user. The user can create, edit, and delete their own private questions. Admins can also view and manage private questions from the admin panel, but even admins will only see their own private questions in the user interface.
 
+## Question Tags
+
+- Questions can be tagged with multiple tags to help with organization and searching.
+- Public tags are predefined and can only be created or edited by admins. They are accessible to all users for tagging their private questions.
+- Private tags can be created, edited, and deleted by users for their own private questions. This allows users to extend the tagging system to suit their personal organization needs, without affecting other users.
+- Tags are case-insensitive. For example, "Leadership", "leadership", and "LEADERSHIP" are considered the same tag.
+
 ## Answers
 
 - Answers are always linked to a specific question.
