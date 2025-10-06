@@ -2,8 +2,11 @@
 <div class="card bg-base-200 pending-question-card" data-question-id="{{ question.id }}">
   <div class="card-body space-y-2">
     <div class="flex items-start justify-between gap-2">
-      <h3 class="card-title text-base">{{ question.title }}</h3>
-      <span class="badge badge-warning badge-sm">Pending</span>
+      <div class="flex items-center gap-2 flex-1 min-w-0">
+        <h3 class="card-title text-base truncate">{{ question.title }}</h3>
+        <span class="badge badge-warning badge-sm flex-shrink-0">Pending</span>
+      </div>
+      {% include 'components/question_actions_menu.html' %}
     </div>
     {% if question.body %}
       <p class="text-sm text-base-content/70 line-clamp-3">{{ question.body|truncatewords:20 }}</p>

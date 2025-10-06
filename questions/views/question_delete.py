@@ -9,8 +9,16 @@ from questions.models import Question
 @login_required
 @require_POST
 def question_delete(request, pk):
-    """Delete a question - only owner can delete their own questions"""
-    question = get_object_or_404(Question, pk=pk, owner=request.user)
+    """
+    Delete a question.
+    - Admins can delete any question
+    - Non-admins can only delete their own questions
+    """
+    # Admins can delete any question, non-admins only their own
+    if request.user.is_superuser:
+        question = get_object_or_404(Question, pk=pk)
+    else:
+        question = get_object_or_404(Question, pk=pk, owner=request.user)
 
     # Store question title for success message before deletion
     question_title = question.title

@@ -4,11 +4,14 @@
   <div class="card-body flex flex-col h-full">
     <!-- Question Header -->
     <div class="flex items-start justify-between mb-3">
-      <div class="badge badge-success badge-sm">
-        <i class="fas fa-check mr-1"></i>
-        Public
+      <div class="flex items-center gap-2">
+        <div class="badge badge-success badge-sm">
+          <i class="fas fa-check mr-1"></i>
+          Public
+        </div>
+        {% include 'components/tag_list.html' with tags=question.tags.all max_visible=2 component_id=question.pk|prefixed_id:'public_question' %}
       </div>
-      {% include 'components/tag_list.html' with tags=question.tags.all max_visible=2 component_id=question.pk|prefixed_id:'public_question' %}
+      {% include 'components/question_actions_menu.html' %}
     </div>
 
     <!-- Question Title -->
