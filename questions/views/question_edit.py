@@ -30,7 +30,18 @@ def question_edit(request, pk):
             question.status = Question.STATUS_PENDING
 
             question.save()
-            form.save_m2m()  # Save many-to-many relationships (tags)
+
+            # Handle tags using the form's custom logic
+            tags_str = form.cleaned_data.get('tags_input', '')
+            tag_names = [name.strip() for name in tags_str.split(',') if name.strip()]
+
+            tags_to_add = []
+            for tag_name in tag_names:
+                tag = form._get_or_create_tag(tag_name)
+                if tag:
+                    tags_to_add.append(tag)
+
+            question.tags.set(tags_to_add)
 
             messages.success(
                 request, f'Question "{question.title}" has been updated successfully!')
