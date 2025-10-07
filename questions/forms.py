@@ -1,5 +1,4 @@
 from django import forms
-from django.utils.text import slugify
 
 from .models import Question, Tag
 
@@ -113,10 +112,7 @@ class QuestionForm(forms.ModelForm):
             tag, created = Tag.objects.get_or_create(
                 name=tag_name,  # Use exact case for uniqueness
                 owner=self.user,
-                is_public=False,
-                defaults={
-                    'slug': slugify(tag_name),
-                }
+                is_public=False
             )
 
         return tag

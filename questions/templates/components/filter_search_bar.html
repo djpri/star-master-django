@@ -19,8 +19,8 @@
       <div class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-outline btn-sm gap-2">
           <i class="fas fa-filter"></i>
-          {% if selected_tag %}
-            {{ selected_tag }}
+          {% if selected_tag_name %}
+            {{ selected_tag_name }}
             <span class="badge badge-primary badge-xs">1</span>
           {% else %}
             Filter by Tag
@@ -40,8 +40,8 @@
           {% if available_tags %}
             {% for tag in available_tags %}
               <li>
-                <a href="?tag={{ tag.name|urlencode }}{% if search_query %}&search={{ search_query }}{% endif %}&page=1"
-                   class="{% if selected_tag == tag.name %}active{% endif %}">
+                <a href="?tag={{ tag.slug|urlencode }}{% if search_query %}&search={{ search_query }}{% endif %}&page=1"
+                   class="{% if selected_tag == tag.slug %}active{% endif %}">
                   <i class="fas fa-tag"></i>
                   {{ tag.name }}
                   {% if tag.is_public %}
@@ -92,7 +92,7 @@
       {% if selected_tag %}
         <div class="badge badge-primary gap-2">
           <i class="fas fa-tag text-xs"></i>
-          {{ selected_tag }}
+          {{ selected_tag_name }}
           <a href="?{% if search_query %}search={{ search_query }}&{% endif %}page=1" class="text-primary-content hover:text-error">
             <i class="fas fa-times text-xs"></i>
           </a>

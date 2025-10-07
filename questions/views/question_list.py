@@ -24,17 +24,25 @@ def question_list(request):
 
     # Apply tag filter if provided
     selected_tag = None
+    selected_tag_name = None
     if tag_filter:
-        # Filter questions that have the specified tag (case-insensitive)
-        questions = questions.filter(tags__name__iexact=tag_filter)
-        # Get the actual tag name for display
+        # Filter questions that have the specified tag (case-insensitive by slug)
+        questions = questions.filter(tags__slug__iexact=tag_filter)
+        # Get the actual tag object for display
         try:
-            selected_tag = Tag.objects.filter(
-                Q(owner=request.user, name__iexact=tag_filter) |
-                Q(is_public=True, name__iexact=tag_filter)
-            ).first().name
+            tag_obj = Tag.objects.filter(
+                Q(owner=request.user, slug__iexact=tag_filter) |
+                Q(is_public=True, slug__iexact=tag_filter)
+            ).first()
+            if tag_obj:
+                selected_tag = tag_obj.slug
+                selected_tag_name = tag_obj.name
+            else:
+                selected_tag = tag_filter
+                selected_tag_name = tag_filter
         except AttributeError:
             selected_tag = tag_filter
+            selected_tag_name = tag_filter
 
     # Apply search filter if provided
     # Search across question title (partial match), body, and answer content (full-text search)
@@ -123,6 +131,7 @@ def question_list(request):
         'page_obj': page_obj,
         'available_tags': available_tags,
         'selected_tag': selected_tag,
+        'selected_tag_name': selected_tag_name,
         'search_query': search_query,
     }
 

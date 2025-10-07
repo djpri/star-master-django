@@ -3,13 +3,14 @@ from django.db import models
 from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
 from django.utils import timezone
+from django.utils.text import slugify
 
 User = settings.AUTH_USER_MODEL
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=60)
+    slug = models.SlugField(max_length=60, blank=True)
     is_public = models.BooleanField(default=False)
     owner = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="tags", null=True, blank=True)
@@ -29,6 +30,12 @@ class Tag(models.Model):
             )
         ]
         ordering = ['name']
+
+    def save(self, *args, **kwargs):
+        """Auto-generate slug from name if not provided."""
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         if self.is_public:
