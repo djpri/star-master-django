@@ -1,5 +1,7 @@
 # STAR Master
 
+<!-- TODO: Add screenshot of homepage -->
+
 ## 📝 Contents
 - [STAR Master](#-star-master)
   - [🎯 Project Overview](#-project-overview)
@@ -30,9 +32,9 @@ The main target audience for this application includes job seekers and students 
 
 ## 🎨 UX Design
 
-### Design Inspiration
-
 ### Colour Scheme
+
+<!-- TODO: explain theme choices once colour scheme is finalised -->
 
 ### Typography
 
@@ -43,6 +45,8 @@ To further enhance readability, I made small adjustments to the letter spacing a
 ### Imagery
 
 ### Wireframes
+
+<!-- TODO: Show wireframes for key pages in the application -->
 
 ## 📋 Project Planning
 
@@ -58,23 +62,48 @@ To further enhance readability, I made small adjustments to the letter spacing a
 
 ### Project Board / Kanban Board
 
+<!-- TODO: show snapshots of the github kanban board and explain the sprints -->
+
 ### Sprints
 
 ## 🗄️ Database Design
 
 ### Database Structure
 
+#### Key models in the project
+
+- **User** - Built in model provided by Django Allauth
+- **Question** - Represents a question that can be asked in an interview. Questions can either be public or private
+- **Tag** - Represents a keyword or category for a question
+- **Answer** - Represents a user's response to a question. Has two different subtypes:
+  - **Basic Answer** - Represents a user's response to a basic question, with a single text field for the answer.
+  - **STAR Answer** - Represents a user's response to a STAR question, with fields for Situation, Task, Action, and Result.
+
+Note: Other models exist in the project, such as a question_vote model, but this feature will not be implemented in the MVP.
+
+#### Model Relationships
+
+- A **User** can create multiple **Questions** (one-to-many relationship).
+- A **Question** can have multiple **Tags**, and a **Tag** can be associated with multiple **Questions** (many-to-many relationship).
+- A **User** can provide multiple **Answers** to a single **Question** (one-to-many relationship).
+
 ### Entity Relationship Diagram (ERD)
 
-### Models
+Here is the Entity Relationship Diagram (ERD) for the database structure of the project, showing the fields for each model. Django automatically creates the database tables based on the models defined in the code, so there is no need to manually create the tables in the database. It handles the relationships between tables through foreign keys and many-to-many relationships as defined in the models.
+
+![Entity Relationship Diagram](docs/readme/images/erd.png)
 
 ## ✨ Features
 
 ### Existing Features
 
-### Key Features
+For the MVP, the focus has been on implementing the key CRUD functionality, user authentication and authorization, and ensuring a smooth and intuitive navigation experience.
 
 ### CRUD Functionality
+
+The core functionality of the application revolves around CRUD (Create, Read, Update, Delete) operations for managing interview questions and answers.
+
+<!-- TODO: Explain business rules for crud operations -->
 
 ### User Authentication & Authorization
 
@@ -82,17 +111,30 @@ The authentication system is provided by the Django Allauth package, allowing fo
 
 ### Navigation
 
+<!-- TODO: add site map diagram explaining the different page routes, including query params and dynamic page routes -->
+
 ### Responsive Design
 
 ## 🚀 Future Features
+
+- Practice mode, providing a randomly selected list of questions, where the answers are hidden until the user chooses to reveal them
 
 ## 💻 Technologies Used
 
 ### Languages
 
+<!-- TODO: add more detail -->
+Python, HTML, CSS, JavaScript
+
 ### Frameworks & Libraries
 
+<!-- TODO: add more detail -->
+Django, django-tailwind, daisyui, django-debug-toolbar (for development), django-allauth, pytest, pytest-django
+
 ### Tools & Programs
+
+<!-- TODO: add more detail -->
+pgadmin, neondb website
 
 ### Database
 
@@ -108,9 +150,21 @@ AI played a critical role in the development of this project, assisting in vario
 
 ### Use of AI in Code Creation
 
+<!-- TODO: Explain how Copilot was used, along with prototyping tools like google ai studio -->
+
 ### Use of AI in Debugging
 
+<!-- TODO: Explain how Copilot was used to identify and fix bugs, along with other debugging tools and techniques, such as using chatgpt for additional support -->
+
 ### Use of AI in Code Optimization
+
+<!-- TODO: Explain how Copilot was used to optimize code, including identifying performance bottlenecks and suggesting improvements -->
+
+<!-- TODO: rewrite these notes and clean them up -->
+- django debug toolbar helped my identify issues with database queries and optimize them
+- we had n+1 query issues on the question detail page, which were fixed by using select_related and prefetch_related to reduce the number of queries made to the database
+- With my suggestions, AI was able to refactor the way the test suite was running, bring the time taken overall from 80 seconds to under 10 seconds!
+- I researched articles on optimizing django test suites using my specific tools (pytest), and used AI to help me implement these changes
 
 ### Use of AI in Creating Unit Tests
 
@@ -121,6 +175,8 @@ AI played a critical role in the development of this project, assisting in vario
 ### Manual Testing
 
 ### Automated Testing
+
+<!-- TODO: Explain automated testing strategy with pytest -->
 
 ### Validation
 
@@ -142,32 +198,11 @@ AI played a critical role in the development of this project, assisting in vario
 
 ## 🔒 Security
 
-## 🌐 Deployment
-
-### Pre-Deployment
-
-### Deployment Process
-
-### Cloning and Forking
-
 ### Environment Variables
 
+<!-- TODO: Explain about leaked env and how this was handled -->
+
 ## 🐛 Known Issues & Bugs
-
-## 🙏 Credits
-
-### Code
-
-### Media
-
-### Content
-
-### Acknowledgements
-### Use of AI in Code Optimization
-
-### Use of AI in Creating Unit Tests
-
-### Reflection on AI's Role in Development
 
 ## 🧪 Testing
 
@@ -217,15 +252,3 @@ Below are the steps taken to deploy this project to Heroku.
 4. Run database migrations and collect static files.
 
 ### Cloning and Forking
-
-## 🐛 Known Issues & Bugs
-
-## 🙏 Credits
-
-### Code
-
-### Media
-
-### Content
-
-### Acknowledgements
