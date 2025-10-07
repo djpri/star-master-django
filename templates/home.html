@@ -59,8 +59,8 @@
           <span class="text-2xl"><i class="fas fa-question-circle"></i></span>
         </div>
       </div>
-      <h3 class="card-title justify-center text-xl mb-3">Practice Questions</h3>
-      <p class="text-base-content/70">Browse through our curated collection of common interview questions across various industries and roles.</p>
+      <h3 class="card-title justify-center text-xl mb-3">Manage Questions</h3>
+      <p class="text-base-content/70">Keep your own personal library of interview questions and answers.</p>
     </div>
   </div>
 
@@ -96,42 +96,42 @@
 <div id="quick-actions-section" class="mb-12 relative z-10 content-visible">
   <h2 class="text-3xl font-bold text-center mb-8 text-base-content">Quick Actions</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-    <!-- Create Answer -->
+    <!-- Create Public Question -->
     <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
       <div class="card-body flex flex-col h-full">
         <div class="flex items-center mb-4">
           <div class="avatar avatar-placeholder mr-4">
             <div class="bg-success text-success-content w-12 rounded-lg">
-              <span class="text-xl"><i class="fas fa-plus-circle"></i></span>
+              <span class="text-xl"><i class="fas fa-globe"></i></span>
             </div>
           </div>
           <div class="flex-1">
-            <h4 class="card-title text-lg">Create Answer</h4>
-            <p class="text-base-content/70 text-sm">Craft a new STAR response to practice questions</p>
+            <h4 class="card-title text-lg">Create Public Question</h4>
+            <p class="text-base-content/70 text-sm">Share an example question with the community</p>
           </div>
         </div>
         <div class="card-actions justify-end mt-auto">
-          <a href="{% url 'questions:list' %}" class="btn btn-primary btn-sm">Start Answering</a>
+          <a href="{% url 'questions:create' %}?public=true" class="btn btn-primary btn-sm">Create Public</a>
         </div>
       </div>
     </div>
 
-    <!-- My Answers -->
+    <!-- Create Private Question -->
     <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 h-full">
       <div class="card-body flex flex-col h-full">
         <div class="flex items-center mb-4">
           <div class="avatar avatar-placeholder mr-4">
             <div class="bg-warning text-warning-content w-12 rounded-lg">
-              <span class="text-xl"><i class="fas fa-clipboard-list"></i></span>
+              <span class="text-xl"><i class="fas fa-lock"></i></span>
             </div>
           </div>
           <div class="flex-1">
-            <h4 class="card-title text-lg">My Answers</h4>
-            <p class="text-base-content/70 text-sm">Review and refine your practice responses</p>
+            <h4 class="card-title text-lg">Create Private Question</h4>
+            <p class="text-base-content/70 text-sm">Add a question to your personal library</p>
           </div>
         </div>
         <div class="card-actions justify-end mt-auto">
-          <a href="{% url 'profile' %}" class="btn btn-secondary btn-sm">View Answers</a>
+          <a href="{% url 'questions:create' %}?public=false" class="btn btn-secondary btn-sm">Create Private</a>
         </div>
       </div>
     </div>
@@ -149,14 +149,14 @@
         Practice makes perfect!
       </p>
       {% if not user.is_authenticated %}
-      <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg">
+      <a href="{% url 'questions:public_list' %}" class="btn btn-primary btn-sm md:btn-md lg:btn-lg">
         <i class="fas fa-rocket mr-2"></i>
-        Start Practicing
+        View Example Questions
       </a>
       {% else %}
-      <a href="{% url 'questions:list' %}" class="btn btn-primary btn-lg">
+      <a href="{% url 'questions:list' %}" class="btn btn-primary btn-sm md:btn-md lg:btn-lg">
         <i class="fas fa-question-circle mr-2"></i>
-        Explore Questions
+        View Your Questions
       </a>
       {% endif %}
     </div>
