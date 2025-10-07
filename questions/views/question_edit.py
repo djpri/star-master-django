@@ -50,9 +50,9 @@ def question_edit(request, pk):
                     # Admin editing - preserve existing status
                     question.is_public = True
             else:
-                # Private questions always remain private with PENDING status
+                # Private questions always remain private with APPROVED status
                 question.is_public = False
-                question.status = Question.STATUS_PENDING
+                question.status = Question.STATUS_APPROVED
 
             question.save()
 

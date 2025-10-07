@@ -83,6 +83,28 @@ class QuestionEditViewTest(TestCase):
                          'Updated question body content.')
         self.assertFalse(self.private_question.is_public)
 
+    def test_private_question_always_has_approved_status(self):
+        """Test that private questions always have STATUS_APPROVED after editing."""
+        self.client.login(username='testuser', password='testpass123')
+        url = reverse('questions:edit', kwargs={
+                      'pk': self.private_question.pk})
+
+        form_data = {
+            'title': 'Updated Private Question',
+            'body': 'Updated body content.',
+            'is_public': False
+        }
+
+        response = self.client.post(url, form_data)
+
+        self.assertEqual(response.status_code, 302)
+
+        # Verify private questions always have STATUS_APPROVED
+        self.private_question.refresh_from_db()
+        self.assertEqual(self.private_question.status,
+                         Question.STATUS_APPROVED)
+        self.assertFalse(self.private_question.is_public)
+
     def test_edit_public_question_forbidden(self):
         """Test that non-admin users editing public questions reverts status to PENDING."""
         self.client.login(username='testuser', password='testpass123')
