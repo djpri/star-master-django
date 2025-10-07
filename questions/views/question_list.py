@@ -71,22 +71,10 @@ def question_list(request):
             ).distinct()
         else:
             # Fallback to basic search for non-Postgres databases (e.g., SQLite in tests)
-            from answers.models import Answer
-            matching_answer_question_ids = Answer.objects.filter(
-                user=request.user,
-                question__in=questions
-            ).filter(
-                Q(staranswer__situation__icontains=search_query) |
-                Q(staranswer__task__icontains=search_query) |
-                Q(staranswer__action__icontains=search_query) |
-                Q(staranswer__result__icontains=search_query) |
-                Q(basicanswer__text__icontains=search_query)
-            ).values_list('question_id', flat=True).distinct()
-
+            # Only search question title and body for simplicity
             questions = questions.filter(
                 Q(title__icontains=search_query) |
-                Q(body__icontains=search_query) |
-                Q(id__in=matching_answer_question_ids)
+                Q(body__icontains=search_query)
             ).distinct()
 
     # Order by most recent and make distinct to avoid duplicates from tag filter
