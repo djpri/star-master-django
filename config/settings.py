@@ -233,6 +233,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Speed up password hashing in tests
+# MD5 is insecure but much faster for testing (where security doesn't matter)
+if TESTING:
+    PASSWORD_HASHERS = [
+        "django.contrib.auth.hashers.MD5PasswordHasher",
+    ]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
