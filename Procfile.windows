@@ -1,1 +1,1 @@
-web: C:/Users/djpri/source/repos/_CI_/chordsheetz/.venv/Scripts/python.exe manage.py runserver %PORT%
+web: C:/Users/djpri/source/repos/_CI_/star-master-django/.venv/Scripts/python.exe manage.py runserver %PORT%
