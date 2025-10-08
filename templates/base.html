@@ -10,8 +10,8 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/star_master.ico' %}" />
     
     <!-- Open Graph -->
-    <meta property="og:title" content="{% block og_title %}{% block title_text %}STAR Master{% endblock %}{% endblock %}" />
-    <meta property="og:description" content="{% block og_description %}{% block description_text %}STAR Master - Learn and practice the STAR method for interview questions. Create, organize, and refine your interview responses.{% endblock %}{% endblock %}" />
+    <meta property="og:title" content="{% block og_title %}STAR Master{% endblock %}" />
+    <meta property="og:description" content="{% block og_description %}STAR Master - Learn and practice the STAR method for interview questions. Create, organize, and refine your interview responses.{% endblock %}" />
     <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/open-graph.webp' %}{% endblock %}" />
     <meta property="og:image:alt" content="{% block og_image_alt %}STAR Master - Interview preparation with the STAR method{% endblock %}" />
     <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
@@ -19,8 +19,8 @@
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{% block twitter_title %}{% block title_text %}STAR Master{% endblock %}{% endblock %}" />
-    <meta name="twitter:description" content="{% block twitter_description %}{% block description_text %}STAR Master - Learn and practice the STAR method for interview questions. Create, organize, and refine your interview responses.{% endblock %}{% endblock %}" />
+    <meta name="twitter:title" content="{% block twitter_title %}STAR Master{% endblock %}" />
+    <meta name="twitter:description" content="{% block twitter_description %}STAR Master - Learn and practice the STAR method for interview questions. Create, organize, and refine your interview responses.{% endblock %}" />
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/open-graph.webp' %}{% endblock %}" />
     <meta name="twitter:image:alt" content="{% block twitter_image_alt %}STAR Master - Interview preparation with the STAR method{% endblock %}" />
     
