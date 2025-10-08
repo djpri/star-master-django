@@ -225,21 +225,19 @@
             tabindex="0"
             class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-base-content"
           >
-            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'home' %}" class="font-semibold">Home</a></li>
             {% if user.is_authenticated %}
-              <li><a href="{% url 'questions:list' %}">
+              <li><a href="{% url 'questions:list' %}" class="font-semibold">
                 <i class="fas fa-bookmark mr-2"></i>
                 My Questions
               </a></li>
             {% endif %}
-            <li><a href="{% url 'questions:public_list' %}">
+            <li><a href="{% url 'questions:public_list' %}" class="font-semibold">
               <i class="fas fa-globe mr-2"></i>
               Public Questions
             </a></li>
-            <li><a href="#">Practice</a></li>
-            <li><a href="#">Resources</a></li>
             {% if user.is_staff %}
-              <li><a href="{% url 'admin:index' %}" class="text-error">
+              <li><a href="{% url 'admin:index' %}" class="text-error font-semibold">
                 <i class="fas fa-cog mr-2"></i>
                 Admin Panel
               </a></li>
@@ -248,27 +246,21 @@
             {% if user.is_authenticated %}
             <li><hr class="my-1" /></li>
             <li>
-              <a href="{% url 'profile' %}">
+              <a href="{% url 'profile' %}" class="font-semibold">
                 <i class="fas fa-user mr-2"></i>
                 Profile
               </a>
             </li>
             <li>
-              <a href="{% url 'questions:list' %}">
+              <a href="{% url 'questions:list' %}" class="font-semibold">
                 <i class="fas fa-bookmark mr-2"></i>
                 My Questions
               </a>
             </li>
             <li>
-              <a href="{% url 'questions:public_list' %}">
+              <a href="{% url 'questions:public_list' %}" class="font-semibold">
                 <i class="fas fa-globe mr-2"></i>
                 Public Questions
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <i class="fas fa-clipboard-list mr-2"></i>
-                My Answers
               </a>
             </li>
             {% if user.is_staff %}
@@ -280,20 +272,20 @@
                 </div>
               </li>
               <li>
-                <a href="{% url 'admin:questions_question_changelist' %}" class="text-error">
+                <a href="{% url 'admin:questions_question_changelist' %}" class="text-error font-semibold">
                   <i class="fas fa-question-circle mr-2"></i>
                   Manage Questions
                 </a>
               </li>
               <li>
-                <a href="{% url 'admin:answers_answer_changelist' %}" class="text-error">
+                <a href="{% url 'admin:answers_answer_changelist' %}" class="text-error font-semibold">
                   <i class="fas fa-clipboard-list mr-2"></i>
                   Manage Answers
                 </a>
               </li>
             {% endif %}
             <li>
-              <a href="{% url 'account_logout' %}">
+              <a href="{% url 'account_logout' %}" class="font-semibold">
                 <i class="fas fa-sign-out-alt mr-2"></i>
                 Logout
               </a>
@@ -301,13 +293,13 @@
             {% else %}
             <li><hr class="my-1" /></li>
             <li>
-              <a href="{% url 'account_login' %}">
+              <a href="{% url 'account_login' %}" class="font-semibold">
                 <i class="fas fa-sign-in-alt mr-2"></i>
                 Login
               </a>
             </li>
             <li>
-              <a href="{% url 'account_signup' %}">
+              <a href="{% url 'account_signup' %}" class="font-semibold">
                 <i class="fas fa-user-plus mr-2"></i>
                 Register
               </a>

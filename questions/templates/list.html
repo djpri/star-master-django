@@ -7,13 +7,13 @@
 <div class="container mx-auto px-4 py-8">
   <!-- Header Section -->
   <div class="mb-8">
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center justify-between flex-wrap gap-4 mb-4">
       <h1 class="text-4xl font-bold text-base-content">
         <i class="fas fa-bookmark text-primary mr-3"></i>
         My Interview Questions
       </h1>
       {% if user.is_authenticated %}
-      <div class="flex flex-wrap gap-2 justify-end">
+      <div class="flex flex-wrap gap-2">
           <a href="{% url 'questions:create' %}?public=false" class="btn btn-primary">
             <i class="fas fa-plus mr-2"></i>
             Create Question
