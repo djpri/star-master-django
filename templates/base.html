@@ -101,39 +101,41 @@
             <span class="badge badge-error badge-xs ml-2">ADMIN</span>
           {% endif %}
         </a>
+      </div>
 
-        <!-- Desktop Navigation Menu -->
-        <div class="hidden lg:flex items-center space-x-4">
-          <a class="nav-link" href="{% url 'home' %}">Home</a>
+      <!-- Desktop Navigation Menu - Centered -->
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1 gap-4">
+          <li><a class="nav-link" href="{% url 'home' %}">Home</a></li>
           
           <!-- Questions Dropdown -->
-          <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="nav-link cursor-pointer">
-              Questions
-              <i class="fas fa-chevron-down ml-1 text-xs"></i>
-            </div>
-            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-base-content">
-              {% if user.is_authenticated %}
-                <li><a href="{% url 'questions:list' %}" class="font-semibold">
-                  <i class="fas fa-bookmark mr-2"></i>
-                  My Questions
+          <li>
+            <details>
+              <summary class="nav-link">
+                Questions
+              </summary>
+              <ul class="bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-base-content">
+                {% if user.is_authenticated %}
+                  <li><a href="{% url 'questions:list' %}" class="font-semibold">
+                    <i class="fas fa-bookmark mr-2"></i>
+                    My Questions
+                  </a></li>
+                {% endif %}
+                <li><a href="{% url 'questions:public_list' %}" class="font-semibold">
+                  <i class="fas fa-globe mr-2"></i>
+                  Public Questions
                 </a></li>
-              {% endif %}
-              <li><a href="{% url 'questions:public_list' %}" class="font-semibold">
-                <i class="fas fa-globe mr-2"></i>
-                Public Questions
-              </a></li>
-            </ul>
-          </div>
+              </ul>
+            </details>
+          </li>
           
-          {% comment %} <a class="nav-link" href="#">Resources</a> {% endcomment %}
           {% if user.is_staff %}
-            <a class="nav-link bg-error/20 hover:bg-error/30 rounded-md" href="{% url 'admin:index' %}">
+            <li><a class="nav-link bg-error/20 hover:bg-error/30 rounded-md" href="{% url 'admin:index' %}">
               <i class="fas fa-cog mr-1"></i>
               Admin Panel
-            </a>
+            </a></li>
           {% endif %}
-        </div>
+        </ul>
       </div>
 
       <div class="navbar-end">
@@ -205,14 +207,16 @@
             </ul>
           </div>
           {% else %}
-          <a href="{% url 'account_login' %}" class="btn btn-ghost">
-            <i class="fas fa-sign-in-alt mr-1"></i>
-            Login
-          </a>
-          <a href="{% url 'account_signup' %}" class="btn btn-secondary btn-sm">
-            <i class="fas fa-user-plus mr-1"></i>
-            Register
-          </a>
+          <div class="gap-4">
+            <a href="{% url 'account_login' %}" class="btn btn-ghost btn-sm">
+              <i class="fas fa-sign-in-alt mr-1"></i>
+              Login
+            </a>
+            <a href="{% url 'account_signup' %}" class="btn btn-secondary btn-sm">
+              <i class="fas fa-user-plus mr-1"></i>
+              Register
+            </a>
+          </div>
           {% endif %}
         </div>
 
