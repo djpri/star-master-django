@@ -1,5 +1,5 @@
 <!-- Answer Type Selection -->
-<div class="card bg-base-100 shadow-xl w-full mb-6">
+<div class="card bg-base-100 shadow-xl mb-6 w-full">
   <div class="card-body">
     <h3 class="card-title mb-4">
       <i class="fas fa-layer-group mr-2"></i>
@@ -8,31 +8,27 @@
     
     <div class="form-control">
       <div class="flex flex-col sm:flex-row gap-4">
-        <label class="label cursor-pointer flex-1 border rounded-lg p-4 hover:bg-base-200 transition-colors" 
+        <label class="flex items-start gap-3 cursor-pointer flex-1 border rounded-lg p-4 hover:bg-base-200 transition-colors"
                onclick="switchAnswerType('STAR')">
-          <div class="flex items-center">
-            <input type="radio" name="answer_type_display" class="radio radio-primary mr-3" 
-                   {% if answer_type == 'STAR' %}checked{% endif %}>
-            <div>
-              <span class="label-text font-semibold">STAR Method</span>
-              <p class="text-xs text-base-content/60 mt-1">
-                Structured format: Situation, Task, Action, Result
-              </p>
-            </div>
+          <input type="radio" name="answer_type_display" class="radio radio-primary flex-shrink-0 mt-0.5"
+                 {% if answer_type == 'STAR' %}checked{% endif %}>
+          <div class="flex-1 min-w-0">
+            <span class="label-text font-semibold block">STAR Method</span>
+            <p class="text-xs text-base-content/60 mt-1 break-words">
+              Structured format: Situation, Task, Action, Result
+            </p>
           </div>
         </label>
-        
-        <label class="label cursor-pointer flex-1 border rounded-lg p-4 hover:bg-base-200 transition-colors"
+
+        <label class="flex items-start gap-3 cursor-pointer flex-1 border rounded-lg p-4 hover:bg-base-200 transition-colors"
                onclick="switchAnswerType('BASIC')">
-          <div class="flex items-center">
-            <input type="radio" name="answer_type_display" class="radio radio-primary mr-3"
-                   {% if answer_type == 'BASIC' %}checked{% endif %}>
-            <div>
-              <span class="label-text font-semibold">Basic Text</span>
-              <p class="text-xs text-base-content/60 mt-1">
-                Free-form text answer
-              </p>
-            </div>
+          <input type="radio" name="answer_type_display" class="radio radio-primary flex-shrink-0 mt-0.5"
+                 {% if answer_type == 'BASIC' %}checked{% endif %}>
+          <div class="flex-1 min-w-0">
+            <span class="label-text font-semibold block">Basic Text</span>
+            <p class="text-xs text-base-content/60 mt-1 break-words">
+              Free-form text answer
+            </p>
           </div>
         </label>
       </div>

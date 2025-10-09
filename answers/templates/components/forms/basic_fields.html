@@ -5,13 +5,13 @@
   </label>
   {{ form.text }}
   {% if form.text.help_text %}
-    <label class="label">
-      <span class="label-text-alt">{{ form.text.help_text }}</span>
-    </label>
+    <div class="mt-1 text-xs text-base-content/60">
+      {{ form.text.help_text }}
+    </div>
   {% endif %}
   {% if form.text.errors %}
-    <label class="label">
-      <span class="label-text-alt text-error">{{ form.text.errors|join:', ' }}</span>
-    </label>
+    <div class="mt-1 text-xs text-error">
+      {{ form.text.errors|join:', ' }}
+    </div>
   {% endif %}
 </div>

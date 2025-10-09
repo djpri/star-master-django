@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.views.decorators.http import require_POST
 from questions.models import Question
-from .models import Answer, StarAnswer, BasicAnswer
+from .models import Answer
 from .forms import AnswerTypeChoiceForm, StarAnswerForm, BasicAnswerForm
 
 

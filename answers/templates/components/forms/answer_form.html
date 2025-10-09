@@ -31,13 +31,6 @@
           {% include "components/forms/basic_fields.html" %}
         {% endif %}
 
-        {% if info_alert_message %}
-          <div class="alert alert-soft alert-info mt-6">
-            <i class="fas fa-info-circle mr-2"></i>
-            <span>{{ info_alert_message }}</span>
-          </div>
-        {% endif %}
-
         <div class="card-actions justify-end mt-8 gap-3">
           <a href="{{ cancel_url }}" class="btn btn-ghost">
             <i class="{{ cancel_icon|default:'fas fa-times' }} mr-2"></i>

@@ -6,10 +6,9 @@
 {% block content %}
 <div class="container mx-auto px-4 py-8">
   <div class="max-w-4xl mx-auto">
-    {% include "components/page_header.html" %}
+    {% include "answers/components/page_header.html" %}
     {% include "components/question_context_card.html" %}
     {% include "create/answer_type_selector.html" %}
-
     {% url 'questions:detail' pk=question.pk as question_detail_url %}
     {% include "components/forms/answer_form.html" with mode='create' answer_type=answer_type cancel_url=question_detail_url cancel_icon='fas fa-times' cancel_label='Cancel' submit_label='Save Answer' submit_button_class='btn-primary' %}
   </div>

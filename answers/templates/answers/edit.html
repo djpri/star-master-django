@@ -27,11 +27,11 @@
     {% url 'answers:detail' pk=answer.pk as answer_detail_url %}
     {% if answer_type == 'STAR' %}
       {% with form_heading='Your STAR Answer' %}
-        {% include "components/forms/answer_form.html" with mode='edit' answer_type=answer_type heading=form_heading cancel_url=answer_detail_url cancel_icon='fas fa-arrow-left' cancel_label='Cancel' submit_label='Update Answer' submit_button_class='btn-accent' card_border_classes='border-2 border-dashed border-accent/30 mt-8' info_alert_message='This answer is part of your private collection for interview practice.' %}
+        {% include "components/forms/answer_form.html" with mode='edit' answer_type=answer_type heading=form_heading cancel_url=answer_detail_url cancel_icon='fas fa-arrow-left' cancel_label='Cancel' submit_label='Update Answer' submit_button_class='btn-accent' card_border_classes='border-2 border-dashed border-accent/30 mt-8' %}
       {% endwith %}
     {% else %}
       {% with form_heading='Your Answer' %}
-        {% include "components/forms/answer_form.html" with mode='edit' answer_type=answer_type heading=form_heading cancel_url=answer_detail_url cancel_icon='fas fa-arrow-left' cancel_label='Cancel' submit_label='Update Answer' submit_button_class='btn-accent' card_border_classes='border-2 border-dashed border-accent/30 mt-8' info_alert_message='This answer is part of your private collection for interview practice.' %}
+        {% include "components/forms/answer_form.html" with mode='edit' answer_type=answer_type heading=form_heading cancel_url=answer_detail_url cancel_icon='fas fa-arrow-left' cancel_label='Cancel' submit_label='Update Answer' submit_button_class='btn-accent' card_border_classes='border-2 border-dashed border-accent/30 mt-8' %}
       {% endwith %}
     {% endif %}
   </div>

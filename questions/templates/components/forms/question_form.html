@@ -26,14 +26,14 @@
           </label>
           {{ form.title }}
           {% if form.title.help_text %}
-            <label class="label">
-              <span class="label-text-alt">{{ form.title.help_text }}</span>
-            </label>
+            <div class="mt-1 text-xs text-base-content/60">
+              {{ form.title.help_text }}
+            </div>
           {% endif %}
           {% if form.title.errors %}
-            <label class="label">
-              <span class="label-text-alt text-error">{{ form.title.errors|join:', ' }}</span>
-            </label>
+            <div class="mt-1 text-xs text-error">
+              {{ form.title.errors|join:', ' }}
+            </div>
           {% endif %}
         </div>
 
@@ -45,14 +45,14 @@
           </label>
           {{ form.body }}
           {% if form.body.help_text %}
-            <label class="label">
-              <span class="label-text-alt">{{ form.body.help_text }}</span>
-            </label>
+            <div class="mt-1 text-xs text-base-content/60">
+              {{ form.body.help_text }}
+            </div>
           {% endif %}
           {% if form.body.errors %}
-            <label class="label">
-              <span class="label-text-alt text-error">{{ form.body.errors|join:', ' }}</span>
-            </label>
+            <div class="mt-1 text-xs text-error">
+              {{ form.body.errors|join:', ' }}
+            </div>
           {% endif %}
         </div>
 
