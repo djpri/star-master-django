@@ -23,10 +23,10 @@
     </div>
 
     {% url 'questions:list' as questions_list_url %}
-    {% include "components/forms/question_form.html" with form=form show_public_alert=is_public_question cancel_url=questions_list_url cancel_label="Back to My Questions" submit_label="Save Question" submit_button_class="btn-primary" icon_class="fas fa-pen" %}
+    {% include "questions/components/forms/question_form.html" with form=form show_public_alert=is_public_question cancel_url=questions_list_url cancel_label="Back to My Questions" submit_label="Save Question" submit_button_class="btn-primary" icon_class="fas fa-pen" %}
   </div>
 </div>
 
 <!-- Tag Manager Script -->
-{% include "scripts/create_tag_manager.html" %}
+{% include "questions/components/create_tag_manager.html" %}
 {% endblock %}

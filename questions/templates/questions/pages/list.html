@@ -37,22 +37,22 @@
 
   <!-- Filter/Search Bar - Show if there are questions OR if filters are active -->
   {% if questions or selected_tag or search_query %}
-    {% include "components/filter_search_bar.html" %}
+    {% include "questions/components/filter_search_bar.html" %}
   {% endif %}
 
   <!-- Questions Grid -->
   {% if questions %}
     <!-- Top Pagination -->
-    {% include "components/pagination.html" %}
+    {% include "questions/components/pagination.html" %}
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       {% for question in questions %}
-        {% include "components/user_question_card.html" %}
+        {% include "questions/components/user_question_card.html" %}
       {% endfor %}
     </div>
 
     <!-- Bottom Pagination -->
-    {% include "components/pagination.html" %}
+    {% include "questions/components/pagination.html" %}
 
   {% else %}
     <!-- Empty State - Only show if NO active filters -->
@@ -88,5 +88,5 @@
 </div>
 
 <!-- Styles -->
-{% include "components/styles.html" %}
+{% include "questions/components/styles.html" %}
 {% endblock %}

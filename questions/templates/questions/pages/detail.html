@@ -65,7 +65,7 @@
           
           <div class="flex items-center gap-2">
             {% include 'components/tag_list.html' with tags=question.tags.all max_visible=5 component_id=question.pk|prefixed_id:'detail_question' %}
-            {% include 'components/question_actions_menu.html' %}
+            {% include 'questions/components/question_actions_menu.html' %}
           </div>
         </div>
 
@@ -107,7 +107,7 @@
 
     <!-- Public Question Info -->
     {% if question.is_public %}
-      {% include "detail/public_status_card.html" %}
+      {% include "questions/components/public_status_card.html" %}
     {% endif %}
 
     <!-- Answers Section (only for private questions) -->
@@ -121,7 +121,7 @@
 
         <div class="space-y-6">
           {% for answer in answers %}
-            {% include "detail/community_answer_card.html" %}
+            {% include "questions/components/community_answer_card.html" %}
           {% endfor %}
         </div>
       </div>

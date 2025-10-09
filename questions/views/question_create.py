@@ -67,4 +67,4 @@ def question_create(request):
         'is_public_question': is_public_question,
         'available_tags': available_tags,
     }
-    return render(request, 'create.html', context)
+    return render(request, 'questions/pages/create.html', context)

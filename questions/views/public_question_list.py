@@ -126,4 +126,4 @@ def public_question_list(request):
         'search_query': search_query,
     }
 
-    return render(request, 'public_list.html', context)
+    return render(request, 'questions/pages/public_list.html', context)

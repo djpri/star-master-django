@@ -12,7 +12,7 @@
     </p>
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" id="pending-questions-grid">
       {% for pending in pending_questions %}
-        {% include "components/pending_question_card.html" with question=pending %}
+        {% include "questions/components/pending_question_card.html" with question=pending %}
       {% endfor %}
     </div>
   </div>

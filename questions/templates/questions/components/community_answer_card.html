@@ -25,15 +25,15 @@
         <div class="badge {% if answer.answer_type|lower == 'star' %}badge-primary{% else %}badge-secondary{% endif %}">
           {{ answer.answer_type }}
         </div>
-        {% include "components/answer_actions_menu.html" with answer=answer %}
+        {% include "questions/components/answer_actions_menu.html" with answer=answer %}
       </div>
     </div>
 
     <!-- Full Answer Content -->
     {% if answer.answer_type == 'STAR' and answer.staranswer %}
-      {% include "detail/star_answer.html" with star_answer=answer.staranswer %}
+      {% include "questions/components/star_answer.html" with star_answer=answer.staranswer %}
     {% elif answer.basicanswer %}
-      {% include "detail/basic_answer.html" with basic_answer=answer.basicanswer %}
+      {% include "questions/components/basic_answer.html" with basic_answer=answer.basicanswer %}
     {% endif %}
 
     <!-- Actions -->

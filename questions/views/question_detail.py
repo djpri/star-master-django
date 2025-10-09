@@ -36,4 +36,4 @@ def question_detail(request, pk):
         'already_saved': already_saved,
     }
 
-    return render(request, 'detail.html', context)
+    return render(request, 'questions/pages/detail.html', context)

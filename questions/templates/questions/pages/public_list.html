@@ -47,42 +47,42 @@
 
   {# Pending Questions Section #}
   {% if pending_questions %}
-    {% include "components/pending_questions_section.html" %}
+    {% include "questions/components/pending_questions_section.html" %}
   {% endif %}
 
   <!-- Filter/Search Bar - Show if there are questions OR if filters are active -->
   {% if questions or selected_tag or search_query %}
-    {% include "components/filter_search_bar.html" %}
+    {% include "questions/components/filter_search_bar.html" %}
   {% endif %}
 
   <!-- Questions Grid -->
   {% if questions %}
     <!-- Top Pagination -->
-    {% include "components/pagination.html" %}
+    {% include "questions/components/pagination.html" %}
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       {% for question in questions %}
-        {% include "components/public_question_card.html" %}
+        {% include "questions/components/public_question_card.html" %}
       {% endfor %}
     </div>
 
     <!-- Bottom Pagination -->
-    {% include "components/pagination.html" %}
+    {% include "questions/components/pagination.html" %}
 
   {% else %}
     <!-- Empty State - Only show if NO active filters -->
     {% if not selected_tag and not search_query %}
-    {% include "components/empty_state.html" with icon="fas fa-globe" title="No Public Questions Available" message="There are no approved public questions available at the moment. Check back later for new examples!" %}
+    {% include "questions/components/empty_state.html" with icon="fas fa-globe" title="No Public Questions Available" message="There are no approved public questions available at the moment. Check back later for new examples!" %}
     {% endif %}
   {% endif %}
 </div>
 
 <!-- Toast Container -->
-{% include "components/toast_container.html" %}
+{% include "questions/components/toast_container.html" %}
 
 <!-- Styles -->
-{% include "components/styles.html" %}
+{% include "questions/components/styles.html" %}
 
 <!-- Scripts -->
-{% include "scripts/public_list_interactions.html" %}
+{% include "questions/components/public_list_interactions.html" %}
 {% endblock %}

@@ -23,7 +23,7 @@ def create_answer(request, question_id):
             'back_url': 'questions:list',
             'back_text': 'Back to Questions'
         }
-        return render(request, 'answers/error.html', context, status=404)
+        return render(request, 'answers/pages/error.html', context, status=404)
 
     # Business rule: Public questions (approved public questions) should not have answers linked to them
     if question.is_visible_publicly:
@@ -33,7 +33,7 @@ def create_answer(request, question_id):
             'back_url': 'questions:list',
             'back_text': 'Back to Questions'
         }
-        return render(request, 'answers/error.html', context, status=404)
+        return render(request, 'answers/pages/error.html', context, status=404)
 
     # Handle form submission
     if request.method == 'POST':
@@ -82,7 +82,7 @@ def create_answer(request, question_id):
         'answer_type': answer_type,
     }
 
-    return render(request, 'answers/create.html', context)
+    return render(request, 'answers/pages/create.html', context)
 
 
 def answer_detail(request, pk):
@@ -104,7 +104,7 @@ def answer_detail(request, pk):
         'question': answer.question,
     }
 
-    return render(request, 'answers/detail.html', context)
+    return render(request, 'answers/pages/detail.html', context)
 
 
 @login_required
@@ -151,7 +151,7 @@ def answer_edit(request, pk):
         'is_edit_mode': True,
     }
 
-    return render(request, 'answers/edit.html', context)
+    return render(request, 'answers/pages/edit.html', context)
 
 
 @login_required

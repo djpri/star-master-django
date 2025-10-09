@@ -6,7 +6,7 @@
         <h3 class="card-title text-base truncate">{{ question.title }}</h3>
         <span class="badge badge-warning badge-sm flex-shrink-0">Pending</span>
       </div>
-      {% include 'components/question_actions_menu.html' %}
+      {% include 'questions/components/question_actions_menu.html' %}
     </div>
     {% if question.body %}
       <p class="text-sm text-base-content/70 line-clamp-3">{{ question.body|truncatewords:20 }}</p>

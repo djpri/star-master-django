@@ -19,10 +19,10 @@
     </div>
 
     {% url 'questions:detail' pk=question.pk as question_detail_url %}
-    {% include "components/forms/question_form.html" with form=form heading="Question Details" icon_class="fas fa-pen" cancel_url=question_detail_url cancel_label="Cancel" submit_label="Update Question" submit_button_class="btn-accent" card_border_classes="border-2 border-dashed border-accent/30" %}
+    {% include "questions/components/forms/question_form.html" with form=form heading="Question Details" icon_class="fas fa-pen" cancel_url=question_detail_url cancel_label="Cancel" submit_label="Update Question" submit_button_class="btn-accent" card_border_classes="border-2 border-dashed border-accent/30" %}
   </div>
 </div>
 
 <!-- Tag Manager Script -->
-{% include "scripts/create_tag_manager.html" %}
+{% include "questions/components/create_tag_manager.html" %}
 {% endblock %}

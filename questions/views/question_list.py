@@ -123,4 +123,4 @@ def question_list(request):
         'search_query': search_query,
     }
 
-    return render(request, 'list.html', context)
+    return render(request, 'questions/pages/list.html', context)

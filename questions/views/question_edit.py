@@ -88,4 +88,4 @@ def question_edit(request, pk):
         'available_tags': available_tags,
         'is_edit_mode': True,
     }
-    return render(request, 'edit.html', context)
+    return render(request, 'questions/pages/edit.html', context)
