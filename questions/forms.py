@@ -13,7 +13,7 @@ class QuestionForm(forms.ModelForm):
             'id': 'tags-input',
         }),
         label='Tags',
-        help_text='Select existing tags or create new ones to organize your questions.',
+        help_text='Select existing tags or create new ones.',
     )
 
     class Meta:
@@ -41,7 +41,7 @@ class QuestionForm(forms.ModelForm):
         }
         help_texts = {
             "title": "Keep it focused so you can craft targeted answers.",
-            "body": "Provide extra details or prompts that help with answering this question.",
+            "body": "Add context or prompts that support your answer.",
             "is_public": "",  # Hidden field, no help text needed
             "tags": "",  # Hidden field, handled by tags_input
         }

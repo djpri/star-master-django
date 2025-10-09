@@ -15,7 +15,7 @@
     {% endif %}
     {% if form.situation.errors %}
       <label class="label">
-        <span class="label-text-alt text-error">{{ form.situation.errors.0 }}</span>
+        <span class="label-text-alt text-error">{{ form.situation.errors|join:', ' }}</span>
       </label>
     {% endif %}
   </div>
@@ -35,7 +35,7 @@
     {% endif %}
     {% if form.task.errors %}
       <label class="label">
-        <span class="label-text-alt text-error">{{ form.task.errors.0 }}</span>
+        <span class="label-text-alt text-error">{{ form.task.errors|join:', ' }}</span>
       </label>
     {% endif %}
   </div>
@@ -55,7 +55,7 @@
     {% endif %}
     {% if form.action.errors %}
       <label class="label">
-        <span class="label-text-alt text-error">{{ form.action.errors.0 }}</span>
+        <span class="label-text-alt text-error">{{ form.action.errors|join:', ' }}</span>
       </label>
     {% endif %}
   </div>
@@ -75,7 +75,7 @@
     {% endif %}
     {% if form.result.errors %}
       <label class="label">
-        <span class="label-text-alt text-error">{{ form.result.errors.0 }}</span>
+        <span class="label-text-alt text-error">{{ form.result.errors|join:', ' }}</span>
       </label>
     {% endif %}
   </div>

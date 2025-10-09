@@ -15,6 +15,8 @@
     if (tagsInput.value) {
       selectedTags = tagsInput.value.split(',').filter(tag => tag.trim());
       updateTagsDisplay();
+    } else {
+      updateAvailableTagOptions();
     }
     
     // Add selected tag from dropdown
@@ -122,6 +124,37 @@
           
           selectedTagsContainer.appendChild(badge);
         });
+      }
+
+      updateAvailableTagOptions();
+    }
+
+    function updateAvailableTagOptions() {
+      const normalizedSelected = selectedTags.map(tag => tag.trim().toLowerCase());
+      let fallbackIndex = 0;
+
+      Array.from(tagSelect.options).forEach((option, index) => {
+        if (!option.value) {
+          option.hidden = false;
+          option.disabled = false;
+          if (option.selected) {
+            fallbackIndex = index;
+          }
+          return;
+        }
+
+        const isSelected = normalizedSelected.includes(option.value.trim().toLowerCase());
+        option.hidden = isSelected;
+        option.disabled = isSelected;
+
+        if (!isSelected && fallbackIndex === 0) {
+          fallbackIndex = index;
+        }
+      });
+
+      const currentSelection = tagSelect.selectedOptions[0];
+      if (!currentSelection || currentSelection.hidden) {
+        tagSelect.selectedIndex = fallbackIndex;
       }
     }
     

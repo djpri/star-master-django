@@ -24,147 +24,16 @@
     {% include "components/question_context_card.html" %}
 
     <!-- Edit Form -->
-    <div class="card bg-base-100 shadow-xl border-2 border-dashed border-accent/30 mt-8">
-      <div class="card-body">
-        <h2 class="card-title text-2xl mb-6">
-          <i class="fas fa-pen mr-2"></i>
-          {% if answer_type == 'STAR' %}
-            Your STAR Answer
-          {% else %}
-            Your Answer
-          {% endif %}
-        </h2>
-
-        <form method="post" novalidate>
-          {% csrf_token %}
-          
-          {% if answer_type == 'STAR' %}
-            <!-- STAR Form Fields -->
-            <div class="space-y-6">
-              <div class="form-control">
-                <label class="label pb-1" for="{{ form.situation.id_for_label }}">
-                  <span class="label-text font-semibold flex items-center">
-                    <span class="badge badge-accent badge-sm mr-2">S</span>
-                    {{ form.situation.label }}
-                  </span>
-                </label>
-                {{ form.situation }}
-                {% if form.situation.help_text %}
-                  <label class="label">
-                    <span class="label-text-alt">{{ form.situation.help_text }}</span>
-                  </label>
-                {% endif %}
-                {% if form.situation.errors %}
-                  <label class="label">
-                    <span class="label-text-alt text-error">{{ form.situation.errors|join:', ' }}</span>
-                  </label>
-                {% endif %}
-              </div>
-
-              <div class="form-control">
-                <label class="label pb-1" for="{{ form.task.id_for_label }}">
-                  <span class="label-text font-semibold flex items-center">
-                    <span class="badge badge-accent badge-sm mr-2">T</span>
-                    {{ form.task.label }}
-                  </span>
-                </label>
-                {{ form.task }}
-                {% if form.task.help_text %}
-                  <label class="label">
-                    <span class="label-text-alt">{{ form.task.help_text }}</span>
-                  </label>
-                {% endif %}
-                {% if form.task.errors %}
-                  <label class="label">
-                    <span class="label-text-alt text-error">{{ form.task.errors|join:', ' }}</span>
-                  </label>
-                {% endif %}
-              </div>
-
-              <div class="form-control">
-                <label class="label pb-1" for="{{ form.action.id_for_label }}">
-                  <span class="label-text font-semibold flex items-center">
-                    <span class="badge badge-accent badge-sm mr-2">A</span>
-                    {{ form.action.label }}
-                  </span>
-                </label>
-                {{ form.action }}
-                {% if form.action.help_text %}
-                  <label class="label">
-                    <span class="label-text-alt">{{ form.action.help_text }}</span>
-                  </label>
-                {% endif %}
-                {% if form.action.errors %}
-                  <label class="label">
-                    <span class="label-text-alt text-error">{{ form.action.errors|join:', ' }}</span>
-                  </label>
-                {% endif %}
-              </div>
-
-              <div class="form-control">
-                <label class="label pb-1" for="{{ form.result.id_for_label }}">
-                  <span class="label-text font-semibold flex items-center">
-                    <span class="badge badge-accent badge-sm mr-2">R</span>
-                    {{ form.result.label }}
-                  </span>
-                </label>
-                {{ form.result }}
-                {% if form.result.help_text %}
-                  <label class="label">
-                    <span class="label-text-alt">{{ form.result.help_text }}</span>
-                  </label>
-                {% endif %}
-                {% if form.result.errors %}
-                  <label class="label">
-                    <span class="label-text-alt text-error">{{ form.result.errors|join:', ' }}</span>
-                  </label>
-                {% endif %}
-              </div>
-            </div>
-          {% else %}
-            <!-- Basic Answer Form -->
-            <div class="form-control">
-              <label class="label pb-1" for="{{ form.text.id_for_label }}">
-                <span class="label-text font-semibold">
-                  {{ form.text.label }}
-                </span>
-              </label>
-              {{ form.text }}
-              {% if form.text.help_text %}
-                <label class="label">
-                  <span class="label-text-alt">{{ form.text.help_text }}</span>
-                </label>
-              {% endif %}
-              {% if form.text.errors %}
-                <label class="label">
-                  <span class="label-text-alt text-error">{{ form.text.errors|join:', ' }}</span>
-                </label>
-              {% endif %}
-            </div>
-          {% endif %}
-
-          <div class="alert alert-soft alert-info mt-6">
-            <i class="fas fa-info-circle mr-2"></i>
-            <span>
-              This answer is part of your private collection for interview practice.
-            </span>
-          </div>
-
-          <div class="divider my-8"></div>
-
-          <div class="card-actions justify-end gap-3">
-            <a href="{% url 'answers:detail' pk=answer.pk %}" class="btn btn-ghost">
-              <i class="fas fa-arrow-left mr-2"></i>
-              Cancel
-            </a>
-            <button type="submit" class="btn btn-accent">
-              <i class="fas fa-save mr-2"></i>
-              Update Answer
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    {% url 'answers:detail' pk=answer.pk as answer_detail_url %}
+    {% if answer_type == 'STAR' %}
+      {% with form_heading='Your STAR Answer' %}
+        {% include "components/forms/answer_form.html" with mode='edit' answer_type=answer_type heading=form_heading cancel_url=answer_detail_url cancel_icon='fas fa-arrow-left' cancel_label='Cancel' submit_label='Update Answer' submit_button_class='btn-accent' card_border_classes='border-2 border-dashed border-accent/30 mt-8' info_alert_message='This answer is part of your private collection for interview practice.' %}
+      {% endwith %}
+    {% else %}
+      {% with form_heading='Your Answer' %}
+        {% include "components/forms/answer_form.html" with mode='edit' answer_type=answer_type heading=form_heading cancel_url=answer_detail_url cancel_icon='fas fa-arrow-left' cancel_label='Cancel' submit_label='Update Answer' submit_button_class='btn-accent' card_border_classes='border-2 border-dashed border-accent/30 mt-8' info_alert_message='This answer is part of your private collection for interview practice.' %}
+      {% endwith %}
+    {% endif %}
   </div>
 </div>
 {% endblock %}

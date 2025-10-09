@@ -1,0 +1,54 @@
+{# Reusable answer form card for create and edit views #}
+{% with answer_type_value=answer_type|default:'STAR' %}
+  <div class="card bg-base-100 shadow-xl w-full {{ card_border_classes|default:'' }}">
+    <div class="card-body">
+      <h3 class="card-title mb-6">
+        <i class="{{ icon_class|default:'fas fa-pen' }} mr-2"></i>
+        {% if heading %}
+          {{ heading }}
+        {% else %}
+          Your {{ answer_type_value|title }} Answer
+        {% endif %}
+      </h3>
+
+      <form method="post" id="{{ form_id|default:'answerForm' }}" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-error mb-6">
+            <i class="fas fa-triangle-exclamation mr-2"></i>
+            <span>{{ form.non_field_errors|join:', ' }}</span>
+          </div>
+        {% endif %}
+
+        {% if mode == 'create' %}
+          <input type="hidden" name="answer_type" value="{{ answer_type_value }}" id="answer_type_field">
+        {% endif %}
+
+        {% if answer_type_value == 'STAR' %}
+          {% include "components/forms/star_fields.html" %}
+        {% else %}
+          {% include "components/forms/basic_fields.html" %}
+        {% endif %}
+
+        {% if info_alert_message %}
+          <div class="alert alert-soft alert-info mt-6">
+            <i class="fas fa-info-circle mr-2"></i>
+            <span>{{ info_alert_message }}</span>
+          </div>
+        {% endif %}
+
+        <div class="card-actions justify-end mt-8 gap-3">
+          <a href="{{ cancel_url }}" class="btn btn-ghost">
+            <i class="{{ cancel_icon|default:'fas fa-times' }} mr-2"></i>
+            {{ cancel_label|default:'Cancel' }}
+          </a>
+          <button type="submit" class="btn {{ submit_button_class|default:'btn-primary' }}">
+            <i class="{{ submit_icon|default:'fas fa-save' }} mr-2"></i>
+            {{ submit_label|default:'Save Answer' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endwith %}

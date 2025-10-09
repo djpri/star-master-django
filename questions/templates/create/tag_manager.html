@@ -1,8 +1,8 @@
 {# Tag management UI for create/edit forms #}
 <div class="form-control">
   <label class="label">
-    <span class="label-text font-semibold flex items-center">
-      <i class="fas fa-tags mr-2"></i>
+    <span class="label-text font-semibold flex flex-wrap items-center gap-2">
+      <i class="fas fa-tags"></i>
       Tags
     </span>
   </label>
@@ -13,8 +13,8 @@
   </div>
   
   <!-- Tag selection dropdown -->
-  <div class="flex gap-2 mb-2">
-    <select id="tag-select" class="select select-bordered flex-1">
+  <div class="flex flex-col gap-2 mb-2 sm:flex-row">
+    <select id="tag-select" class="select select-bordered w-full sm:flex-1">
       <option value="">Select an existing tag...</option>
       {% for tag in available_tags %}
         <option value="{{ tag.name }}" data-public="{{ tag.is_public }}">
@@ -22,29 +22,29 @@
         </option>
       {% endfor %}
     </select>
-    <button type="button" id="add-selected-tag-btn" class="btn btn-primary">
+    <button type="button" id="add-selected-tag-btn" class="btn btn-primary w-full sm:w-auto">
       <i class="fas fa-plus mr-1"></i>
       Add
     </button>
   </div>
   
   <!-- Create new tag -->
-  <div class="flex gap-2">
+  <div class="flex flex-col gap-2 sm:flex-row">
     <input 
       type="text" 
       id="new-tag-input" 
-      class="input input-bordered flex-1" 
+      class="input input-bordered w-full sm:flex-1" 
       placeholder="Create a new tag..."
       maxlength="50"
     />
-    <button type="button" id="create-tag-btn" class="btn btn-secondary">
+    <button type="button" id="create-tag-btn" class="btn btn-secondary w-full sm:w-auto">
       <i class="fas fa-sparkles mr-1"></i>
       Create
     </button>
   </div>
   
   <label class="label">
-    <span class="label-text-alt">{{ form.tags_input.help_text }}</span>
+    <span class="label-text-alt leading-snug">{{ form.tags_input.help_text }}</span>
   </label>
   
   <!-- Hidden input to store selected tags -->

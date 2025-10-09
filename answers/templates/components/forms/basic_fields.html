@@ -1,4 +1,4 @@
-<!-- Basic Form Fields -->
+<!-- Basic Answer Form Fields -->
 <div class="form-control">
   <label class="label">
     <span class="label-text font-semibold">{{ form.text.label }}</span>
@@ -11,7 +11,7 @@
   {% endif %}
   {% if form.text.errors %}
     <label class="label">
-      <span class="label-text-alt text-error">{{ form.text.errors.0 }}</span>
+      <span class="label-text-alt text-error">{{ form.text.errors|join:', ' }}</span>
     </label>
   {% endif %}
 </div>

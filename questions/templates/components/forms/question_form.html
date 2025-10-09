@@ -1,0 +1,87 @@
+{# Reusable question form card for create and edit views #}
+<div class="card bg-base-100 shadow-xl w-full {{ card_border_classes|default:'' }}">
+  <div class="card-body">
+    <h2 class="card-title text-2xl mb-6">
+      <i class="{{ icon_class|default:'fas fa-pen' }} mr-2"></i>
+      {{ heading|default:'Question Details' }}
+    </h2>
+
+    <form method="post" novalidate id="{{ form_id|default:'questionForm' }}">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-error mb-6">
+          <i class="fas fa-triangle-exclamation mr-2"></i>
+          <span>{{ form.non_field_errors|join:', ' }}</span>
+        </div>
+      {% endif %}
+
+      <div class="space-y-6">
+        <div class="form-control">
+          <label class="label pb-1 flex-wrap gap-2" for="{{ form.title.id_for_label }}">
+            <span class="label-text font-semibold flex flex-wrap items-center gap-2">
+              <span class="badge badge-primary badge-sm">Q</span>
+              {{ form.title.label }}
+            </span>
+          </label>
+          {{ form.title }}
+          {% if form.title.help_text %}
+            <label class="label">
+              <span class="label-text-alt">{{ form.title.help_text }}</span>
+            </label>
+          {% endif %}
+          {% if form.title.errors %}
+            <label class="label">
+              <span class="label-text-alt text-error">{{ form.title.errors|join:', ' }}</span>
+            </label>
+          {% endif %}
+        </div>
+
+        <div class="form-control">
+          <label class="label flex-wrap gap-2" for="{{ form.body.id_for_label }}">
+            <span class="label-text font-semibold break-words">
+              {{ form.body.label }}
+            </span>
+          </label>
+          {{ form.body }}
+          {% if form.body.help_text %}
+            <label class="label">
+              <span class="label-text-alt">{{ form.body.help_text }}</span>
+            </label>
+          {% endif %}
+          {% if form.body.errors %}
+            <label class="label">
+              <span class="label-text-alt text-error">{{ form.body.errors|join:', ' }}</span>
+            </label>
+          {% endif %}
+        </div>
+
+        {% include "create/tag_manager.html" %}
+
+        {{ form.is_public }}
+      </div>
+
+      {% if show_public_alert %}
+        <div class="alert alert-soft alert-info mt-6">
+          <i class="fas fa-info-circle mr-2"></i>
+          <span>
+            Public questions require moderator approval before appearing in the community list.
+          </span>
+        </div>
+      {% endif %}
+
+      <div class="divider my-8"></div>
+
+      <div class="card-actions justify-end gap-3">
+        <a href="{{ cancel_url }}" class="btn btn-ghost">
+          <i class="{{ cancel_icon|default:'fas fa-arrow-left' }} mr-2"></i>
+          {{ cancel_label|default:'Cancel' }}
+        </a>
+        <button type="submit" class="btn {{ submit_button_class|default:'btn-primary' }}">
+          <i class="{{ submit_icon|default:'fas fa-save' }} mr-2"></i>
+          {{ submit_label|default:'Save Question' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
