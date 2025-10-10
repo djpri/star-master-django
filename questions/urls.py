@@ -12,18 +12,21 @@ from .views.question_list import question_list
 from .views.save_public_question import save_public_question
 
 
-app_name = 'questions'
+app_name = "questions"
 
 urlpatterns = [
-    path('', question_list, name='list'),
-    path('public/', public_question_list, name='public_list'),
-    path('save/<int:question_id>/', save_public_question, name='save_public'),
-    path('approve/<int:question_id>/',
-         approve_public_question, name='approve_public'),
-    path('deny/<int:question_id>/', deny_public_question, name='deny_public'),
-    path('ajax/check-tag-exists/', check_tag_exists, name='check_tag_exists'),
-    path('create/', question_create, name='create'),
-    path('<int:pk>/', question_detail, name='detail'),
-    path('<int:pk>/edit/', question_edit, name='edit'),
-    path('<int:pk>/delete/', question_delete, name='delete'),
+    path("", question_list, name="list"),
+    path("public/", public_question_list, name="public_list"),
+    path("save/<int:question_id>/", save_public_question, name="save_public"),
+    path(
+        "approve/<int:question_id>/",
+        approve_public_question,
+        name="approve_public",
+    ),
+    path("deny/<int:question_id>/", deny_public_question, name="deny_public"),
+    path("ajax/check-tag-exists/", check_tag_exists, name="check_tag_exists"),
+    path("create/", question_create, name="create"),
+    path("<int:pk>/", question_detail, name="detail"),
+    path("<int:pk>/edit/", question_edit, name="edit"),
+    path("<int:pk>/delete/", question_delete, name="delete"),
 ]

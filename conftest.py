@@ -4,6 +4,7 @@ Pytest configuration and shared fixtures for the entire test suite.
 This file provides common fixtures that can be used across all test modules,
 reducing duplication and making tests more maintainable.
 """
+
 import pytest
 from django.contrib.auth import get_user_model
 
@@ -12,19 +13,22 @@ User = get_user_model()
 
 # User Fixtures
 # These use function scope (default) because database state should be
-# isolated between tests. However, centralizing them here avoids code duplication.
+# isolated between tests. However, centralizing them here avoids code
+# duplication.
+
 
 @pytest.fixture
 def user(db):
     """Create a basic test user.
 
-    This is a commonly used fixture that creates a user with standard credentials.
-    Scope: function (default) - creates a new user for each test to ensure isolation.
+    This is a commonly used fixture that creates a user with standard
+    credentials. Scope: function (default) - creates a new user for
+    each test to ensure isolation.
     """
     return User.objects.create_user(
-        username='testuser',
-        email='test@example.com',
-        password='testpass123'
+        username="testuser",
+        email="test@example.com",
+        password="testpass123"
     )
 
 
@@ -35,11 +39,11 @@ def admin_user(db):
     Scope: function (default) - creates a new admin for each test.
     """
     return User.objects.create_user(
-        username='adminuser',
-        email='admin@example.com',
-        password='adminpass123',
+        username="adminuser",
+        email="admin@example.com",
+        password="adminpass123",
         is_staff=True,
-        is_superuser=True
+        is_superuser=True,
     )
 
 
@@ -51,13 +55,12 @@ def other_user(db):
     Scope: function (default).
     """
     return User.objects.create_user(
-        username='otheruser',
-        email='other@example.com',
-        password='testpass123'
+        username="otheruser", email="other@example.com", password="testpass123"
     )
 
 
 # Authenticated Client Fixtures
+
 
 @pytest.fixture
 def authenticated_client(client, user):

@@ -9,10 +9,12 @@ def form():
 
 
 def test_question_form_valid_without_description():
-    form = QuestionForm(data={
-        "title": "Tell me about a time you led a project",
-        "body": "",
-    })
+    form = QuestionForm(
+        data={
+            "title": "Tell me about a time you led a project",
+            "body": "",
+        }
+    )
 
     assert form.is_valid(), form.errors
 
@@ -31,9 +33,12 @@ def test_question_form_requires_title():
         ("body", "textarea textarea-bordered w-full"),
     ],
 )
-def test_question_form_widgets_use_consistent_styles(form, field_name, expected_class):
+def test_question_form_widgets_use_consistent_styles(
+    form, field_name, expected_class
+):
     assert expected_class in form.fields[field_name].widget.attrs.get(
-        "class", "")
+        "class", ""
+    )
 
 
 def test_question_form_is_public_is_hidden(form):

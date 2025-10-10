@@ -29,14 +29,15 @@ def question_delete(request, pk):
     question.delete()
 
     if answer_count > 0:
+        answer_suffix = "s" if answer_count != 1 else ""
         messages.success(
             request,
-            f'Question "{question_title}" and its {answer_count} answer{"s" if answer_count != 1 else ""} have been deleted.'
+            f'Question "{question_title}" and its {answer_count} '
+            f'answer{answer_suffix} have been deleted.',
         )
     else:
         messages.success(
-            request,
-            f'Question "{question_title}" has been deleted.'
+            request, f'Question "{question_title}" has been deleted.'
         )
 
-    return redirect('questions:list')
+    return redirect("questions:list")

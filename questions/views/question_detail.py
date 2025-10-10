@@ -13,8 +13,9 @@ def question_detail(request, pk):
     question = get_object_or_404(queryset, pk=pk)
 
     # Get answers visible to the user with related answer content
-    answers = question.answers.visible_to_user(
-        request.user).select_related('user', 'staranswer', 'basicanswer')
+    answers = question.answers.visible_to_user(request.user).select_related(
+        "user", "staranswer", "basicanswer"
+    )
 
     # Check if current user has an answer for this question
     user_answer = None
@@ -30,10 +31,10 @@ def question_detail(request, pk):
         ).exists()
 
     context = {
-        'question': question,
-        'answers': answers,
-        'user_answer': user_answer,
-        'already_saved': already_saved,
+        "question": question,
+        "answers": answers,
+        "user_answer": user_answer,
+        "already_saved": already_saved,
     }
 
-    return render(request, 'questions/pages/detail.html', context)
+    return render(request, "questions/pages/detail.html", context)

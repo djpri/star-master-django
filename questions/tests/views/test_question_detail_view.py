@@ -11,7 +11,9 @@ User = get_user_model()
 class TestQuestionDetailView:
     def test_admin_can_view_pending_public_question(self, client):
         admin_user = User.objects.create_superuser(
-            username="admin", email="admin@example.com", password="adminpass123"
+            username="admin",
+            email="admin@example.com",
+            password="adminpass123",
         )
         owner = User.objects.create_user(
             username="owner", password="ownerpass123"

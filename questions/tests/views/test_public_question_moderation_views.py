@@ -11,7 +11,9 @@ User = get_user_model()
 class TestApprovePublicQuestionView:
     def test_admin_can_approve_pending_question(self, client):
         admin_user = User.objects.create_superuser(
-            username="admin", email="admin@example.com", password="adminpass123"
+            username="admin",
+            email="admin@example.com",
+            password="adminpass123",
         )
         owner = User.objects.create_user(
             username="owner", password="ownerpass123"
@@ -70,7 +72,9 @@ class TestApprovePublicQuestionView:
 
     def test_post_without_json_accept_redirects_to_public_list(self, client):
         admin_user = User.objects.create_superuser(
-            username="admin", email="admin@example.com", password="adminpass123"
+            username="admin",
+            email="admin@example.com",
+            password="adminpass123",
         )
         owner = User.objects.create_user(
             username="owner", password="ownerpass123"
@@ -101,7 +105,9 @@ class TestApprovePublicQuestionView:
 class TestDenyPublicQuestionView:
     def test_admin_can_deny_pending_question(self, client):
         admin_user = User.objects.create_superuser(
-            username="admin", email="admin@example.com", password="adminpass123"
+            username="admin",
+            email="admin@example.com",
+            password="adminpass123",
         )
         owner = User.objects.create_user(
             username="owner", password="ownerpass123"
@@ -159,7 +165,9 @@ class TestDenyPublicQuestionView:
 
     def test_html_request_redirects_after_denial(self, client):
         admin_user = User.objects.create_superuser(
-            username="admin", email="admin@example.com", password="adminpass123"
+            username="admin",
+            email="admin@example.com",
+            password="adminpass123",
         )
         owner = User.objects.create_user(
             username="owner", password="ownerpass123"
