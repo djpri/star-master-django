@@ -26,11 +26,11 @@
 
       {% if not user.is_authenticated %}
       <div class="flex flex-col sm:flex-row gap-4">
-        <a href="{% url 'account_signup' %}" class="btn btn-secondary btn-lg">
+        <a href="{% url 'account_signup' %}" class="btn btn-secondary btn-lg" data-prefetch>
           <i class="fas fa-user-plus mr-2"></i>
           Start Practicing
         </a>
-        <a href="{% url 'account_login' %}" class="btn btn-outline btn-secondary btn-lg">
+        <a href="{% url 'account_login' %}" class="btn btn-outline btn-secondary btn-lg" data-prefetch>
           <i class="fas fa-sign-in-alt mr-2"></i>
           Sign In
         </a>
@@ -150,7 +150,7 @@
         Practice makes perfect!
       </p>
       {% if not user.is_authenticated %}
-      <a href="{% url 'questions:public_list' %}" class="btn btn-primary btn-sm md:btn-md lg:btn-lg">
+      <a href="{% url 'questions:public_list' %}" class="btn btn-primary btn-sm md:btn-md lg:btn-lg" data-prefetch>
         <i class="fas fa-rocket mr-2"></i>
         View Example Questions
       </a>

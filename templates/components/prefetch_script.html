@@ -1,0 +1,30 @@
+<script>
+(function() {
+  // Skip prefetch on mobile or if Save-Data is enabled
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+  if (isMobile || (conn && conn.saveData)) return;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const elements = document.querySelectorAll("[data-prefetch][href], [data-prefetch][data-href]");
+    elements.forEach(el => {
+      let timer;
+      const href = el.getAttribute("href") || el.dataset.href;
+
+      el.addEventListener("mouseenter", () => {
+        timer = setTimeout(() => {
+          // prevent duplicate prefetches
+          if (document.querySelector(`link[rel='prefetch'][href='${href}']`)) return;
+
+          const link = document.createElement("link");
+          link.rel = "prefetch";
+          link.href = href;
+          document.head.appendChild(link);
+        }, 20); // delay in ms
+      });
+
+      el.addEventListener("mouseleave", () => clearTimeout(timer));
+    });
+  });
+})();
+</script>

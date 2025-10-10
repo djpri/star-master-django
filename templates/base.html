@@ -208,11 +208,11 @@
           </div>
           {% else %}
           <div class="gap-4">
-            <a href="{% url 'account_login' %}" class="btn btn-ghost btn-sm">
+            <a href="{% url 'account_login' %}" class="btn btn-ghost btn-sm" data-prefetch>
               <i class="fas fa-sign-in-alt mr-1"></i>
               Login
             </a>
-            <a href="{% url 'account_signup' %}" class="btn btn-secondary btn-sm">
+            <a href="{% url 'account_signup' %}" class="btn btn-secondary btn-sm" data-prefetch>
               <i class="fas fa-user-plus mr-1"></i>
               Register
             </a>
@@ -346,13 +346,9 @@
         <p class="text-base-content/70">
           &copy; STAR Master
         </p>
-        {% comment %} <div class="flex justify-center space-x-4 mt-2">
-          <a href="#" class="link link-hover">About</a>
-          <a href="#" class="link link-hover">Privacy</a>
-          <a href="#" class="link link-hover">Terms</a>
-          <a href="#" class="link link-hover">Contact</a>
-        </div> {% endcomment %}
       </div>
     </footer>
+
+    {% include "components/prefetch_script.html" %}
   </body>
 </html>
