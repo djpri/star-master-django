@@ -5,38 +5,27 @@
     <!-- Question Header -->
     <div class="flex flex-wrap items-start justify-between gap-3 mb-3">
       <div class="flex flex-wrap items-center gap-2">
-        <div class="badge badge-secondary badge-sm">
-          <i class="fas fa-user"></i>
-        </div>
         {% if question.is_public %}
+        <div class="flex items-center gap-2">
+        <div class="badge badge-secondary">
+            <i class="fas fa-globe"></i>
+        </div>
+      </div>
           {% if question.status == question.STATUS_DENIED %}
-            <div class="badge badge-error badge-sm gap-2" data-testid="public-badge" title="Public question request was denied.">
-              <i class="fas fa-globe"></i>
-              Public
-            </div>
             <div class="badge badge-error badge-sm gap-2" title="Moderator denied this request. Only you can see it for now.">
               <i class="fas fa-times-circle"></i>
               Request denied
             </div>
           {% elif question.status == question.STATUS_PENDING %}
-            <div class="badge badge-info badge-sm gap-2" data-testid="public-badge" title="Public question awaiting moderator approval.">
-              <i class="fas fa-globe"></i>
-              Public
-            </div>
             <div class="badge badge-warning badge-sm gap-2" title="Awaiting moderator approval.">
               <i class="fas fa-hourglass-half"></i>
               Pending review
             </div>
           {% else %}
-            <div class="badge badge-success badge-sm gap-2" data-testid="public-badge" title="Publicly visible to everyone.">
-              <i class="fas fa-globe"></i>
-              Public
-            </div>
           {% endif %}
         {% else %}
-          <div class="badge badge-neutral badge-sm gap-2" title="Only you can see this question.">
-            <i class="fas fa-lock"></i>
-            Private
+          <div class="badge badge-primary badge-sm">
+            <i class="fas fa-user"></i>
           </div>
         {% endif %}
       </div>
@@ -81,11 +70,7 @@
     <!-- Actions -->
     <div class="card-actions justify-end mt-auto">
       {% if user.is_authenticated %}
-        {% comment %}
-        According to business logic, public questions (approved public questions) should not have answers linked to them.
-        Only show "Create Answer" button for questions that are not visible publicly.
-        {% endcomment %}
-        {% if not question.is_visible_publicly %}
+        {% if not question.is_public %}
           <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary btn-sm">
             <i class="fas fa-plus mr-1"></i>
             Create Answer
