@@ -41,7 +41,8 @@ class TestQuestionListViewBadges:
         )
 
         client.login(username=user.username, password="testpass123")
-        response = client.get(reverse("questions:list"))
+        # Need to view public questions to see public question badges
+        response = client.get(reverse("questions:list"), {"view": "public"})
 
         content = response.content.decode()
         assert 'data-testid="public-badge"' in content
@@ -60,7 +61,8 @@ class TestQuestionListViewBadges:
         )
 
         client.login(username=user.username, password="testpass123")
-        response = client.get(reverse("questions:list"))
+        # Need to view public questions to see public question badges
+        response = client.get(reverse("questions:list"), {"view": "public"})
 
         content = response.content.decode()
         assert 'data-testid="public-badge"' in content

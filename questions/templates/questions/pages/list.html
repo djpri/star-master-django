@@ -36,7 +36,7 @@
   </div>
 
   <!-- Filter/Search Bar - Show if there are questions OR if filters are active -->
-  {% if questions or selected_tag or search_query %}
+  {% if questions or selected_tag or search_query or selected_view != "personal" %}
     {% include "questions/components/filter_search_bar.html" %}
   {% endif %}
 
@@ -86,6 +86,11 @@
     {% endif %}
   {% endif %}
 </div>
+
+<!-- Filter Options Modal (Private list only) -->
+{% if user.is_authenticated %}
+  {% include "questions/components/filter_options_modal.html" %}
+{% endif %}
 
 <!-- Styles -->
 {% include "questions/components/styles.html" %}

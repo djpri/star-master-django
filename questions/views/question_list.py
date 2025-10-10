@@ -16,6 +16,13 @@ SORT_OPTIONS = (
     ("answer_count", "Fewest Answers"),
 )
 
+# Visibility filter options (value, label)
+VIEW_OPTIONS = (
+    ("personal", "Personal Questions Only"),
+    ("public", "Your Public Questions"),
+    ("all", "All Your Questions"),
+)
+
 
 def question_list(request):
     """
@@ -26,18 +33,31 @@ def question_list(request):
         # Redirect unauthenticated users to public questions
         return redirect("questions:public_list")
 
-    # Get filter, search, and sort parameters
+    # Get filter, search, sort, and view parameters
     tag_filter = request.GET.get("tag", "").strip()
     search_query = request.GET.get("search", "").strip()
     sort_by = request.GET.get("sort", "-created_at").strip()
+    view_mode = request.GET.get("view", "personal").strip()
 
-    # Show user's own questions (both private and public) with optimized
-    # queries
+    # Validate view mode
+    valid_view_values = [option[0] for option in VIEW_OPTIONS]
+    if view_mode not in valid_view_values:
+        view_mode = "personal"  # Default to personal
+
+    # Start with user's own questions with optimized queries
     questions = (
         Question.objects.filter(owner=request.user)
         .select_related("owner")
         .prefetch_related("tags")
     )
+
+    # Apply visibility filter based on view mode
+    if view_mode == "personal":
+        # Only show private questions
+        questions = questions.filter(is_public=False)
+    elif view_mode == "public":
+        # Only show public questions (regardless of status)
+        questions = questions.filter(is_public=True)
 
     # Apply tag filter if provided
     selected_tag = None
@@ -166,6 +186,12 @@ def question_list(request):
         "Newest First",
     )
 
+    # Get view mode label for display
+    view_label = next(
+        (label for value, label in VIEW_OPTIONS if value == view_mode),
+        "Personal Questions Only",
+    )
+
     context = {
         "questions": page_obj,
         "page_obj": page_obj,
@@ -176,6 +202,9 @@ def question_list(request):
         "sort_options": SORT_OPTIONS,
         "selected_sort": sort_by,
         "selected_sort_label": sort_label,
+        "view_options": VIEW_OPTIONS,
+        "selected_view": view_mode,
+        "selected_view_label": view_label,
     }
 
     return render(request, "questions/pages/list.html", context)

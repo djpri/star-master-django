@@ -1,0 +1,104 @@
+{# Filter Options Modal - For private question list only #}
+<dialog id="filter-modal" class="modal">
+  <div class="modal-box max-w-md">
+    <h3 class="font-bold text-lg mb-4">
+      <i class="fas fa-filter text-primary mr-2"></i>
+      Filter Options
+    </h3>
+    
+    <form id="filter-form" method="get" action="{{ request.path }}" class="space-y-6">
+      <!-- Visibility Filter Section -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">
+            <i class="fas fa-eye text-sm mr-2"></i>
+            Show Questions
+          </span>
+        </label>
+        <div class="space-y-2">
+          {% for value, label in view_options %}
+            <label class="label cursor-pointer justify-start gap-3 py-2 hover:bg-base-200 rounded-lg px-3">
+              <input 
+                type="radio" 
+                name="view" 
+                value="{{ value }}" 
+                class="radio radio-primary radio-sm"
+                {% if selected_view == value %}checked{% endif %}
+              />
+              <span class="label-text">
+                {% if value == "personal" %}
+                  <i class="fas fa-lock text-xs mr-1"></i>
+                {% elif value == "public" %}
+                  <i class="fas fa-globe text-xs mr-1"></i>
+                {% else %}
+                  <i class="fas fa-list text-xs mr-1"></i>
+                {% endif %}
+                {{ label }}
+              </span>
+            </label>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Tag Filter Section -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">
+            <i class="fas fa-tag text-sm mr-2"></i>
+            Filter by Tag
+          </span>
+        </label>
+        <select name="tag" class="select select-bordered select-sm w-full">
+          <option value="">All Tags</option>
+          {% for tag in available_tags %}
+            <option value="{{ tag.slug }}" {% if selected_tag == tag.slug %}selected{% endif %}>
+              {{ tag.name }}{% if tag.is_public %} (public){% endif %}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Sort Options Section -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text font-semibold">
+            <i class="fas fa-sort text-sm mr-2"></i>
+            Sort By
+          </span>
+        </label>
+        <select name="sort" class="select select-bordered select-sm w-full">
+          {% for value, label in sort_options %}
+            <option value="{{ value }}" {% if selected_sort == value %}selected{% endif %}>
+              {{ label }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Preserve search query -->
+      {% if search_query %}
+        <input type="hidden" name="search" value="{{ search_query }}">
+      {% endif %}
+
+      <!-- Modal Actions -->
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" onclick="document.getElementById('filter-modal').close()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-check mr-2"></i>
+          Apply Filters
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Close on backdrop click -->
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
