@@ -27,7 +27,9 @@ class TestQuestionListViewBadges:
         assert "Private" in content
         assert 'data-testid="public-badge"' not in content
 
-    def test_pending_public_question_shows_request_and_pending_badges(self, client):
+    def test_pending_public_question_shows_request_and_pending_badges(
+        self, client
+    ):
         user = User.objects.create_user(
             username="pending_user", password="testpass123"
         )

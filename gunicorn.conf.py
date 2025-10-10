@@ -65,11 +65,13 @@ accesslog = "-"
 access_log_format = 'gunicorn method=%(m)s path="%(U)s" status=%(s)s duration=%(M)sms request_id=%({x-request-id}i)s fwd="%({x-forwarded-for}i)s" user_agent="%(a)s"'
 
 if os.environ.get("ENVIRONMENT") == "development":
-    # Automatically restart gunicorn when the app source changes in development.
+    # Automatically restart gunicorn when the app source changes in
+    # development.
     reload = True
 else:
     # Load the app before the worker processes are forked, to reduce memory usage and boot times.
-    # We don't enable this in development, since it's incompatible with `reload = True`.
+    # We don't enable this in development, since it's incompatible with
+    # `reload = True`.
     preload_app = True
 
     # Use `SO_REUSEPORT` on the listening socket, which allows for more even request
@@ -82,5 +84,6 @@ else:
     # Trust the `X-Forwarded-Proto` header set by the Heroku Router during TLS termination,
     # (https://devcenter.heroku.com/articles/http-routing#heroku-headers) so that HTTPS requests
     # are correctly marked as secure. This allows the WSGI app (in our case, Django) to distinguish
-    # between HTTP and HTTPS requests for features like HTTP->HTTPS URL redirection.
+    # between HTTP and HTTPS requests for features like HTTP->HTTPS URL
+    # redirection.
     forwarded_allow_ips = "*"

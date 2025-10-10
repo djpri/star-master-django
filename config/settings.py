@@ -10,12 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-import re
 import os
 import secrets
 from pathlib import Path
 import sys
 import dj_database_url
+from importlib.util import find_spec
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,7 +88,8 @@ else:
 # https://docs.djangoproject.com/en/5.2/topics/http/sessions/
 # https://docs.djangoproject.com/en/5.2/ref/contrib/messages/
 INSTALLED_APPS = [
-    # Use WhiteNoise's runserver implementation instead of the Django default, for dev-prod parity.
+    # Use WhiteNoise's runserver implementation instead of the Django default,
+    # for dev-prod parity.
     "whitenoise.runserver_nostatic",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -112,10 +113,10 @@ INSTALLED_APPS = [
 
 if DEBUG:
     # Add django_browser_reload only in DEBUG mode
-    INSTALLED_APPS += ['django_browser_reload']
+    INSTALLED_APPS += ["django_browser_reload"]
 
-TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = 'npm.cmd'
+TAILWIND_APP_NAME = "theme"
+NPM_BIN_PATH = "npm.cmd"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -139,25 +140,20 @@ if DEBUG:
         "django_browser_reload.middleware.BrowserReloadMiddleware",
     ]
     INTERNAL_IPS = [
-        '127.0.0.1',
+        "127.0.0.1",
     ]
 
 TESTING = "test" in sys.argv or "PYTEST_VERSION" in os.environ
 
-if DEBUG and not TESTING:
-    try:
-        import debug_toolbar  # type: ignore
-    except ModuleNotFoundError:
-        pass
-    else:
-        INSTALLED_APPS = [
-            *INSTALLED_APPS,
-            "debug_toolbar",
-        ]
-        MIDDLEWARE = [
-            "debug_toolbar.middleware.DebugToolbarMiddleware",
-            *MIDDLEWARE,
-        ]
+if DEBUG and not TESTING and find_spec("debug_toolbar") is not None:
+    INSTALLED_APPS = [
+        *INSTALLED_APPS,
+        "debug_toolbar",
+    ]
+    MIDDLEWARE = [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+        *MIDDLEWARE,
+    ]
 
 ROOT_URLCONF = "config.urls"
 
@@ -292,7 +288,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Customise the default logging config, since by default full Django logs are only emitted when
 # `DEBUG=True` (which otherwise makes diagnosing errors much harder in production):
 # https://docs.djangoproject.com/en/5.2/ref/logging/#default-logging-configuration
-# For more advanced logging you may want to try: https://django-structlog.readthedocs.io
+# For more advanced logging you may want to try:
+# https://django-structlog.readthedocs.io
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -333,20 +330,20 @@ SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 # Allauth settings
-ACCOUNT_LOGIN_METHODS = {'username', 'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
-ACCOUNT_EMAIL_VERIFICATION = 'none'  # Set to 'mandatory' in production
+ACCOUNT_LOGIN_METHODS = {"username", "email"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Set to 'mandatory' in production
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_LOGOUT_ON_GET = True
 
 # Redirect URLs
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"

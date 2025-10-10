@@ -54,9 +54,9 @@ class TestCheckTagExistsView:
     def test_check_tag_exists_requires_login(self):
         """Test that the endpoint requires authentication."""
         client = Client()
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.get(url, {'name': 'TestTag'})
+        response = client.get(url, {"name": "TestTag"})
 
         # Should redirect to login page
         assert response.status_code == 302
@@ -65,73 +65,75 @@ class TestCheckTagExistsView:
         """Test that only GET requests are allowed."""
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.post(url, {'name': 'TestTag'})
+        response = client.post(url, {"name": "TestTag"})
 
         assert response.status_code == 405
         data = response.json()
-        assert data['error'] == 'Only GET method allowed'
+        assert data["error"] == "Only GET method allowed"
 
     def test_check_tag_exists_requires_name_parameter(self, user):
         """Test that tag name parameter is required."""
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
         response = client.get(url)
 
         assert response.status_code == 400
         data = response.json()
-        assert data['error'] == 'Tag name is required'
+        assert data["error"] == "Tag name is required"
 
     def test_check_tag_exists_finds_public_tag(self, user, public_tag):
         """Test that existing public tags are found."""
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.get(url, {'name': 'Leadership'})
+        response = client.get(url, {"name": "Leadership"})
 
         assert response.status_code == 200
         data = response.json()
-        assert data['exists'] is True
-        assert data['tag']['id'] == public_tag.pk
-        assert data['tag']['name'] == "Leadership"
-        assert data['tag']['is_public'] is True
-        assert data['tag']['can_use'] is True
+        assert data["exists"] is True
+        assert data["tag"]["id"] == public_tag.pk
+        assert data["tag"]["name"] == "Leadership"
+        assert data["tag"]["is_public"] is True
+        assert data["tag"]["can_use"] is True
 
     def test_check_tag_exists_finds_personal_tag(self, user, personal_tag):
         """Test that user's personal tags are found."""
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.get(url, {'name': 'MyPersonalTag'})
+        response = client.get(url, {"name": "MyPersonalTag"})
 
         assert response.status_code == 200
         data = response.json()
-        assert data['exists'] is True
-        assert data['tag']['id'] == personal_tag.pk
-        assert data['tag']['name'] == "MyPersonalTag"
-        assert data['tag']['is_public'] is False
-        assert data['tag']['can_use'] is True
+        assert data["exists"] is True
+        assert data["tag"]["id"] == personal_tag.pk
+        assert data["tag"]["name"] == "MyPersonalTag"
+        assert data["tag"]["is_public"] is False
+        assert data["tag"]["can_use"] is True
 
     def test_check_tag_exists_case_insensitive(self, user, public_tag):
         """Test that tag checking is case-insensitive."""
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.get(url, {'name': 'leadership'})  # lowercase
+        response = client.get(url, {"name": "leadership"})  # lowercase
 
         assert response.status_code == 200
         data = response.json()
-        assert data['exists'] is True
-        assert data['tag']['id'] == public_tag.pk
-        assert data['tag']['name'] == "Leadership"
+        assert data["exists"] is True
+        assert data["tag"]["id"] == public_tag.pk
+        assert data["tag"]["name"] == "Leadership"
 
-    def test_check_tag_exists_does_not_find_other_users_personal_tags(self, user, other_user):
+    def test_check_tag_exists_does_not_find_other_users_personal_tags(
+        self, user, other_user
+    ):
         """Test that users cannot see other users' personal tags."""
         # Create a personal tag for other_user
         other_tag = Tag.objects.create(
@@ -143,17 +145,22 @@ class TestCheckTagExistsView:
 
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.get(url, {'name': 'OtherUserTag'})
+        response = client.get(url, {"name": "OtherUserTag"})
 
         assert response.status_code == 200
         data = response.json()
-        assert data['exists'] is False
-        assert data['can_create'] is True
+        assert data["exists"] is False
+        assert data["can_create"] is True
 
-    def test_check_tag_exists_prefers_public_over_personal(self, user, public_tag):
-        """Test that public tags are preferred over personal tags with same name."""
+    def test_check_tag_exists_prefers_public_over_personal(
+        self, user, public_tag
+    ):
+        """
+        Test that public tags are preferred over personal tags
+        with same name.
+        """
         # Create a personal tag with the same name
         personal_tag_same_name = Tag.objects.create(
             name="Leadership",
@@ -164,53 +171,54 @@ class TestCheckTagExistsView:
 
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.get(url, {'name': 'Leadership'})
+        response = client.get(url, {"name": "Leadership"})
 
         assert response.status_code == 200
         data = response.json()
-        assert data['exists'] is True
+        assert data["exists"] is True
         # Should return public tag, not personal
-        assert data['tag']['id'] == public_tag.pk
-        assert data['tag']['is_public'] is True
+        assert data["tag"]["id"] == public_tag.pk
+        assert data["tag"]["is_public"] is True
 
     def test_check_tag_exists_returns_can_create_for_new_tag(self, user):
         """Test that non-existing tags return can_create=True."""
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.get(url, {'name': 'CompletelyNewTag'})
+        response = client.get(url, {"name": "CompletelyNewTag"})
 
         assert response.status_code == 200
         data = response.json()
-        assert data['exists'] is False
-        assert data['can_create'] is True
+        assert data["exists"] is False
+        assert data["can_create"] is True
 
     def test_check_tag_exists_handles_empty_name(self, user):
         """Test that empty tag names are handled properly."""
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
-        response = client.get(url, {'name': '   '})  # whitespace only
+        response = client.get(url, {"name": "   "})  # whitespace only
 
         assert response.status_code == 400
         data = response.json()
-        assert data['error'] == 'Tag name is required'
+        assert data["error"] == "Tag name is required"
 
     def test_check_tag_exists_trims_whitespace(self, user, public_tag):
         """Test that tag names are trimmed of whitespace."""
         client = Client()
         client.login(username="testuser", password="testpass123")
-        url = reverse('questions:check_tag_exists')
+        url = reverse("questions:check_tag_exists")
 
         response = client.get(
-            url, {'name': '  Leadership  '})  # with whitespace
+            url, {"name": "  Leadership  "}
+        )  # with whitespace
 
         assert response.status_code == 200
         data = response.json()
-        assert data['exists'] is True
-        assert data['tag']['id'] == public_tag.pk
-        assert data['tag']['name'] == "Leadership"
+        assert data["exists"] is True
+        assert data["tag"]["id"] == public_tag.pk
+        assert data["tag"]["name"] == "Leadership"

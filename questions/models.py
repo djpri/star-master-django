@@ -13,23 +13,28 @@ class Tag(models.Model):
     slug = models.SlugField(max_length=60, blank=True)
     is_public = models.BooleanField(default=False)
     owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="tags", null=True, blank=True)
+        User,
+        on_delete=models.CASCADE,
+        related_name="tags",
+        null=True,
+        blank=True,
+    )
     created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        # Ensure unique combinations - public tags have no owner (NULL), personal tags are unique per owner
+        # Ensure unique combinations - public tags have no owner (NULL),
+        # personal tags are unique per owner
         constraints = [
             models.UniqueConstraint(
-                fields=['name', 'owner'],
-                name='unique_tag_per_user'
+                fields=["name", "owner"], name="unique_tag_per_user"
             ),
             models.UniqueConstraint(
-                fields=['name'],
+                fields=["name"],
                 condition=models.Q(is_public=True),
-                name='unique_public_tag'
-            )
+                name="unique_public_tag",
+            ),
         ]
-        ordering = ['name']
+        ordering = ["name"]
 
     def save(self, *args, **kwargs):
         """Auto-generate slug from name if not provided."""
@@ -40,20 +45,21 @@ class Tag(models.Model):
     def __str__(self):
         if self.is_public:
             return f"{self.name} (public)"
-        return f"{self.name} ({self.owner.username if self.owner else 'no owner'})"
+        owner_name = self.owner.username if self.owner else 'no owner'
+        return f"{self.name} ({owner_name})"
 
 
 class QuestionQuerySet(models.QuerySet):
     def visible_to_user(self, user):
-        """Return all questions visible to the user (used for answers context)"""
+        """Return questions visible to the user (for answers)"""
         if not user or not user.is_authenticated:
             # Public approved questions only
             return self.filter(is_public=True, status="APPROVED")
 
-        # Own questions (both private and public) + public approved questions from others
+        # Own questions (both private and public) + public approved questions
+        # from others
         return self.filter(
-            models.Q(owner=user) |
-            models.Q(is_public=True, status="APPROVED")
+            models.Q(owner=user) | models.Q(is_public=True, status="APPROVED")
         )
 
 
@@ -76,13 +82,15 @@ class Question(models.Model):
     ]
 
     owner = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="questions")
+        User, on_delete=models.CASCADE, related_name="questions"
+    )
     title = models.CharField(max_length=255)
     body = models.TextField(blank=True)
     # user chooses, final visibility depends on status
     is_public = models.BooleanField(default=False)
     status = models.CharField(
-        max_length=10, choices=STATUS_CHOICES, default=STATUS_PENDING)
+        max_length=10, choices=STATUS_CHOICES, default=STATUS_PENDING
+    )
     tags = models.ManyToManyField(Tag, blank=True, related_name="questions")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
@@ -104,15 +112,18 @@ class Question(models.Model):
 
     @property
     def is_visible_publicly(self):
-        """Business rule: visible publicly only if approved and user set as public."""
+        """Business rule: visible publicly only if approved and
+        user set as public."""
         return self.is_public and self.status == self.STATUS_APPROVED
 
 
 class QuestionVote(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="question_votes")
+        User, on_delete=models.CASCADE, related_name="question_votes"
+    )
     question = models.ForeignKey(
-        Question, on_delete=models.CASCADE, related_name="votes")
+        Question, on_delete=models.CASCADE, related_name="votes"
+    )
     rating = models.PositiveSmallIntegerField()  # 1..5
     created_at = models.DateTimeField(default=timezone.now)
 
@@ -122,6 +133,7 @@ class QuestionVote(models.Model):
 
     def clean(self):
         from django.core.exceptions import ValidationError
+
         if not (1 <= self.rating <= 5):
             raise ValidationError("Rating must be between 1 and 5")
 

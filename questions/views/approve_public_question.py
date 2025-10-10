@@ -11,13 +11,17 @@ from questions.models import Question
 @login_required
 def approve_public_question(request, question_id):
     """Allow admins to approve pending public questions."""
-    if request.method != 'POST':
-        return JsonResponse({'error': 'Only POST requests allowed'}, status=405)
+    if request.method != "POST":
+        return JsonResponse(
+            {"error": "Only POST requests allowed"}, status=405
+        )
 
     if not request.user.is_superuser:
-        return JsonResponse({'error': 'Only admins can approve questions'}, status=403)
+        return JsonResponse(
+            {"error": "Only admins can approve questions"}, status=403
+        )
 
-    redirect_target = request.POST.get('next') or request.GET.get('next')
+    redirect_target = request.POST.get("next") or request.GET.get("next")
     if redirect_target and not url_has_allowed_host_and_scheme(
         redirect_target,
         allowed_hosts={request.get_host()},
@@ -25,7 +29,7 @@ def approve_public_question(request, question_id):
     ):
         redirect_target = None
 
-    redirect_target = redirect_target or reverse('questions:public_list')
+    redirect_target = redirect_target or reverse("questions:public_list")
 
     question = get_object_or_404(
         Question,
@@ -34,23 +38,22 @@ def approve_public_question(request, question_id):
     )
 
     if question.status == Question.STATUS_APPROVED:
-        if request.headers.get('Accept') == 'application/json':
-            return JsonResponse({
-                'success': True,
-                'message': 'Question already approved.'
-            })
-        messages.info(request, 'Question is already approved.')
+        if request.headers.get("Accept") == "application/json":
+            return JsonResponse(
+                {"success": True, "message": "Question already approved."}
+            )
+        messages.info(request, "Question is already approved.")
         return redirect(redirect_target)
 
     question.status = Question.STATUS_APPROVED
-    question.save(update_fields=['status'])
+    question.save(update_fields=["status"])
 
-    if request.headers.get('Accept') == 'application/json':
-        return JsonResponse({
-            'success': True,
-            'message': 'Question approved successfully.'
-        })
+    if request.headers.get("Accept") == "application/json":
+        return JsonResponse(
+            {"success": True, "message": "Question approved successfully."}
+        )
 
     messages.success(
-        request, f'Question "{question.title}" approved successfully.')
+        request, f'Question "{question.title}" approved successfully.'
+    )
     return redirect(redirect_target)

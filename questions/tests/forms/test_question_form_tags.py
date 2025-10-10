@@ -72,7 +72,10 @@ class TestQuestionFormTagFunctionality:
         assert tag in question.tags.all()
 
     def test_form_uses_existing_public_tag(self, user, public_tag):
-        """Test that existing public tags are reused instead of creating duplicates."""
+        """
+        Test that existing public tags are reused instead of
+        creating duplicates.
+        """
         initial_tag_count = Tag.objects.count()
 
         form_data = {
@@ -92,7 +95,10 @@ class TestQuestionFormTagFunctionality:
         assert public_tag in question.tags.all()
 
     def test_form_uses_existing_personal_tag(self, user, personal_tag):
-        """Test that existing personal tags are reused instead of creating duplicates."""
+        """
+        Test that existing personal tags are reused instead of
+        creating duplicates.
+        """
         initial_tag_count = Tag.objects.count()
 
         form_data = {
@@ -128,7 +134,9 @@ class TestQuestionFormTagFunctionality:
 
         assert public_tag in question.tags.all()
 
-    def test_form_can_mix_existing_and_new_tags(self, user, public_tag, personal_tag):
+    def test_form_can_mix_existing_and_new_tags(
+        self, user, public_tag, personal_tag
+    ):
         """Test that a form can use both existing and new tags together."""
         form_data = {
             "title": "Test Question",
@@ -187,7 +195,9 @@ class TestQuestionFormTagFunctionality:
         assert Tag.objects.filter(name="Tag2", owner=user).count() == 1
         assert question.tags.count() == 2
 
-    def test_form_does_not_use_other_users_personal_tags(self, user, other_user):
+    def test_form_does_not_use_other_users_personal_tags(
+        self, user, other_user
+    ):
         """Test that one user cannot use another user's personal tags."""
         other_tag = Tag.objects.create(
             name="OtherUserTag",
@@ -215,8 +225,13 @@ class TestQuestionFormTagFunctionality:
         assert user_tag in question.tags.all()
         assert other_tag not in question.tags.all()
 
-    def test_form_prepopulates_tags_when_editing(self, user, public_tag, personal_tag):
-        """Test that tags_input is pre-populated when editing an existing question."""
+    def test_form_prepopulates_tags_when_editing(
+        self, user, public_tag, personal_tag
+    ):
+        """
+        Test that tags_input is pre-populated when editing
+        an existing question.
+        """
         question = Question.objects.create(
             title="Test Question",
             body="Test body",
@@ -232,7 +247,10 @@ class TestQuestionFormTagFunctionality:
         assert "MyPersonalTag" in tags_input_value
 
     def test_form_without_user_does_not_create_tags(self, user):
-        """Test that tags are not created if no user is provided to the form."""
+        """
+        Test that tags are not created if no user is provided
+        to the form.
+        """
         form_data = {
             "title": "Test Question",
             "body": "Test body",
@@ -251,8 +269,13 @@ class TestQuestionFormTagFunctionality:
         assert Tag.objects.count() == initial_tag_count
         assert question.tags.count() == 0
 
-    def test_get_or_create_tag_finds_existing_public_tag(self, user, public_tag):
-        """Test _get_or_create_tag method efficiently finds existing public tag."""
+    def test_get_or_create_tag_finds_existing_public_tag(
+        self, user, public_tag
+    ):
+        """
+        Test _get_or_create_tag method efficiently finds
+        existing public tag.
+        """
         form = QuestionForm(user=user)
 
         # Should find the existing public tag (case-insensitive)
@@ -261,8 +284,13 @@ class TestQuestionFormTagFunctionality:
         assert tag == public_tag
         assert tag.is_public is True
 
-    def test_get_or_create_tag_finds_existing_personal_tag(self, user, personal_tag):
-        """Test _get_or_create_tag method efficiently finds existing personal tag."""
+    def test_get_or_create_tag_finds_existing_personal_tag(
+        self, user, personal_tag
+    ):
+        """
+        Test _get_or_create_tag method efficiently finds
+        existing personal tag.
+        """
         form = QuestionForm(user=user)
 
         # Should find the existing personal tag (case-insensitive)
@@ -273,7 +301,10 @@ class TestQuestionFormTagFunctionality:
         assert tag.owner == user
 
     def test_get_or_create_tag_creates_new_personal_tag(self, user):
-        """Test _get_or_create_tag method creates new personal tag when none exists."""
+        """
+        Test _get_or_create_tag method creates new personal tag
+        when none exists.
+        """
         form = QuestionForm(user=user)
         initial_count = Tag.objects.count()
 
@@ -286,8 +317,13 @@ class TestQuestionFormTagFunctionality:
         assert tag.owner == user
         assert tag.slug == "brandnewtag"
 
-    def test_get_or_create_tag_prefers_public_over_personal_with_same_name(self, user, public_tag):
-        """Test that public tags are preferred over personal tags with the same name."""
+    def test_get_or_create_tag_prefers_public_over_personal_with_same_name(
+        self, user, public_tag
+    ):
+        """
+        Test that public tags are preferred over personal tags
+        with the same name.
+        """
         # Create a personal tag with the same name as the public tag
         personal_tag_same_name = Tag.objects.create(
             name="Leadership",
@@ -314,7 +350,10 @@ class TestQuestionFormTagFunctionality:
         assert tag is None
 
     def test_form_efficiently_handles_duplicate_tag_names(self, user):
-        """Test that the form efficiently handles duplicate tag names using get_or_create."""
+        """
+        Test that the form efficiently handles duplicate tag names
+        using get_or_create.
+        """
         # Create an initial tag
         form_data = {
             "title": "Test Question 1",

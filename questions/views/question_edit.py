@@ -20,7 +20,7 @@ def question_edit(request, pk):
     else:
         question = get_object_or_404(Question, pk=pk, owner=request.user)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = QuestionForm(request.POST, instance=question, user=request.user)
         if form.is_valid():
             question = form.save(commit=False)
@@ -29,22 +29,29 @@ def question_edit(request, pk):
             # question.owner is already set from the instance
 
             # Handle status based on user role and question visibility
-            is_public = form.cleaned_data.get('is_public', False)
+            is_public = form.cleaned_data.get("is_public", False)
 
             if is_public:
                 # Public questions: non-admins editing reverts to PENDING
-                if not request.user.is_superuser and question.owner != request.user:
-                    # This shouldn't happen due to queryset filtering, but just in case
+                if (
+                    not request.user.is_superuser
+                    and question.owner != request.user
+                ):
+                    # This shouldn't happen due to queryset filtering, but just
+                    # in case
                     messages.error(
-                        request, "You don't have permission to edit this question.")
-                    return redirect('questions:detail', pk=question.pk)
+                        request,
+                        "You don't have permission to edit this question.",
+                    )
+                    return redirect("questions:detail", pk=question.pk)
                 elif not request.user.is_superuser:
                     # Non-admin owner editing their own public question
                     question.status = Question.STATUS_PENDING
                     question.is_public = True
                     messages.info(
                         request,
-                        "Your question has been updated and submitted for review again."
+                        "Your question has been updated and submitted "
+                        "for review again.",
                     )
                 else:
                     # Admin editing - preserve existing status
@@ -57,9 +64,10 @@ def question_edit(request, pk):
             question.save()
 
             # Handle tags using the form's custom logic
-            tags_str = form.cleaned_data.get('tags_input', '')
-            tag_names = [name.strip()
-                         for name in tags_str.split(',') if name.strip()]
+            tags_str = form.cleaned_data.get("tags_input", "")
+            tag_names = [
+                name.strip() for name in tags_str.split(",") if name.strip()
+            ]
 
             tags_to_add = []
             for tag_name in tag_names:
@@ -71,21 +79,24 @@ def question_edit(request, pk):
 
             if not is_public or request.user.is_superuser:
                 messages.success(
-                    request, f'Question "{question.title}" has been updated successfully!')
+                    request,
+                    f'Question "{question.title}" has been updated '
+                    f'successfully!',
+                )
 
-            return redirect('questions:detail', pk=question.pk)
+            return redirect("questions:detail", pk=question.pk)
     else:
         form = QuestionForm(instance=question, user=request.user)
 
     # Get available tags for the user (public tags + user's personal tags)
     available_tags = Tag.objects.filter(
         models.Q(is_public=True) | models.Q(owner=request.user)
-    ).order_by('name')
+    ).order_by("name")
 
     context = {
-        'form': form,
-        'question': question,
-        'available_tags': available_tags,
-        'is_edit_mode': True,
+        "form": form,
+        "question": question,
+        "available_tags": available_tags,
+        "is_edit_mode": True,
     }
-    return render(request, 'questions/pages/edit.html', context)
+    return render(request, "questions/pages/edit.html", context)

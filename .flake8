@@ -1,0 +1,25 @@
+[flake8]
+exclude =
+    .venv,
+    migrations,
+    node_modules,
+    staticfiles,
+    __pycache__,
+    theme/static,
+    _notes
+
+max-line-length = 79
+
+# Ignore specific files or error codes
+per-file-ignores =
+    # Settings and config files often have long lines that can't be easily broken
+    config/settings.py:E501
+    gunicorn.conf.py:E501
+    # Test files: F401 - pytest imported but unused (needed for fixtures)
+    **/tests/*.py:F401
+    # Unused imports in test files (imported for fixtures)
+    conftest.py:F401
+
+# F841: local variable assigned but never used (common in test fixtures)
+# W503: line break before binary operator (Black/PEP 8 modern style prefers this)
+ignore = F841,W503

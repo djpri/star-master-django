@@ -16,15 +16,15 @@ class AnswerQuerySet(models.QuerySet):
             return self.filter(
                 is_public=True,
                 question__is_public=True,
-                question__status="APPROVED"
+                question__status="APPROVED",
             )
 
         # Own answers + public answers on visible questions
         return self.filter(
-            models.Q(user=user) |
-            models.Q(
+            models.Q(user=user)
+            | models.Q(
                 is_public=True,
-                question__in=Question.objects.visible_to_user(user)
+                question__in=Question.objects.visible_to_user(user),
             )
         )
 
@@ -46,16 +46,19 @@ class Answer(models.Model):
     ]
 
     question = models.ForeignKey(
-        Question, on_delete=models.CASCADE, related_name="answers")
+        Question, on_delete=models.CASCADE, related_name="answers"
+    )
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="answers")
+        User, on_delete=models.CASCADE, related_name="answers"
+    )
     # user-scoped; public visibility is subject to question approval rules too
     is_public = models.BooleanField(default=False)
     answer_type = models.CharField(max_length=10, choices=ANSWER_TYPE_CHOICES)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # Search vector for combined searchable text for answers (maintained from subclass fields via signal/management command)
+    # Search vector for combined searchable text for answers (maintained from
+    # subclass fields via signal/management command)
     search_vector = SearchVectorField(null=True, editable=False)
 
     objects = AnswerManager()
@@ -68,7 +71,9 @@ class Answer(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.answer_type} answer by {self.user} on {self.question_id}"
+        return (
+            f"{self.answer_type} answer by {self.user} on {self.question_id}"
+        )
 
 
 class StarAnswer(Answer):
@@ -84,7 +89,8 @@ class StarAnswer(Answer):
 
     def save(self, *args, **kwargs):
         self.answer_type = self.ANSWER_TYPE_STAR
-        # enforce required fields presence — though DB-level NOT NULL already ensures it
+        # enforce required fields presence — though DB-level NOT NULL already
+        # ensures it
         super().save(*args, **kwargs)
 
 

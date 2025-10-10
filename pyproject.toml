@@ -1,0 +1,15 @@
+[tool.black]
+line-length = 79
+target-version = ['py311']
+exclude = '''
+/(
+    \.venv
+  | migrations
+  | node_modules
+  | staticfiles
+  | __pycache__
+  | \.git
+  | _notes
+  | theme/static
+)/
+'''

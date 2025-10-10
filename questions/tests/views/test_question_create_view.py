@@ -59,7 +59,9 @@ class TestQuestionCreateView:
         assert "is_public" not in response.context["form"].initial
         assert response.context["is_public_question"] is False
 
-    def test_regular_user_submitting_public_question_saves_as_pending(self, client):
+    def test_regular_user_submitting_public_question_saves_as_pending(
+        self, client
+    ):
         user = User.objects.create_user(
             username="creator", password="testpass123"
         )
@@ -78,12 +80,16 @@ class TestQuestionCreateView:
         assert question.is_public is True
         assert question.status == Question.STATUS_PENDING
 
-    def test_pending_public_question_shown_only_to_admin_in_public_list(self, client):
+    def test_pending_public_question_shown_only_to_admin_in_public_list(
+        self, client
+    ):
         user = User.objects.create_user(
             username="creator", password="testpass123"
         )
         admin = User.objects.create_superuser(
-            username="admin", email="admin@example.com", password="adminpass123"
+            username="admin",
+            email="admin@example.com",
+            password="adminpass123",
         )
 
         client.login(username=user.username, password="testpass123")
@@ -108,5 +114,6 @@ class TestQuestionCreateView:
         response = client.get(reverse("questions:public_list"))
         assert response.status_code == 200
         pending_titles = {
-            q.title for q in response.context["pending_questions"]}
+            q.title for q in response.context["pending_questions"]
+        }
         assert question.title in pending_titles

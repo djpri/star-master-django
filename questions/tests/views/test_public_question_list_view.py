@@ -9,9 +9,13 @@ User = get_user_model()
 
 @pytest.mark.django_db
 class TestPublicQuestionListView:
-    def test_admin_sees_pending_section_when_pending_questions_exist(self, client):
+    def test_admin_sees_pending_section_when_pending_questions_exist(
+        self, client
+    ):
         admin_user = User.objects.create_superuser(
-            username="admin", email="admin@example.com", password="adminpass123"
+            username="admin",
+            email="admin@example.com",
+            password="adminpass123",
         )
 
         Question.objects.create(
