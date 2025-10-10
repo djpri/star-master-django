@@ -3,10 +3,10 @@
   <div class="flex justify-center my-8">
     <div class="join">
       {% if page_obj.has_previous %}
-        <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}page=1" class="join-item btn btn-sm">
+        <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" class="join-item btn btn-sm">
           <i class="fas fa-angle-double-left"></i>
         </a>
-        <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}page={{ page_obj.previous_page_number }}" class="join-item btn btn-sm">
+        <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page={{ page_obj.previous_page_number }}" class="join-item btn btn-sm">
           <i class="fas fa-angle-left"></i>
         </a>
       {% endif %}
@@ -15,15 +15,15 @@
         {% if page_obj.number == num %}
           <span class="join-item btn btn-sm btn-active">{{ num }}</span>
         {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-          <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}page={{ num }}" class="join-item btn btn-sm">{{ num }}</a>
+          <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page={{ num }}" class="join-item btn btn-sm">{{ num }}</a>
         {% endif %}
       {% endfor %}
 
       {% if page_obj.has_next %}
-        <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}page={{ page_obj.next_page_number }}" class="join-item btn btn-sm">
+        <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page={{ page_obj.next_page_number }}" class="join-item btn btn-sm">
           <i class="fas fa-angle-right"></i>
         </a>
-        <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}page={{ page_obj.paginator.num_pages }}" class="join-item btn btn-sm">
+        <a href="?{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page={{ page_obj.paginator.num_pages }}" class="join-item btn btn-sm">
           <i class="fas fa-angle-double-right"></i>
         </a>
       {% endif %}

@@ -6,6 +6,16 @@ from django.db import connection
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 
+# Sorting options for private questions (value, label)
+SORT_OPTIONS = (
+    ("-created_at", "Newest First"),
+    ("created_at", "Oldest First"),
+    ("title", "Title (A-Z)"),
+    ("-title", "Title (Z-A)"),
+    ("-answer_count", "Most Answers"),
+    ("answer_count", "Fewest Answers"),
+)
+
 
 def question_list(request):
     """
@@ -16,9 +26,10 @@ def question_list(request):
         # Redirect unauthenticated users to public questions
         return redirect("questions:public_list")
 
-    # Get filter and search parameters
+    # Get filter, search, and sort parameters
     tag_filter = request.GET.get("tag", "").strip()
     search_query = request.GET.get("search", "").strip()
+    sort_by = request.GET.get("sort", "-created_at").strip()
 
     # Show user's own questions (both private and public) with optimized
     # queries
@@ -88,9 +99,27 @@ def question_list(request):
                 | Q(body__icontains=search_query)
             ).distinct()
 
-    # Order by most recent and make distinct to avoid duplicates from tag
-    # filter
-    questions = questions.distinct().order_by("-created_at")
+    # Validate and apply sorting
+    valid_sort_values = [option[0] for option in SORT_OPTIONS]
+    if sort_by not in valid_sort_values:
+        sort_by = "-created_at"  # Default to newest first
+
+    # If sorting by answer count, annotate the queryset
+    # Otherwise, apply simple ordering
+    if "answer_count" in sort_by:
+        from answers.models import Answer
+
+        questions = (
+            questions.annotate(
+                answer_count=Count("answers", distinct=True)
+            )
+            .distinct()
+            .order_by(sort_by, "-created_at")
+        )
+    else:
+        # Order by selected sort option and make distinct to avoid
+        # duplicates from tag filter
+        questions = questions.distinct().order_by(sort_by)
 
     # Paginate questions (12 per page)
     paginator = Paginator(questions, 12)
@@ -101,7 +130,9 @@ def question_list(request):
     # This prevents re-evaluation of the queryset later
     questions_list = list(page_obj.object_list)
 
-    if questions_list:
+    # If answer counts were not already annotated (i.e., not sorting by
+    # answer_count), fetch them separately for the current page
+    if "answer_count" not in sort_by and questions_list:
         question_ids = [q.id for q in questions_list]
 
         # Get answer counts for questions on this page - single query
@@ -129,6 +160,12 @@ def question_list(request):
         .order_by("name")
     )
 
+    # Get sort option label for display
+    sort_label = next(
+        (label for value, label in SORT_OPTIONS if value == sort_by),
+        "Newest First",
+    )
+
     context = {
         "questions": page_obj,
         "page_obj": page_obj,
@@ -136,6 +173,9 @@ def question_list(request):
         "selected_tag": selected_tag,
         "selected_tag_name": selected_tag_name,
         "search_query": search_query,
+        "sort_options": SORT_OPTIONS,
+        "selected_sort": sort_by,
+        "selected_sort_label": sort_label,
     }
 
     return render(request, "questions/pages/list.html", context)

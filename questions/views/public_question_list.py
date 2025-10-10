@@ -6,15 +6,24 @@ from django.db import connection
 
 from questions.models import Question, Tag
 
+# Sorting options for public questions (value, label)
+SORT_OPTIONS = (
+    ("-created_at", "Newest First"),
+    ("created_at", "Oldest First"),
+    ("title", "Title (A-Z)"),
+    ("-title", "Title (Z-A)"),
+)
+
 
 def public_question_list(request):
     """
     Display paginated list of public questions that users can save
     to their own collection.
     """
-    # Get filter and search parameters
+    # Get filter, search, and sort parameters
     tag_filter = request.GET.get("tag", "").strip()
     search_query = request.GET.get("search", "").strip()
+    sort_by = request.GET.get("sort", "-created_at").strip()
 
     # Only show public approved questions with optimized queries
     questions = (
@@ -67,9 +76,14 @@ def public_question_list(request):
                 | Q(body__icontains=search_query)
             ).distinct()
 
-    # Order by most recent and make distinct to avoid duplicates from tag
-    # filter
-    questions = questions.distinct().order_by("-created_at")
+    # Validate and apply sorting
+    valid_sort_values = [option[0] for option in SORT_OPTIONS]
+    if sort_by not in valid_sort_values:
+        sort_by = "-created_at"  # Default to newest first
+
+    # Order by selected sort option and make distinct to avoid duplicates
+    # from tag filter
+    questions = questions.distinct().order_by(sort_by)
 
     # Paginate questions (12 per page)
     paginator = Paginator(questions, 12)
@@ -128,6 +142,12 @@ def public_question_list(request):
         Tag.objects.filter(is_public=True).distinct().order_by("name")
     )
 
+    # Get sort option label for display
+    sort_label = next(
+        (label for value, label in SORT_OPTIONS if value == sort_by),
+        "Newest First",
+    )
+
     context = {
         "questions": page_obj,
         "page_obj": page_obj,
@@ -138,6 +158,9 @@ def public_question_list(request):
         "selected_tag": selected_tag,
         "selected_tag_name": selected_tag_name,
         "search_query": search_query,
+        "sort_options": SORT_OPTIONS,
+        "selected_sort": sort_by,
+        "selected_sort_label": sort_label,
     }
 
     return render(request, "questions/pages/public_list.html", context)
