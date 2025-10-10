@@ -66,10 +66,15 @@ def question_create(request):
         or form.initial.get("is_public") is True
     )
 
-    # Get available tags for the user (public tags + user's personal tags)
-    available_tags = Tag.objects.filter(
-        models.Q(is_public=True) | models.Q(owner=request.user)
-    ).order_by("name")
+    # Get available tags depending on visibility
+    if is_public_question:
+        # Only show public tags when creating a public question
+        available_tags = Tag.objects.filter(is_public=True).order_by("name")
+    else:
+        # Show public and user's personal tags for private questions
+        available_tags = Tag.objects.filter(
+            models.Q(is_public=True) | models.Q(owner=request.user)
+        ).order_by("name")
 
     context = {
         "form": form,
