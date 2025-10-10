@@ -1,49 +1,40 @@
 {% if tags %}
-  {% with tag_count=tags.count max_visible=max_visible|default:2 badge_size=badge_size|default:'badge-xs' modal_id=component_id|default:'tag_modal_default'|stringformat:"s" %}
+  {% with tag_count=tags.count badge_size=badge_size|default:'badge-xs' modal_id=component_id|default:'tag_modal_default'|stringformat:"s" %}
     <div class="flex flex-wrap gap-1">
-      {# Display first N tags - using forloop.counter to limit display #}
-      {% for tag in tags %}
-        {% if forloop.counter <= max_visible %}
-          <div class="badge badge-outline {{ badge_size }}">{{ tag.name }}</div>
-        {% endif %}
-      {% endfor %}
+      {# Show "n tags" button that opens modal #}
+      <button 
+        class="badge badge-outline {{ badge_size }} cursor-pointer hover:badge-primary transition-colors"
+        onclick="document.getElementById('{{ modal_id }}').showModal()"
+        type="button"
+        aria-label="Show all tags"
+      >
+        {{ tag_count }} tag{{ tag_count|pluralize }}
+      </button>
       
-      {# Show "+n" badge if there are more tags #}
-      {% if tag_count > max_visible %}
-        <button 
-          class="badge badge-outline {{ badge_size }} cursor-pointer hover:badge-primary transition-colors"
-          onclick="document.getElementById('{{ modal_id }}').showModal()"
-          type="button"
-          aria-label="Show all tags"
-        >
-          +{% if max_visible == 2 %}{{ tag_count|add:"-2" }}{% elif max_visible == 3 %}{{ tag_count|add:"-3" }}{% elif max_visible == 5 %}{{ tag_count|add:"-5" }}{% else %}{{ tag_count }}{% endif %}
-        </button>
-        
-        {# DaisyUI Modal for Additional Tags #}
-        <dialog id="{{ modal_id }}" class="modal">
-          <div class="modal-box">
-            <h3 class="font-bold text-lg mb-4">
-              <i class="fas fa-tags mr-2"></i>
-              All Tags ({{ tag_count }})
-            </h3>
-            
-            <div class="flex flex-wrap gap-2">
-              {% for tag in tags %}
-                <div class="badge badge-outline badge-sm">{{ tag.name }}</div>
-              {% endfor %}
-            </div>
-            
-            <div class="modal-action">
-              <form method="dialog">
-                <button class="btn btn-sm">Close</button>
-              </form>
-            </div>
+      {# DaisyUI Modal for All Tags #}
+      <dialog id="{{ modal_id }}" class="modal">
+        <div class="modal-box">
+          <h3 class="font-bold text-lg mb-4">
+            <i class="fas fa-tags mr-2"></i>
+            All Tags ({{ tag_count }})
+          </h3>
+          
+          <div class="flex flex-wrap gap-2">
+            {% for tag in tags %}
+              <div class="badge badge-outline badge-sm">{{ tag.name }}</div>
+            {% endfor %}
           </div>
-          <form method="dialog" class="modal-backdrop">
-            <button aria-label="Close">close</button>
-          </form>
-        </dialog>
-      {% endif %}
+          
+          <div class="modal-action">
+            <form method="dialog">
+              <button class="btn btn-sm">Close</button>
+            </form>
+          </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+          <button aria-label="Close">close</button>
+        </form>
+      </dialog>
     </div>
   {% endwith %}
 {% endif %}

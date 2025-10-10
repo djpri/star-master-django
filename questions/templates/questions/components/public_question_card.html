@@ -5,13 +5,14 @@
     <!-- Question Header -->
     <div class="flex items-start justify-between mb-3">
       <div class="flex items-center gap-2">
-        <div class="badge badge-success badge-sm">
-          <i class="fas fa-check mr-1"></i>
-          Public
+        <div class="badge badge-secondary">
+            <i class="fas fa-globe"></i>
         </div>
-        {% include 'components/tag_list.html' with tags=question.tags.all max_visible=2 component_id=question.pk|prefixed_id:'public_question' %}
       </div>
-      {% include 'questions/components/question_actions_menu.html' %}
+      <div class="flex items-center gap-2">
+        {% include 'components/tag_list.html' with tags=question.tags.all max_visible=2 component_id=question.pk|prefixed_id:'public_question' %}
+        {% include 'questions/components/question_actions_menu.html' %}
+      </div>
     </div>
 
     <!-- Question Title -->

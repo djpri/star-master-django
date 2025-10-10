@@ -5,7 +5,7 @@
 {% block description %}View and manage your STAR method answers for this interview question. Practice and refine your response structure.{% endblock %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-4 md:py-8">
   <div class="max-w-4xl mx-auto">
     <!-- Header -->
     <div class="mb-6">
@@ -20,29 +20,6 @@
         </ul>
       </nav>
       
-      <div class="flex items-center justify-between">
-        <div>
-          <h1 class="text-3xl font-bold mb-2">{{ question.title }}</h1>
-          {% if question.is_public %}
-            <p class="text-base-content/70">
-              View community answers and save this question to your personal collection
-            </p>
-          {% else %}
-            <p class="text-base-content/70">
-              Practice your interview response using the STAR method
-            </p>
-          {% endif %}
-        </div>
-        
-        {% if user.is_authenticated and not question.is_visible_publicly %}
-          <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
-            <i class="fas fa-plus mr-2"></i>
-            Create Answer
-          </a>
-        {% endif %}
-      </div>
-    </div>
-
     <!-- Question Details -->
     <div class="card bg-base-100 shadow-xl mb-6">
       <div class="card-body">
@@ -52,8 +29,7 @@
             <div class="badge badge-primary">Question</div>
             {% if question.is_public %}
               <div class="badge badge-success badge-outline">
-                <i class="fas fa-globe mr-1"></i>
-                Public
+                <i class="fas fa-globe"></i>
               </div>
             {% else %}
               <div class="badge badge-ghost">
@@ -68,6 +44,9 @@
             {% include 'questions/components/question_actions_menu.html' %}
           </div>
         </div>
+
+        <!-- Question Title -->
+        <h2 class="text-2xl font-bold mb-2">{{ question.title }}</h2>
 
         <!-- Question Body -->
         {% if question.body %}
@@ -90,10 +69,12 @@
           </div>
           
           <div class="flex items-center gap-4">
+            {% if not question.is_public %}
             <span>
               <i class="fas fa-comments mr-1"></i>
               {{ answers.count }} answer{{ answers.count|pluralize }}
             </span>
+            {% endif %}
             {% if question.votes.all %}
               <span>
                 <i class="fas fa-star mr-1"></i>
@@ -105,11 +86,38 @@
       </div>
     </div>
 
+    <!-- Action Card -->
+    <div class="card bg-base-200 shadow-sm mb-6">
+      <div class="card-body">
+        <div class="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+          <div>
+            {% if question.is_public %}
+              <p class="text-base-content/70">
+                View community answers and save this question to your personal collection
+              </p>
+            {% else %}
+              <p class="text-base-content/70">
+                Practice your interview response using the STAR method
+              </p>
+            {% endif %}
+          </div>
+          
+          {% if user.is_authenticated and not question.is_public %}
+            <a href="{% url 'answers:create' question_id=question.pk %}" class="btn btn-primary">
+              <i class="fas fa-plus mr-2"></i>
+              Create Answer
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
     <!-- Public Question Info -->
     {% if question.is_public %}
       {% include "questions/components/public_status_card.html" %}
     {% endif %}
 
+  
     <!-- Answers Section (only for private questions) -->
     {% if not question.is_public %}
       {% if answers %}
