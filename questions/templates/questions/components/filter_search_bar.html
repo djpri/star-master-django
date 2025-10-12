@@ -3,7 +3,7 @@
   <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
     <!-- Left: Question Count -->
     <div class="flex items-center gap-2">
-      <i class="fas fa-bookmark text-primary"></i>
+      <i class="fas fa-bookmark text-primary" aria-hidden="true"></i>
       <span class="font-semibold text-base-content">
         {% if page_obj.paginator.count == 0 %}
           0 Questions found
@@ -47,39 +47,44 @@
         {# Public list - Show individual dropdowns #}
         <!-- Sort Dropdown -->
       <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-outline btn-sm gap-2">
-          <i class="fas fa-sort"></i>
-          {{ selected_sort_label|default:"Newest First" }}
-        </label>
-        <div tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52 mt-2">
+        <button type="button" tabindex="0" class="btn btn-outline btn-sm gap-2" aria-label="Sort questions by {{ selected_sort_label|default:'Newest First' }}">
+          <i class="fas fa-sort" aria-hidden="true"></i>
+          <span>{{ selected_sort_label|default:"Newest First" }}</span>
+        </button>
+        <ul tabindex="0" role="menu" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52 mt-2">
           {% for value, label in sort_options %}
             <li>
               <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}sort={{ value }}&page=1"
-                 class="{% if selected_sort == value %}active{% endif %}">
-                <i class="fas fa-sort"></i>
+                 class="{% if selected_sort == value %}active{% endif %}"
+                 role="menuitem">
+                <i class="fas fa-sort" aria-hidden="true"></i>
                 {{ label }}
               </a>
             </li>
           {% endfor %}
-        </div>
+        </ul>
       </div>
 
       <!-- Tag Filter Dropdown -->
       <div class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-outline btn-sm gap-2">
-          <i class="fas fa-filter"></i>
+        <button type="button" tabindex="0" class="btn btn-outline btn-sm gap-2" aria-label="Filter by Tag{% if selected_tag_name %}, currently filtered by {{ selected_tag_name }}{% endif %}">
+          <i class="fas fa-filter" aria-hidden="true"></i>
+          <span>
           {% if selected_tag_name %}
             {{ selected_tag_name }}
             <span class="badge badge-primary badge-xs">1</span>
           {% else %}
             Filter by Tag
           {% endif %}
-        </label>
-        <div tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-64 max-h-96 overflow-y-auto mt-2">
+          </span>
+        </button>
+        <ul tabindex="0" role="menu" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-64 max-h-96 overflow-y-auto mt-2">
           {% if selected_tag %}
             <li>
-              <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" class="text-error">
-                <i class="fas fa-times"></i>
+              <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" 
+                 class="text-error"
+                 role="menuitem">
+                <i class="fas fa-times" aria-hidden="true"></i>
                 Clear Filter
               </a>
             </li>
@@ -90,8 +95,9 @@
             {% for tag in available_tags %}
               <li>
                 <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}tag={{ tag.slug|urlencode }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_sort %}&sort={{ selected_sort }}{% endif %}&page=1"
-                   class="{% if selected_tag == tag.slug %}active{% endif %}">
-                  <i class="fas fa-tag"></i>
+                   class="{% if selected_tag == tag.slug %}active{% endif %}"
+                   role="menuitem">
+                  <i class="fas fa-tag" aria-hidden="true"></i>
                   {{ tag.name }}
                   {% if tag.is_public %}
                     <span class="badge badge-ghost badge-xs">public</span>
@@ -101,13 +107,13 @@
             {% endfor %}
           {% else %}
             <li class="disabled">
-              <a class="text-base-content/50">
-                <i class="fas fa-info-circle"></i>
+              <a class="text-base-content/50" role="menuitem">
+                <i class="fas fa-info-circle" aria-hidden="true"></i>
                 No tags available
               </a>
             </li>
           {% endif %}
-        </div>
+        </ul>
       </div>
       {% endif %}
       {# End public list dropdowns #}
@@ -123,19 +129,23 @@
         {% if selected_sort %}
           <input type="hidden" name="sort" value="{{ selected_sort }}">
         {% endif %}
+        <label for="search-input" class="sr-only">Search questions and answers</label>
         <input 
+          id="search-input"
           type="search" 
           name="search" 
           value="{{ search_query|default:'' }}" 
           placeholder="Search questions & answers..." 
           class="input input-bordered input-sm join-item flex-1 min-w-0"
         />
-        <button type="submit" class="btn btn-primary btn-sm join-item">
-          <i class="fas fa-search"></i>
+        <button type="submit" class="btn btn-primary btn-sm join-item" aria-label="Search">
+          <i class="fas fa-search" aria-hidden="true"></i>
         </button>
         {% if search_query %}
-          <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" class="btn btn-outline btn-sm join-item">
-            <i class="fas fa-times"></i>
+          <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" 
+             class="btn btn-outline btn-sm join-item"
+             aria-label="Clear search">
+            <i class="fas fa-times" aria-hidden="true"></i>
           </a>
         {% endif %}
       </form>
@@ -148,19 +158,23 @@
       <span class="text-sm text-base-content/70">Active filters:</span>
       {% if selected_tag %}
         <div class="badge badge-primary gap-2">
-          <i class="fas fa-tag text-xs"></i>
+          <i class="fas fa-tag text-xs" aria-hidden="true"></i>
           {{ selected_tag_name }}
-          <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" class="text-primary-content hover:text-error">
-            <i class="fas fa-times text-xs"></i>
+          <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if search_query %}search={{ search_query }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" 
+             class="text-primary-content hover:text-error"
+             aria-label="Remove {{ selected_tag_name }} filter">
+            <i class="fas fa-times text-xs" aria-hidden="true"></i>
           </a>
         </div>
       {% endif %}
       {% if search_query %}
         <div class="badge badge-secondary gap-2">
-          <i class="fas fa-search text-xs"></i>
+          <i class="fas fa-search text-xs" aria-hidden="true"></i>
           "{{ search_query }}"
-          <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" class="text-secondary-content hover:text-error">
-            <i class="fas fa-times text-xs"></i>
+          <a href="?{% if selected_view %}view={{ selected_view }}&{% endif %}{% if selected_tag %}tag={{ selected_tag }}&{% endif %}{% if selected_sort %}sort={{ selected_sort }}&{% endif %}page=1" 
+             class="text-secondary-content hover:text-error"
+             aria-label="Remove search filter">
+            <i class="fas fa-times text-xs" aria-hidden="true"></i>
           </a>
         </div>
       {% endif %}

@@ -11,17 +11,17 @@
   <div class="mb-8">
     <div class="flex items-center justify-between flex-wrap gap-4 mb-4">
       <h1 class="text-4xl font-bold text-base-content">
-        <i class="fas fa-globe text-primary mr-3"></i>
+        <i class="fas fa-globe text-primary mr-3" aria-hidden="true"></i>
         Public Interview Questions
       </h1>
       {% if user.is_authenticated %}
       <div class="flex flex-wrap gap-2">
           <a href="{% url 'questions:create' %}?public=true" class="btn btn-primary">
-            <i class="fas fa-plus mr-2"></i>
+            <i class="fas fa-plus mr-2" aria-hidden="true"></i>
             Create Public Question
           </a>
           <a href="{% url 'questions:list' %}" class="btn btn-outline btn-primary">
-            <i class="fas fa-bookmark mr-2"></i>
+            <i class="fas fa-bookmark mr-2" aria-hidden="true"></i>
             My Questions
           </a>
         </div>
@@ -35,7 +35,7 @@
 
   <!-- Info Alert -->
   <div class="alert alert-info mb-8">
-    <i class="fas fa-info-circle"></i>
+    <i class="fas fa-info-circle" aria-hidden="true"></i>
     <div>
       <h3 class="font-bold">How it works</h3>
       <div class="text-sm">
@@ -58,7 +58,7 @@
   <!-- Questions Grid -->
   {% if questions %}
     <!-- Top Pagination -->
-    {% include "questions/components/pagination.html" %}
+    {% include "questions/components/pagination.html" with position="top" %}
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       {% for question in questions %}
@@ -67,7 +67,7 @@
     </div>
 
     <!-- Bottom Pagination -->
-    {% include "questions/components/pagination.html" %}
+    {% include "questions/components/pagination.html" with position="bottom" %}
 
   {% else %}
     <!-- Empty State - Only show if NO active filters -->

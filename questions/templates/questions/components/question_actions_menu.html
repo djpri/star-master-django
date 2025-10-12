@@ -2,26 +2,26 @@
 {% if user.is_authenticated %}
   {% if question.owner == user or user.is_superuser %}
 <div class="dropdown dropdown-end">
-  <div tabindex="0" role="button" class="btn btn-ghost btn-sm btn-circle" aria-label="Question options">
-    <i class="fas fa-ellipsis-v"></i>
-  </div>
-  <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+  <button type="button" tabindex="0" class="btn btn-ghost btn-sm btn-circle" aria-label="Question options for {{ question.title }}">
+    <i class="fas fa-ellipsis-v" aria-hidden="true"></i>
+  </button>
+  <ul tabindex="0" role="menu" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
     <li>
-      <a href="{% url 'questions:detail' pk=question.pk %}" class="text-info">
-        <i class="fas fa-eye mr-2"></i>View Details
+      <a href="{% url 'questions:detail' pk=question.pk %}" class="text-info" role="menuitem">
+        <i class="fas fa-eye mr-2" aria-hidden="true"></i>View Details
       </a>
     </li>
     <li>
-      <a href="{% url 'questions:edit' pk=question.pk %}" class="text-warning">
-        <i class="fas fa-edit mr-2"></i>Edit Question
+      <a href="{% url 'questions:edit' pk=question.pk %}" class="text-warning" role="menuitem">
+        <i class="fas fa-edit mr-2" aria-hidden="true"></i>Edit Question
       </a>
     </li>
     <li>
       <form method="post" action="{% url 'questions:delete' pk=question.pk %}" class="w-full"
             onsubmit="return confirm('Are you sure you want to delete this question? This action cannot be undone{% if question.answer_count > 0 %} and will also delete {{ question.answer_count }} answer{{ question.answer_count|pluralize }}{% endif %}.')">
         {% csrf_token %}
-        <button type="submit" class="menu-item text-error w-full text-left flex items-center px-4 py-2 hover:bg-base-200 transition-colors">
-          <i class="fas fa-trash mr-2"></i>Delete Question
+        <button type="submit" class="menu-item text-error w-full text-left flex items-center px-4 py-2 hover:bg-base-200 transition-colors" role="menuitem">
+          <i class="fas fa-trash mr-2" aria-hidden="true"></i>Delete Question
         </button>
       </form>
     </li>

@@ -6,16 +6,16 @@
         class="badge badge-outline {{ badge_size }} cursor-pointer hover:badge-primary transition-colors"
         onclick="document.getElementById('{{ modal_id }}').showModal()"
         type="button"
-        aria-label="Show all tags"
+        aria-label="Show all {{ tag_count }} tag{{ tag_count|pluralize }}"
       >
         {{ tag_count }} tag{{ tag_count|pluralize }}
       </button>
       
       {# DaisyUI Modal for All Tags #}
-      <dialog id="{{ modal_id }}" class="modal">
+      <dialog id="{{ modal_id }}" class="modal" aria-labelledby="{{ modal_id }}_title">
         <div class="modal-box">
-          <h3 class="font-bold text-lg mb-4">
-            <i class="fas fa-tags mr-2"></i>
+          <h3 id="{{ modal_id }}_title" class="font-bold text-lg mb-4">
+            <i class="fas fa-tags mr-2" aria-hidden="true"></i>
             All Tags ({{ tag_count }})
           </h3>
           
@@ -32,7 +32,7 @@
           </div>
         </div>
         <form method="dialog" class="modal-backdrop">
-          <button aria-label="Close">close</button>
+          <button aria-label="Close modal">close</button>
         </form>
       </dialog>
     </div>
