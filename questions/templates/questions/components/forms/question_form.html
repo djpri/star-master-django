@@ -26,7 +26,7 @@
           </label>
           {{ form.title }}
           {% if form.title.help_text %}
-            <div class="mt-1 text-xs text-base-content/60">
+            <div id="{{ form.title.id_for_label }}_helptext" class="mt-1 text-xs text-base-content/60">
               {{ form.title.help_text }}
             </div>
           {% endif %}
@@ -45,7 +45,7 @@
           </label>
           {{ form.body }}
           {% if form.body.help_text %}
-            <div class="mt-1 text-xs text-base-content/60">
+            <div id="{{ form.body.id_for_label }}_helptext" class="mt-1 text-xs text-base-content/60">
               {{ form.body.help_text }}
             </div>
           {% endif %}

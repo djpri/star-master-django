@@ -1,17 +1,17 @@
 {# Tag management UI for create/edit forms #}
 <div class="form-control">
-  <label class="label">
+  <label class="label" for="tag-select">
     <span class="label-text font-semibold flex flex-wrap items-center gap-2">
       <i class="fas fa-tags"></i>
       Tags
     </span>
   </label>
-  
+
   <!-- Selected tags display -->
   <div id="selected-tags" class="flex flex-wrap gap-2 mb-3 min-h-[2.5rem] p-2 border border-base-300 rounded-lg bg-base-200/30">
     <span class="text-sm text-base-content/50" id="no-tags-message">No tags selected</span>
   </div>
-  
+
   <!-- Tag selection dropdown -->
   <div class="flex flex-col gap-2 mb-2 sm:flex-row">
     <select id="tag-select" class="select select-bordered w-full sm:flex-1">

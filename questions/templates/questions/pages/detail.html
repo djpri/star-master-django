@@ -9,7 +9,7 @@
   <div class="max-w-4xl mx-auto">
     <!-- Header -->
     <div class="mb-6">
-      <nav class="text-sm breadcrumbs">
+      <nav class="text-sm breadcrumbs" aria-label="Breadcrumb">
         <ul>
           {% if question.is_public %}
             <li><a href="{% url 'questions:public_list' %}">Public Questions</a></li>

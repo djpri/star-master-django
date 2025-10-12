@@ -1,11 +1,11 @@
 <!-- Basic Answer Form Fields -->
 <div class="form-control">
-  <label class="label">
+  <label class="label" for="{{ form.text.id_for_label }}">
     <span class="label-text font-semibold">{{ form.text.label }}</span>
   </label>
   {{ form.text }}
   {% if form.text.help_text %}
-    <div class="mt-1 text-xs text-base-content/60">
+    <div id="{{ form.text.id_for_label }}_helptext" class="mt-1 text-xs text-base-content/60">
       {{ form.text.help_text }}
     </div>
   {% endif %}
