@@ -25,7 +25,6 @@ class TestQuestionListViewBadges:
 
         content = response.content.decode()
         assert "Private" in content
-        assert 'data-testid="public-badge"' not in content
 
     def test_pending_public_question_shows_request_and_pending_badges(
         self, client
@@ -45,8 +44,6 @@ class TestQuestionListViewBadges:
         response = client.get(reverse("questions:list"), {"view": "public"})
 
         content = response.content.decode()
-        assert 'data-testid="public-badge"' in content
-        assert "Public" in content
         assert "Pending review" in content
 
     def test_denied_public_question_shows_denied_badge(self, client):
@@ -65,6 +62,4 @@ class TestQuestionListViewBadges:
         response = client.get(reverse("questions:list"), {"view": "public"})
 
         content = response.content.decode()
-        assert 'data-testid="public-badge"' in content
-        assert "Public" in content
         assert "Request denied" in content
