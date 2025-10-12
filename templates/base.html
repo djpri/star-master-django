@@ -23,11 +23,7 @@
     <meta name="twitter:description" content="{% block twitter_description %}STAR Master - Learn and practice the STAR method for interview questions. Create, organize, and refine your interview responses.{% endblock %}" />
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/open-graph.webp' %}{% endblock %}" />
     <meta name="twitter:image:alt" content="{% block twitter_image_alt %}STAR Master - Interview preparation with the STAR method{% endblock %}" />
-    
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
+
     {% tailwind_css %}
   </head>
   <body class="h-full flex flex-col">
@@ -176,7 +172,7 @@
         <!-- Mobile menu -->
         <div class="dropdown dropdown-end lg:hidden">
           <div tabindex="0" role="button" aria-label="Open mobile menu" class="btn btn-ghost">
-            <i class="fas fa-bars text-xl"></i>
+            <i class="fas fa-bars text-xl" aria-hidden="true"></i>
           </div>
           <ul
             tabindex="0"
@@ -303,5 +299,6 @@
     </footer>
 
     {% include "components/prefetch_script.html" %}
+    <script src="https://kit.fontawesome.com/f249cb196d.js" crossorigin="anonymous"></script>
   </body>
 </html>
