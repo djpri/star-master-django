@@ -17,3 +17,8 @@ def profile(request):
         "favorites": [],  # Will be populated when favorites are implemented
     }
     return render(request, "account/profile.html", context)
+
+
+def theme_test(request):
+    """Theme color testing page (DEBUG only)"""
+    return render(request, "theme-test.html")

@@ -1,0 +1,520 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="mytheme">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Color Tester - STAR Master</title>
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    <style>
+        .color-picker-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .picker-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .picker-item label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .picker-item input[type="color"] {
+            width: 100%;
+            height: 60px;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .color-value {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #6b7280;
+            padding: 0.25rem 0.5rem;
+            background: #f3f4f6;
+            border-radius: 0.25rem;
+        }
+        
+        .demo-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .demo-section h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .color-swatch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .color-swatch {
+            height: 100px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .reset-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-base-100 p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-base-content mb-2">🎨 Theme Color Tester</h1>
+            <p class="text-base-content/70">Experiment with your color palette and see changes in real-time</p>
+        </div>
+
+        <!-- Color Pickers Section -->
+        <div class="color-picker-section">
+            <h2 class="text-2xl font-bold text-base-content mb-4">Color Pickers</h2>
+            <div class="picker-grid">
+                <div class="picker-item">
+                    <label for="primary-picker">Primary</label>
+                    <input type="color" id="primary-picker" value="#7643bd">
+                    <span class="color-value" id="primary-value">#7643bd</span>
+                </div>
+                
+                <div class="picker-item">
+                    <label for="secondary-picker">Secondary</label>
+                    <input type="color" id="secondary-picker" value="#008dbe">
+                    <span class="color-value" id="secondary-value">#008dbe</span>
+                </div>
+                
+                <div class="picker-item">
+                    <label for="accent-picker">Accent</label>
+                    <input type="color" id="accent-picker" value="#5ec2c6">
+                    <span class="color-value" id="accent-value">#5ec2c6</span>
+                </div>
+                
+                <div class="picker-item">
+                    <label for="neutral-picker">Neutral</label>
+                    <input type="color" id="neutral-picker" value="#7d7a9f">
+                    <span class="color-value" id="neutral-value">#7d7a9f</span>
+                </div>
+                
+                <div class="picker-item">
+                    <label for="info-picker">Info</label>
+                    <input type="color" id="info-picker" value="#5b8bb5">
+                    <span class="color-value" id="info-value">#5b8bb5</span>
+                </div>
+                
+                <div class="picker-item">
+                    <label for="success-picker">Success</label>
+                    <input type="color" id="success-picker" value="#5cc47e">
+                    <span class="color-value" id="success-value">#5cc47e</span>
+                </div>
+                
+                <div class="picker-item">
+                    <label for="warning-picker">Warning</label>
+                    <input type="color" id="warning-picker" value="#F7C13C">
+                    <span class="color-value" id="warning-value">#F7C13C</span>
+                </div>
+                
+                <div class="picker-item">
+                    <label for="error-picker">Error</label>
+                    <input type="color" id="error-picker" value="#e96b6b">
+                    <span class="color-value" id="error-value">#e96b6b</span>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex gap-3">
+                <button onclick="copyCSS()" class="btn btn-primary">📋 Copy CSS</button>
+                <button onclick="resetColors()" class="btn btn-neutral">🔄 Reset to Original</button>
+            </div>
+        </div>
+
+        <!-- Color Swatches -->
+        <div class="demo-section">
+            <h2>Color Swatches</h2>
+            <div class="color-swatch-grid">
+                <div class="color-swatch bg-primary" style="background-color: var(--color-primary);">
+                    Primary
+                </div>
+                <div class="color-swatch bg-secondary" style="background-color: var(--color-secondary);">
+                    Secondary
+                </div>
+                <div class="color-swatch bg-accent" style="background-color: var(--color-accent);">
+                    Accent
+                </div>
+                <div class="color-swatch bg-neutral" style="background-color: var(--color-neutral);">
+                    Neutral
+                </div>
+                <div class="color-swatch bg-info" style="background-color: var(--color-info);">
+                    Info
+                </div>
+                <div class="color-swatch bg-success" style="background-color: var(--color-success);">
+                    Success
+                </div>
+                <div class="color-swatch bg-warning" style="background-color: var(--color-warning);">
+                    Warning
+                </div>
+                <div class="color-swatch bg-error" style="background-color: var(--color-error);">
+                    Error
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons Demo -->
+        <div class="demo-section">
+            <h2>Buttons</h2>
+            
+            <h3 class="text-lg font-semibold mb-3 mt-6">Regular Buttons</h3>
+            <div class="buttons-grid">
+                <button class="btn btn-primary">Primary</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-accent">Accent</button>
+                <button class="btn btn-neutral">Neutral</button>
+                <button class="btn btn-info">Info</button>
+                <button class="btn btn-success">Success</button>
+                <button class="btn btn-warning">Warning</button>
+                <button class="btn btn-error">Error</button>
+            </div>
+            
+            <h3 class="text-lg font-semibold mb-3 mt-6">Outline Buttons</h3>
+            <div class="buttons-grid">
+                <button class="btn btn-outline btn-primary">Primary</button>
+                <button class="btn btn-outline btn-secondary">Secondary</button>
+                <button class="btn btn-outline btn-accent">Accent</button>
+                <button class="btn btn-outline btn-neutral">Neutral</button>
+                <button class="btn btn-outline btn-info">Info</button>
+                <button class="btn btn-outline btn-success">Success</button>
+                <button class="btn btn-outline btn-warning">Warning</button>
+                <button class="btn btn-outline btn-error">Error</button>
+            </div>
+            
+            <h3 class="text-lg font-semibold mb-3 mt-6">Ghost Buttons</h3>
+            <div class="buttons-grid">
+                <button class="btn btn-ghost btn-primary">Primary</button>
+                <button class="btn btn-ghost btn-secondary">Secondary</button>
+                <button class="btn btn-ghost btn-accent">Accent</button>
+                <button class="btn btn-ghost btn-neutral">Neutral</button>
+            </div>
+        </div>
+
+        <!-- Alerts Demo -->
+        <div class="demo-section">
+            <h2>Alerts</h2>
+            <div class="space-y-4">
+                <div class="alert alert-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>This is an info alert with the info color!</span>
+                </div>
+                
+                <div class="alert alert-success">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>Your operation was successful!</span>
+                </div>
+                
+                <div class="alert alert-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <span>Warning: Please review your input!</span>
+                </div>
+                
+                <div class="alert alert-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>Error! Something went wrong.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Badges Demo -->
+        <div class="demo-section">
+            <h2>Badges</h2>
+            <div class="flex flex-wrap gap-3">
+                <span class="badge badge-primary">Primary</span>
+                <span class="badge badge-secondary">Secondary</span>
+                <span class="badge badge-accent">Accent</span>
+                <span class="badge badge-neutral">Neutral</span>
+                <span class="badge badge-info">Info</span>
+                <span class="badge badge-success">Success</span>
+                <span class="badge badge-warning">Warning</span>
+                <span class="badge badge-error">Error</span>
+            </div>
+            
+            <h3 class="text-lg font-semibold mb-3 mt-6">Outline Badges</h3>
+            <div class="flex flex-wrap gap-3">
+                <span class="badge badge-outline badge-primary">Primary</span>
+                <span class="badge badge-outline badge-secondary">Secondary</span>
+                <span class="badge badge-outline badge-accent">Accent</span>
+                <span class="badge badge-outline badge-neutral">Neutral</span>
+                <span class="badge badge-outline badge-info">Info</span>
+                <span class="badge badge-outline badge-success">Success</span>
+                <span class="badge badge-outline badge-warning">Warning</span>
+                <span class="badge badge-outline badge-error">Error</span>
+            </div>
+        </div>
+
+        <!-- Cards Demo -->
+        <div class="demo-section">
+            <h2>Cards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="card bg-primary text-primary-content">
+                    <div class="card-body">
+                        <h3 class="card-title">Primary Card</h3>
+                        <p>This card uses the primary color scheme.</p>
+                    </div>
+                </div>
+                
+                <div class="card bg-secondary text-secondary-content">
+                    <div class="card-body">
+                        <h3 class="card-title">Secondary Card</h3>
+                        <p>This card uses the secondary color scheme.</p>
+                    </div>
+                </div>
+                
+                <div class="card bg-accent text-accent-content">
+                    <div class="card-body">
+                        <h3 class="card-title">Accent Card</h3>
+                        <p>This card uses the accent color scheme.</p>
+                    </div>
+                </div>
+                
+                <div class="card bg-neutral text-neutral-content">
+                    <div class="card-body">
+                        <h3 class="card-title">Neutral Card</h3>
+                        <p>This card uses the neutral color scheme.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Elements Demo -->
+        <div class="demo-section">
+            <h2>Form Elements</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="label">
+                        <span class="label-text">Input with primary focus</span>
+                    </label>
+                    <input type="text" placeholder="Type here" class="input input-bordered input-primary w-full" />
+                </div>
+                
+                <div>
+                    <label class="label">
+                        <span class="label-text">Input with secondary focus</span>
+                    </label>
+                    <input type="text" placeholder="Type here" class="input input-bordered input-secondary w-full" />
+                </div>
+                
+                <div>
+                    <label class="label">
+                        <span class="label-text">Input with accent focus</span>
+                    </label>
+                    <input type="text" placeholder="Type here" class="input input-bordered input-accent w-full" />
+                </div>
+                
+                <div>
+                    <label class="label">
+                        <span class="label-text">Select with info color</span>
+                    </label>
+                    <select class="select select-bordered select-info w-full">
+                        <option disabled selected>Pick one</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="label">
+                        <span class="label-text">Textarea with success color</span>
+                    </label>
+                    <textarea class="textarea textarea-bordered textarea-success w-full" placeholder="Bio"></textarea>
+                </div>
+                
+                <div class="flex flex-col gap-3">
+                    <label class="label">
+                        <span class="label-text">Checkboxes</span>
+                    </label>
+                    <div class="form-control">
+                        <label class="label cursor-pointer justify-start gap-3">
+                            <input type="checkbox" checked="checked" class="checkbox checkbox-primary" />
+                            <span class="label-text">Primary</span>
+                        </label>
+                    </div>
+                    <div class="form-control">
+                        <label class="label cursor-pointer justify-start gap-3">
+                            <input type="checkbox" checked="checked" class="checkbox checkbox-secondary" />
+                            <span class="label-text">Secondary</span>
+                        </label>
+                    </div>
+                    <div class="form-control">
+                        <label class="label cursor-pointer justify-start gap-3">
+                            <input type="checkbox" checked="checked" class="checkbox checkbox-accent" />
+                            <span class="label-text">Accent</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress & Loading Demo -->
+        <div class="demo-section">
+            <h2>Progress & Loading</h2>
+            <div class="space-y-4">
+                <progress class="progress progress-primary w-full" value="70" max="100"></progress>
+                <progress class="progress progress-secondary w-full" value="60" max="100"></progress>
+                <progress class="progress progress-accent w-full" value="50" max="100"></progress>
+                <progress class="progress progress-info w-full" value="40" max="100"></progress>
+                <progress class="progress progress-success w-full" value="80" max="100"></progress>
+                <progress class="progress progress-warning w-full" value="90" max="100"></progress>
+                <progress class="progress progress-error w-full" value="30" max="100"></progress>
+            </div>
+            
+            <h3 class="text-lg font-semibold mb-3 mt-6">Loading Spinners</h3>
+            <div class="flex flex-wrap gap-6">
+                <span class="loading loading-spinner loading-lg text-primary"></span>
+                <span class="loading loading-spinner loading-lg text-secondary"></span>
+                <span class="loading loading-spinner loading-lg text-accent"></span>
+                <span class="loading loading-spinner loading-lg text-info"></span>
+                <span class="loading loading-spinner loading-lg text-success"></span>
+                <span class="loading loading-spinner loading-lg text-warning"></span>
+                <span class="loading loading-spinner loading-lg text-error"></span>
+            </div>
+        </div>
+
+        <!-- Links Demo -->
+        <div class="demo-section">
+            <h2>Links</h2>
+            <div class="flex flex-col gap-3">
+                <a href="#" class="link link-primary">Primary link</a>
+                <a href="#" class="link link-secondary">Secondary link</a>
+                <a href="#" class="link link-accent">Accent link</a>
+                <a href="#" class="link link-neutral">Neutral link</a>
+                <a href="#" class="link link-info">Info link</a>
+                <a href="#" class="link link-success">Success link</a>
+                <a href="#" class="link link-warning">Warning link</a>
+                <a href="#" class="link link-error">Error link</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Original colors for reset
+        const originalColors = {
+            primary: '#7643bd',
+            secondary: '#008dbe',
+            accent: '#5ec2c6',
+            neutral: '#7d7a9f',
+            info: '#5b8bb5',
+            success: '#5cc47e',
+            warning: '#F7C13C',
+            error: '#e96b6b'
+        };
+
+        // Initialize color pickers
+        function initColorPickers() {
+            Object.keys(originalColors).forEach(colorName => {
+                const picker = document.getElementById(`${colorName}-picker`);
+                const valueDisplay = document.getElementById(`${colorName}-value`);
+                
+                picker.addEventListener('input', (e) => {
+                    const color = e.target.value;
+                    updateColor(colorName, color);
+                    valueDisplay.textContent = color;
+                });
+            });
+        }
+
+        // Update CSS variable
+        function updateColor(colorName, color) {
+            document.documentElement.style.setProperty(`--color-${colorName}`, color);
+            
+            // Update all elements using this color
+            const swatches = document.querySelectorAll(`.bg-${colorName}`);
+            swatches.forEach(swatch => {
+                swatch.style.backgroundColor = color;
+            });
+        }
+
+        // Convert HEX to OKLCH (simplified approximation)
+        function hexToOklch(hex) {
+            // Remove # if present
+            hex = hex.replace('#', '');
+            
+            // Convert to RGB
+            const r = parseInt(hex.substr(0, 2), 16) / 255;
+            const g = parseInt(hex.substr(2, 2), 16) / 255;
+            const b = parseInt(hex.substr(4, 2), 16) / 255;
+            
+            // Simplified conversion to approximate lightness
+            const lightness = (0.2126 * r + 0.7152 * g + 0.0722 * b) * 100;
+            
+            // This is a simplified approximation - for production use proper color conversion
+            return `oklch(${lightness.toFixed(0)}% 0.2 ${Math.random() * 360})`;
+        }
+
+        // Copy CSS to clipboard
+        function copyCSS() {
+            const colors = Object.keys(originalColors).map(colorName => {
+                const picker = document.getElementById(`${colorName}-picker`);
+                return `  --color-${colorName}: ${picker.value};`;
+            });
+            
+            const css = colors.join('\n');
+            
+            navigator.clipboard.writeText(css).then(() => {
+                alert('✅ CSS copied to clipboard!\n\nPaste into your styles.css file.');
+            });
+        }
+
+        // Reset to original colors
+        function resetColors() {
+            Object.entries(originalColors).forEach(([colorName, color]) => {
+                const picker = document.getElementById(`${colorName}-picker`);
+                const valueDisplay = document.getElementById(`${colorName}-value`);
+                
+                picker.value = color;
+                valueDisplay.textContent = color;
+                updateColor(colorName, color);
+            });
+            
+            console.log('✅ Colors reset to original values');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initColorPickers);
+    </script>
+</body>
+</html>
