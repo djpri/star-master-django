@@ -1,118 +1,58 @@
 @import url("https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
+
 @plugin "daisyui" {
   themes: light, mytheme --default;
 }
 
 @plugin "daisyui/theme" {
   name: "mytheme";
-  default: true; /* set as default */
-  prefersdark: false; /* set as default dark mode (prefers-color-scheme:dark) */
-  color-scheme: light; /* color of browser-provided UI */
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
 
-  /* Base background shades */
-  --color-base-100: oklch(98% 0.02 265); /* clean white with faint violet hue */
+  --color-base-100: oklch(98% 0.02 265);
   --color-base-200: oklch(95% 0.03 265);
   --color-base-300: oklch(92% 0.04 265);
-
-  /* Base content (text) */
-  --color-base-content: oklch(18% 0.05 265); /* deep slate/dark purple text */
-
-  /* Primary branding color – vibrant violet-purple */
-  --color-primary: oklch(54% 0.31 275); /* modern purple */
-  --color-primary-content: oklch(
-    98% 0.01 275
-  ); /* white/near-white text on purple */
-
-  /* Secondary accent – blue for secondary CTAs/badges */
-  --color-secondary: oklch(68% 0.27 235);
+  --color-base-content: oklch(18% 0.05 265);
+  --color-primary: #723cbe;
+  --color-primary-content: oklch(98% 0.01 275);
+  --color-secondary: oklch(67.16600000000001% 0.09 259);
   --color-secondary-content: oklch(98% 0.01 235);
-
-  /* Accent color – turquoise for highlights */
-  --color-accent: oklch(65% 0.25 185);
+  --color-accent: #61bec2;
   --color-accent-content: oklch(98% 0.01 185);
-
-  /* Neutral (card backgrounds, subtle UI elements) */
-  --color-neutral: oklch(50% 0.05 265);
+  --color-neutral: oklch(55.00000000000001% 0.06 265);
   --color-neutral-content: oklch(98% 0.01 265);
-
-  /* Info – teal for info alerts */
-  --color-info: oklch(70% 0.2 200);
-  --color-info-content: oklch(98% 0.01 200);
-
-  /* Success – green for success alerts */
-  --color-success: oklch(65% 0.22 145);
+  --color-info: #4993d4;
+  --color-info-content: oklch(98% 0.01 240);
+  --color-success: #42a964;
   --color-success-content: oklch(98% 0.01 145);
-
-  /* Warning – yellow-gold for warnings */
-  --color-warning: oklch(80% 0.23 80);
+  --color-warning: oklch(91.82% 0.14 90);
   --color-warning-content: oklch(20% 0.07 80);
-
-  /* Error – strong red */
-  --color-error: oklch(65% 0.35 28);
+  --color-error: #c23d3d;
   --color-error-content: oklch(98% 0.01 28);
 
-  /* border radius */
   --radius-selector: 1rem;
   --radius-field: 0.25rem;
   --radius-box: 0.5rem;
 
-  /* base sizes */
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
 
-  /* border size */
   --border: 1px;
 
-  /* effects */
   --depth: 1;
   --noise: 0;
 }
 
-/**
-  * A catch-all path to Django template files, JavaScript, and Python files
-  * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
-  *
-  * If your final CSS file is not being updated after code changes, you may want to broaden or narrow
-  * the scope of this path.
-  */
 @source "../../../**/*.{html,py,js}";
 
-/* Define custom colors and fonts using CSS custom properties */
 @theme {
-  /* Font Families */
   --font-alan: "Alan Sans", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-
   --font-montserrat: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-
-  /* Custom Colors */
-  --color-primary-50: #f3f1ff;
-  --color-primary-100: #ebe5ff;
-  --color-primary-200: #d9ceff;
-  --color-primary-300: #bea6ff;
-  --color-primary-400: #9f75ff;
-  --color-primary-500: #843dff;
-  --color-primary-600: #7916ff;
-  --color-primary-700: #6b04fd;
-  --color-primary-800: #5a03d4;
-  --color-primary-900: #4c05af;
-  --color-primary-950: #2e0077;
-
-  --color-secondary-50: #fffbeb;
-  --color-secondary-100: #fef3c7;
-  --color-secondary-200: #fde68a;
-  --color-secondary-300: #fcd34d;
-  --color-secondary-400: #fbbf24;
-  --color-secondary-500: #f59e0b;
-  --color-secondary-600: #d97706;
-  --color-secondary-700: #b45309;
-  --color-secondary-800: #92400e;
-  --color-secondary-900: #78350f;
-  --color-secondary-950: #451a03;
 }
 
-/* Custom base styles */
 @layer base {
   :root {
     font-family: var(--font-alan);
@@ -123,12 +63,10 @@
   }
 
   body {
-    @apply bg-base-200;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     letter-spacing: 0.025em;
   }
 
-  /* Enhanced typography for STAR Master */
   h1,
   h2,
   h3,
@@ -155,9 +93,65 @@
     font-family: var(--font-montserrat);
   }
 
-  /* Legacy nav-link class for any remaining usage */
   .nav-link {
     @apply px-2 lg:px-3 py-2 rounded-md text-white text-sm font-semibold hover:bg-primary hover:text-primary-content transition-colors duration-200;
     font-family: var(--font-montserrat);
+  }
+
+  .fixed-bg-hero {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      125% 125% at 50% 10%,
+      #daf1ff 40%,
+      #f7c13c 100%
+    );
+    z-index: -1;
+  }
+
+  .fixed-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #6366f1 100%);
+    z-index: -1;
+  }
+
+  body {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@layer components {
+  .content-hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+  }
+
+  .content-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+  }
+
+  .stargazing-mode .fixed-bg,
+  .stargazing-mode .fixed-bg-hero {
+    background: #000000 !important;
+    transition: background 1.5s ease-in-out;
+  }
+
+  @media (max-width: 768px) {
+    .fixed-bg {
+      transform: translate3d(0, 0, 0);
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
   }
 }

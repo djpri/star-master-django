@@ -29,57 +29,10 @@
       rel="stylesheet"
     />
     {% tailwind_css %}
-    <style>
-      /* Fixed background hack for mobile devices */
-      .fixed-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #6366f1 100%);
-        z-index: -1;
-      }
-      
-      /* Ensure content is above the background */
-      body {
-        position: relative;
-        z-index: 1;
-      }
-      
-      /* Additional mobile optimization */
-      @media (max-width: 768px) {
-        .fixed-bg {
-          /* Use transform3d to trigger hardware acceleration */
-          transform: translate3d(0, 0, 0);
-          /* Ensure it covers the full viewport on mobile */
-          min-height: 100vh;
-          min-height: 100dvh; /* Dynamic viewport height for modern browsers */
-        }
-      }
-      
-      /* Stargazing mode styles */
-      .stargazing-mode .fixed-bg {
-        background: #000000 !important;
-        transition: background 1.5s ease-in-out;
-      }
-      
-      .content-hidden {
-        opacity: 0;
-        transform: translateY(-20px);
-        transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
-      }
-      
-      .content-visible {
-        opacity: 1;
-        transform: translateY(0);
-        transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
-      }
-    </style>
   </head>
   <body class="h-full flex flex-col">
     <!-- Fixed Background Container -->
-    <div class="fixed-bg"></div>
+    <div class="{% if request.resolver_match.url_name == 'home' %}fixed-bg-hero{% else %}fixed-bg{% endif %}"></div>
     
     <!-- Admin Mode Banner -->
     {% if user.is_staff %}
@@ -90,7 +43,7 @@
     {% endif %}
     
     <!-- Navigation -->
-    <div class="navbar {% if user.is_staff %}bg-warning text-warning-content{% else %}bg-primary-500 text-white{% endif %} shadow-lg relative z-20">
+    <div class="navbar {% if user.is_staff %}bg-warning text-warning-content{% else %}bg-primary text-white{% endif %} shadow-[0_4px_14px_0_rgb(0,192,255,0.39)] z-50">
       
       <div class="navbar-start">
         <!-- Logo -->
@@ -114,7 +67,7 @@
               <summary class="nav-link">
                 Questions
               </summary>
-              <ul class="bg-base-100 rounded-box z-[1] w-52 p-2 shadow text-base-content">
+              <ul class="bg-base-100 rounded-box z-[50] w-52 p-2 shadow text-base-content">
                 {% if user.is_authenticated %}
                   <li><a href="{% url 'questions:list' %}" class="font-semibold">
                     <i class="fas fa-bookmark mr-2"></i>
