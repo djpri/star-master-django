@@ -8,7 +8,7 @@
     <meta name="description" content="{% block description %}STAR Master - Learn and practice the STAR method for interview questions. Create, organize, and refine your interview responses.{% endblock %}" />
     <title>{% block title %}STAR Master{% endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/star_master.ico' %}" />
-    
+
     <!-- Open Graph -->
     <meta property="og:title" content="{% block og_title %}STAR Master{% endblock %}" />
     <meta property="og:description" content="{% block og_description %}STAR Master - Learn and practice the STAR method for interview questions. Create, organize, and refine your interview responses.{% endblock %}" />
@@ -24,25 +24,7 @@
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/open-graph.webp' %}{% endblock %}" />
     <meta name="twitter:image:alt" content="{% block twitter_image_alt %}STAR Master - Interview preparation with the STAR method{% endblock %}" />
 
-    <!-- Preconnect to external resources for faster loading -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin />
-    
-    <!-- Load Google Fonts asynchronously to avoid render blocking -->
-    <link 
-      href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" 
-      rel="stylesheet" 
-      media="print" 
-      onload="this.media='all'" 
-    />
-    <noscript>
-      <link 
-        href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" 
-        rel="stylesheet"
-      />
-    </noscript>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     {% block extra_head %}{% endblock %}
 
     {% tailwind_css %}
@@ -320,6 +302,5 @@
     </footer>
 
     {% include "components/prefetch_script.html" %}
-    <script src="https://kit.fontawesome.com/f249cb196d.js" crossorigin="anonymous"></script>
   </body>
 </html>
