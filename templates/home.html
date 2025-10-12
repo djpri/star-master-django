@@ -4,6 +4,11 @@
 {% block title %}STAR Master{% endblock %}
 {% block description %}Master the STAR interview technique. Organize your interview stories, practice common questions, and ace your next job interview with structured responses.{% endblock %}
 
+{% block extra_head %}
+<!-- Preload hero image for faster LCP -->
+<link rel="preload" as="image" href="{% static 'images/hero.webp' %}" fetchpriority="high" />
+{% endblock %}
+
 {% block content %}
 
 <!-- Particle Canvas Background -->
@@ -16,6 +21,7 @@
       src="{% static 'images/hero.webp' %}"
       alt="STAR Master"
       class="w-full md:max-w-sm rounded-lg shadow-2xl"
+      fetchpriority="high"
     />
     <div>
       <h1 class="text-5xl md:text-7xl font-bold mb-6">STAR Master</h1>
