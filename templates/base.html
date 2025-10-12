@@ -24,6 +24,8 @@
     <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/open-graph.webp' %}{% endblock %}" />
     <meta name="twitter:image:alt" content="{% block twitter_image_alt %}STAR Master - Interview preparation with the STAR method{% endblock %}" />
 
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     {% block extra_head %}{% endblock %}
 
