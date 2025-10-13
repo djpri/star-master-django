@@ -1,25 +1,10 @@
 # STAR Master
 
-STAR Master is a web application designed to help job seekers prepare for behavioral interview questions using the STAR (Situation, Task, Action, Result) method. The platform provides a structured approach to crafting responses, allowing users to create, edit, and review their STAR stories. Users can also craft basic text responses without the STAR structure if they prefer.
+STAR Master is a web application designed to help job seekers prepare for behavioural interview questions using the STAR (Situation, Task, Action, Result) method. The platform provides a structured approach to crafting responses, allowing users to create, edit, and review their STAR stories. Users can also craft basic text responses without the STAR structure if they prefer.
 
-The application features a library of public questions that serve as examples and inspiration, alongside private questions where users can build their personal interview preparation toolkit. With an intuitive interface built using Django and styled with Tailwind CSS and DaisyUI, STAR Master makes interview preparation organized and effective.
+The application features a library of public questions that serve as examples and inspiration, alongside private questions where users can build their personal interview preparation toolkit. With an intuitive interface built using Django and styled with Tailwind CSS and DaisyUI, STAR Master makes interview preparation organised and effective.
 
 <img src="docs/readme/images/homepage.webp" alt="Homepage Screenshot"/>
-
-## Contents 
-
-- [STAR Master](#star-master)
-  - [Contents](#contents)
-  - [Project Overview](#project-overview)
-  - [User Experience Design (UI/UX)](#user-experience-design-uiux)
-  - [Database](#database)
-  - [CRUD Functionality and Authentication/Authorization](#crud-functionality-and-authenticationauthorization)
-  - [Agile Methodology](#agile-methodology)
-  - [Testing and Validation](#testing-and-validation)
-  - [Use of AI](#use-of-ai)
-  - [Development](#development)
-  - [Deployment](#deployment)
-  - [Credits](#credits)
 
 ## Project Overview
 
@@ -27,14 +12,14 @@ The application features a library of public questions that serve as examples an
    <summary>View project overview</summary>
    <br />
    
-   This website aims to address a common challenge faced by job seekers: effectively preparing for behavioral interview questions. The STAR method (Situation, Task, Action, Result) is a proven framework for structuring compelling interview responses, but keeping track of a lifetime of STAR stories and practicing them can be challenging.
+   This website aims to address a common challenge faced by job seekers: effectively preparing for behavioural interview questions. The STAR method (Situation, Task, Action, Result) is a proven framework for structuring compelling interview responses, but keeping track of a lifetime of STAR stories and practising them can be challenging.
    
    This application provides:
    
    - **Personal Question Library**: Users can create and manage their own private interview questions and answers
    - **Public Question Repository**: A community-driven collection of common interview questions that users can reference and copy to their own library
    - **Flexible Answer Formats**: Support for both structured STAR answers and free-form basic text answers
-   - **Tag-Based Organization**: Custom tagging system to categorize questions by topic, skill, or any other criteria
+   - **Tag-Based Organisation**: Custom tagging system to categorise questions by topic, skill, or any other criteria
    - **Responsive Design**: Fully responsive interface that works seamlessly on desktop, tablet, and mobile devices
    - **Secure Authentication**: User registration and login system with role-based permissions
    
@@ -91,7 +76,7 @@ The application features a library of public questions that serve as examples an
    
    Wireframes were worked on iteratively throughout the design process, starting out with minimal sketches and gradually evolving into more detailed designs as the project progressed. The wireframes were created using Balsamiq, which allowed for quick adjustments and refinements.
    
-   Pages within the project that had more complex layouts were wireframed for both mobile and desktop views to plan out the responsive design. Other pages that were more simple in layout were only wireframed in one view, as the layout was similar across all device sizes. Beyond the MVP, additional views for desktop could be created to further enhance the experience on larger screens.
+   Pages within the project that had more complex layouts were wireframed for both mobile and desktop views to plan out the responsive design. Other pages that were simpler in layout were only wireframed in one view, as the layout was similar across all device sizes. Beyond the MVP, additional views for desktop could be created to further enhance the experience on larger screens.
    
    **Wireframe Screenshots:**
    
@@ -137,6 +122,8 @@ The application features a library of public questions that serve as examples an
    </details>
    
    #### Responsive Design
+
+   ![Responsive Design](docs/readme/images/responsive.webp)
    
    Using Tailwind CSS's thoughtfully designed utility-first system, the application achieves full responsiveness across all device sizes. Tailwind's predefined breakpoints (`sm`, `md`, `lg`, `xl`) allowed for rapid development of adaptive layouts without writing custom CSS media queries.
    
@@ -158,7 +145,7 @@ The application features a library of public questions that serve as examples an
    **Site Map:**
    ![Site Map](docs/readme/images/wireframes/Site%20map.png)
    
-   The navigation adapts based on user authentication state:
+   The navigation adapts based on the user authentication state:
    - **Unauthenticated users**: See links to home, public questions, login, and signup
    - **Authenticated users**: Access to their profile, private questions, and logout functionality
    - **Admin users**: Additional link to the Django admin panel for managing public questions and users
@@ -166,7 +153,7 @@ The application features a library of public questions that serve as examples an
    
    #### Usability Considerations
    
-   - **Consistent Layout**: All pages follow a predictable structure with header, main content area, and clear calls-to-action
+   - **Consistent Layout**: All pages follow a predictable structure with a header, main content area, and clear calls-to-action
    - **Intuitive Forms**: Form fields include helpful placeholder text and validation messages
    - **Visual Feedback**: Success messages, error alerts, and loading states keep users informed
    - **Clear Action Hierarchy**: Primary actions use prominent styling, while secondary actions are visually subdued
@@ -175,8 +162,8 @@ The application features a library of public questions that serve as examples an
    ### Accessibility
    
    I used https://www.accessibilitychecker.org/ to check key pages in deployment for accessibility issues.
-   I also used IBM Equal Access Accessibility Checker and in development to also catch issues in chrome devtools for authenticated pages. In the command line, I used Pa11y as an addional check.
-   
+   I also used IBM Equal Access Accessibility Checker in development to catch issues in Chrome DevTools for authenticated pages. In the command line, I used Pa11y as an additional check.
+
    ```console
    Welcome to Pa11y
    
@@ -199,7 +186,7 @@ The application features a library of public questions that serve as examples an
    
    - **User** - Built-in Django model extended by Django Allauth for authentication and profile management
    - **Question** - Represents an interview question, which can be either public (shared with the community) or private (personal use only)
-   - **Tag** - Represents keywords or categories for organizing questions. Tags can be public (available to all users) or private (user-specific)
+   - **Tag** - Represents keywords or categories for organising questions. Tags can be public (available to all users) or private (user-specific)
    - **Answer** - Represents a user's response to a question, with two distinct subtypes:
      - **BasicAnswer** - A simple text-based response for users who prefer free-form answers
      - **StarAnswer** - A structured response following the STAR methodology with separate fields for Situation, Task, Action, and Result
@@ -215,60 +202,17 @@ The application features a library of public questions that serve as examples an
    
    #### Entity Relationship Diagram (ERD)
    
-   The following ERD visualizes the database structure, showing all fields and relationships. Django automatically creates database tables based on these model definitions and handles relationships through foreign keys and many-to-many intermediate tables.
+   The following ERD visualises the database structure, showing all fields and relationships. Django automatically creates database tables based on these model definitions and handles relationships through foreign keys and many-to-many intermediate tables.
    
    ![Entity Relationship Diagram](docs/readme/images/erd.png)
 </details>
 
-## CRUD Functionality and Authentication/Authorization
+## CRUD Functionality and Authentication/Authorisation
 <details>
    <summary>View CRUD functionality details</summary>
    <br />
    
    The application provides comprehensive Create, Read, Update, and Delete operations for managing interview questions and answers, with business rules enforced at multiple levels.
-   
-   #### Questions
-   
-   **Create:**
-   - Authenticated users can create both private and public questions
-   - Private questions are automatically approved and immediately available to the user
-   - Public questions submitted by regular users are marked as "Pending" and require admin approval before appearing in the public library
-   - Admin users can create public questions that are automatically approved
-   
-   **Read:**
-   - Users can view all their own questions (both private and public)
-   - All users (including unauthenticated visitors) can browse approved public questions
-   - Only admins can view pending public questions from other users
-   
-   **Update:**
-   - Users can edit their own questions at any time
-   - Editing a public question that was previously approved changes its status back to "Pending" for re-approval (unless the editor is an admin)
-   - Tags can be added or removed during editing
-   
-   **Delete:**
-   - Users can delete their own private questions and any associated answers
-   - Public questions can only be deleted by admins or the question owner
-   - Deleting a question cascades to delete all associated answers
-   
-   #### Answers
-   
-   **Create:**
-   - Users can create answers only for questions they have access to (their own questions or approved public questions)
-   - Users choose between STAR format or basic text format when creating an answer
-   - Each field in a STAR answer is required and validated on submission
-   
-   **Read:**
-   - Users can view all their own answers
-   - Answers are displayed within the context of their associated question
-   - Public answers on approved public questions are visible to all users
-   
-   **Update:**
-   - Users can edit their own answers at any time
-   - The answer format (STAR vs Basic) is preserved during editing
-   
-   **Delete:**
-   - Users can delete their own answers
-   - Deleting a question automatically deletes all associated answers (cascade delete)
    
    ### User Notifications
    
@@ -276,29 +220,28 @@ The application features a library of public questions that serve as examples an
    
    - **Success Messages**: Displayed when questions or answers are created, updated, or deleted
    - **Error Messages**: Show validation errors or permission issues
-   - **Info Messages**: Provide context about pending approvals or status changes
    - **Django Messages Framework**: All notifications use Django's built-in messages framework with DaisyUI alert styling
    
    Examples:
    - "Question created successfully and submitted for approval"
    - "Your answer has been saved"
    
-   ### Authentication and Authorization
+   ### Authentication and Authorisation
    
    #### Role-Based Access Control
    
    The application implements a two-tier permission system:
    
    **Regular Users:**
-   - Create and manage private questions and answers
-   - View approved public questions
+   - Create, Read, Update and Delete all private questions and answers
+   - View approved public questions, and save copies to their private collection
    - Submit public questions for admin review
-   - Create private tags for personal organization
+   - Create private tags for personal Organisation
    
    **Admin Users:**
    - All regular user permissions
    - Approve or deny pending public questions
-   - Access Django admin panel for user and content management
+   - Access the Django admin panel for user and content management
    - Create public tags available to all users
    - Edit or delete any content
    
@@ -308,17 +251,7 @@ The application features a library of public questions that serve as examples an
    
    #### Access Control Implementation
    
-   Security is enforced at multiple levels:
-   
-   1. **View-Level Protection**: Django's `LoginRequiredMixin` and custom permission checks prevent unauthorized access
-   2. **Model-Level Filtering**: QuerySets filter data based on user ownership and permissions
-   3. **Template-Level Conditionals**: UI elements only display actions the user is permitted to perform
-   4. **Form-Level Validation**: Server-side validation ensures users cannot manipulate data they don't own
-   
-   Example security implementations:
-   - URL manipulation cannot expose other users' private questions
-   - CSRF protection on all forms prevents cross-site request forgery
-   - Session management ensures secure authentication state
+   Security is enforced throughout the application using a combination of Django's built-in features and custom logic: views use `LoginRequiredMixin` and permission checks, QuerySets filter data by user ownership, templates conditionally display permitted actions, and forms validate user access. Key protections include: blocking URL manipulation to access other users' data, CSRF protection on all forms, and secure session management for authentication.
    
    ### Additional Features
    
@@ -330,11 +263,11 @@ The application features a library of public questions that serve as examples an
    
    #### Tag Management
    - Public tags created by admins are available to all users
-   - Users can create private tags for personal organization
+   - Users can create private tags for personal organisation
    - Case-insensitive tag handling prevents duplicates
    
-   #### Performance Optimizations
-   - Database query optimization using `select_related` and `prefetch_related`
+   #### Performance Optimisations
+   - Database query optimisation using `select_related` and `prefetch_related`
    - Static file compression with WhiteNoise
    - Efficient pagination for large question lists
 </details>
@@ -348,32 +281,39 @@ The application features a library of public questions that serve as examples an
    
    ### Development Process
    
-   The project was organized into small, iterative cycles (sprints) to allow for frequent reassessment and adaptation of plans. Using GitHub Projects, I maintained a backlog of tasks and user stories, which were reviewed at the beginning of each sprint. I estimated the effort required for each task and selected a reasonable number of tasks to complete within each sprint duration.
+   The project was organised into small, iterative cycles (sprints) to allow for frequent reassessment and adaptation of plans. Using GitHub Projects, I maintained a backlog of tasks and user stories, which were reviewed at the beginning of each sprint. I estimated the effort required for each task and selected a reasonable number of tasks to complete within each sprint duration.
    
    This iterative approach allowed me to:
    - Respond quickly to technical challenges and changing requirements
-   - Prioritize features based on user value
+   - Prioritise features based on user value
    - Maintain a sustainable development pace
    - Incorporate feedback and learning into subsequent sprints
    
-   ### User Stories and MoSCoW Prioritization
+   ### User Stories and MoSCoW Prioritisation
    
-   The project was broken down into manageable user stories, which were then prioritized using the MoSCoW method:
+   The project was broken down into manageable user stories, which were then prioritised using the MoSCoW method:
    
-   - **Must Have**: Core functionality essential for the MVP (e.g., user authentication, question creation, STAR answer creation)
-   - **Should Have**: Important features that significantly enhance user experience (e.g., tag system, public questions)
-   - **Could Have**: Nice-to-have features that add value but aren't critical (e.g., advanced search filters, question voting)
-   - **Won't Have**: Features explicitly excluded from the current scope (e.g., social sharing, mobile app)
+   - **Must Have**: Core functionality essential for the MVP (e.g. user authentication, question creation, STAR answer creation)
+   - **Should Have**: Important features that significantly enhance user experience (e.g. tag system, public questions)
+   - **Could Have**: Nice-to-have features that add value but aren't critical (e.g. advanced search filters, question voting)
+   - **Won't Have**: Features explicitly excluded from the current scope (e.g. social sharing, mobile app)
    
-   This prioritization ensured that the most important features were developed first and that the project stayed on track to deliver a functional product.
+   This prioritisation ensured that the most important features were developed first and that the project stayed on track to deliver a functional product.
    
    Here is a screenshot of the GitHub Project board used to manage user stories and tasks:
    
    ![GitHub Project Board](docs/readme/images/project_board.png)
+
+   Here are a few example user stories from the project, though not a complete list. The full list of user stories is maintained in my [GitHub Project board](https://github.com/users/djpri/projects/6):
+
+   - AS A user, I CAN use the login page to input my user details SO THAT I can log in and view my personal data
+   - AS A user I CAN view a paginated list of questions (either public or private) SO THAT I can find existing questions that I need for any upcoming interviews
+   - AS A user I CAN create, update and delete my answers to questions SO THAT I can fully manage my collection
+   - AS A user I CAN see notification banners upon user actions such as logging in SO THAT I have a clear indication in the UI that I have completed these actions
    
    ### Code Quality
    - **PEP 8 Compliance:** Code checked with Flake8 and formatted using Black for consistent style.
-   - **Naming & Structure:** Models use singular CamelCase names; variables and functions use snake_case; code is organized by concerns with reusable components.
+   - **Naming & Structure:** Models use singular CamelCase names; variables and functions use snake_case; code is organised by concerns with reusable components.
    - **Documentation:** Docstrings and comments added for clarity; file structure is logical and DRY principles are followed.
 </details>
 
@@ -392,22 +332,11 @@ The application features a library of public questions that serve as examples an
    
    The application uses **pytest** with **pytest-django** for comprehensive automated testing. The test suite covers models, views, forms, and business logic to ensure the application functions correctly and securely.
    
-   **Test Organization:**
-   Tests are organized in dedicated test directories within each app:
+   **Test Organisation:**
+   Tests are organised in dedicated test directories within each app:
    ```
    questions/tests/
-     views/
-       test_question_list_view.py
-       test_question_detail_view.py
-       test_question_create_view.py
-       test_question_edit_view.py
-       test_question_delete_view.py
-       test_save_public_question_view.py
-     models/
-     forms/
-   
    answers/tests/
-     [similar structure]
    ```
    
    **Running Tests:**
@@ -435,12 +364,12 @@ The application features a library of public questions that serve as examples an
    4. **Business Logic Tests**
       Verifies public/private workflows, tag rules, answer visibility, and cascade deletion.*
    
-   **Test Optimization:**
-   Through collaboration with AI tools, the test suite was significantly optimized:
+   **Test Optimisation:**
+   Through collaboration with AI tools, the test suite was significantly optimised:
    - Reduced test execution time from over 80 seconds to less than 9 seconds
    - Implemented shared fixtures to reduce database overhead
    - Used `pytest-xdist` for parallel test execution
-   - Optimized database queries in test setups
+   - Optimised database queries in test setups
    
    ### Validation
    
@@ -448,59 +377,51 @@ The application features a library of public questions that serve as examples an
    
    The HTML was validated using the W3C Markup Validation Service at https://validator.w3.org/.
    
-   Here is a screenshot of the validation results:
+   Here is an example showing a screenshot of the validation results for the homepage:
    
    ![HTML Validation](docs/readme/images/html_validation.png)
    
    #### CSS Validation
    
-   This website's css was validated through W3C's Jigsaw validator at https://jigsaw.w3.org/css-validator/.
+   This website's CSS was validated through W3C's Jigsaw validator at https://jigsaw.w3.org/css-validator/.
    
-   When validating the built CSS with the W3C Jigsaw validator, two errors were noted:
+   When validating the built CSS with the W3C Jigsaw validator, two issues were noted:
    
-   - "Unrecognized at-rule @layer"
-   - "Unrecognized at-rule @property"
+   - "Unrecognised at-rule @layer"
+   - "Unrecognised at-rule @property"
    
-   These are not actual errors — they occur because Tailwind CSS uses modern CSS features that Jigsaw’s older validation engine does not yet recognize. All generated styles are valid and fully supported in modern browsers.
+   These are not actual errors — they occur because Tailwind CSS uses modern CSS features that Jigsaw’s older validation engine does not yet recognise. All generated styles are valid and fully supported in modern browsers.
    
    Aside from these two warnings, the CSS shows no other errors.
    
    #### Python Validation
    
-   Python code quality was validated using **Flake8** and **Black**:
+   Python code quality was validated using **Flake8** and formatted with **Black**:
    
    **Flake8 Configuration:**
-   - Line length: 88 characters (Black default)
+   - Line length: 79 - consistent with PEP 8
    - Excluded: migrations, venv, node_modules
    - All code passes Flake8 checks with no critical errors
    
    **Black Formatting:**
    - Consistent code formatting across the entire codebase
    - Integrated into development workflow
-   
-   To run validation:
-   ```bash
-   flake8 .
-   black --check .
-   ```
-   
-   #### JavaScript Validation
-   
-   The application uses minimal custom JavaScript. The primary JavaScript file is `particle-effect.js`, which creates the animated background effect on the homepage.
-   
-   **JavaScript Validation:**
-   
-   The JavaScript code was checked using
-   
-   The particle effect script:
-   - Uses ES6 features (arrow functions, const/let)
-   - Includes proper error handling for missing canvas elements
-   - Well-documented with JSDoc-style comments
-   - No global variable pollution (wrapped in IIFE)
+
+   To format the codebase, run `black .`, and to validate code style, run `flake8 .`.
+
+
+   #### JavaScript Functionality Testing
+
+   JavaScript functionality was manually tested across key features:
+
+   **1. Public Questions:** Save button (for saving public questions to personal collection), approve (admin), dynamic UI, error handling  
+   **2. Tag Management:** Add, create, validate, remove, keyboard shortcuts, prevent duplicates  
+   **3. Answer Type:** Switch STAR/Basic, URL update, form persistence  
+   **4. Homepage Effect:** Canvas, mouse, responsive, performance
    
    ### Lighthouse Testing
    
-   The application was audited using Google Lighthouse to assess performance, accessibility, best practices, and SEO. Performance scored can fluctuate based on network conditions and device capabilities, but the application consistently scores well across all categories.
+   The application was audited using Google Lighthouse to assess performance, accessibility, best practices, and SEO. Performance scores can fluctuate based on network conditions and device capabilities, but the application consistently scores well across all categories.
    
    Here is a screenshot of a Lighthouse audit for the homepage:
    
@@ -525,19 +446,18 @@ The application features a library of public questions that serve as examples an
    
    ### User Story Testing
    
-   User stories were systematically tested to ensure all acceptance criteria were met:
+   Automated tests were tailored to the user stories defined in the Agile planning process. Each user story was broken down into specific test cases to validate that the implemented functionality met the acceptance criteria.
+
+   **Example: CRUD operations on answers**  
+   *User Story: "AS A user I CAN create, update and delete my answers to questions SO THAT I can fully manage my collection"*
    
-   **Example User Stories:**
-   
-   | User Story                                              | Acceptance Criteria                                                                               | Test Result |
-   | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ----------- |
-   | As a user, I want to create private interview questions | User can access create form, submit question, see success message, question appears in their list | ✅ Pass      |
-   | As a user, I want to create STAR answers                | User can choose STAR format, fill all 4 fields, submit, and view completed answer                 | ✅ Pass      |
-   | As a user, I want to browse public questions            | User can view approved public questions without logging in                                        | ✅ Pass      |
-   | As an admin, I want to approve public questions         | Admin can view pending questions, approve/deny them, status updates correctly                     | ✅ Pass      |
-   | As a user, I want to organize questions with tags       | User can add/remove tags, tags autocomplete, tags filter questions                                | ✅ Pass      |
-   
-   <!-- TODO: Expand with full user story testing matrix covering all major features -->
+   - **Answer creation logic and business rules** are tested in `answers/tests/test_answer_create_business_logic.py`.
+   - **Answer update functionality** is verified in `answers/tests/test_answer_edit.py`
+   - **Answer deletion functionality** is covered in `answers/tests/test_answer_delete_view.py`
+
+   ### Known Issues
+
+   - Query strings for the sort options in the question list views are not always clearly descriptive. For example &sort=-created_at and &sort=created_at could be ambiguous to users. More user-friendly options like &sort=newest or &sort=oldest would be clearer.
 </details>
 
 ## Use of AI
@@ -545,17 +465,12 @@ The application features a library of public questions that serve as examples an
    <summary>View AI usage details</summary>
    <br />
    
-   AI tools such as GitHub Copilot using the varied selection of models it provided played a critical role throughout the development of the website. Different AI models were used based on the requirements for each task.
+   AI tools such as GitHub Copilot, using the varied selection of models it provided, played a critical role throughout the development of the website. Different AI models were used based on the requirements for each task.
    
    ### AI Tools in Code Creation
    
    #### Primary Development Tool: Claude Sonnet 4/4.5
-   For the majority of AI-assisted code creation, I used **Claude Sonnet 4/4.5** through GitHub Copilot's agent mode. I found these models to be particularly effective for:
-   
-   - **Boilerplate Code**: Using commonly used Django syntax for generating views, forms, and models
-   - **Multi-File Refactoring**: Managing changes across multiple files while maintaining consistency and avoiding breaking changes
-   - **Business Logic Implementation**: Translating business requirements (like the public/private question approval workflow) into working code
-   - **Template Architecture**: Building reusable Django template components with proper inheritance and includes
+   For the majority of AI-assisted code creation, I used **Claude Sonnet 4/4.5** through GitHub Copilot's agent mode. I found these models to be particularly effective for boilerplate code and multi-file refactoring, as well as other general development tasks.
    
    The key to success with this approach was having clear and well-defined requirements written out manually in advance. I took the role of product owner at times, defining the "what" and "why" of each feature, while the AI assisted with the "how". Then I reviewed and refined the AI-generated code to ensure it met the specific needs of the application and had acceptable performance.
    
@@ -568,17 +483,17 @@ The application features a library of public questions that serve as examples an
    
    **Failing Tests**
    
-   The test suite became very useful as the app grew and the number of moving parts increased. I could safely allow to AI to refactor and add additional functionality, knowing that if something broke, the tests would catch it.
+   The test suite became very useful as the app grew and the number of moving parts increased. I could safely allow AI to refactor and add additional functionality, knowing that if something broke, the tests would catch it.
    
    When tests failed, the AI was very effective at reading through the error messages and stack traces, identifying the root cause, and suggesting fixes.
    
-   ### Performance and UX Optimization
+   ### Performance and UX Optimisation
    
-   #### Test Suite Optimization
-   This was one of the most impactful AI-assisted optimizations. Through a combination of research and AI assistance:
+   #### Test Suite Optimisation
+   This was one of the most impactful AI-assisted optimisations. Through a combination of research and AI assistance:
    
    1. **Research Phase**: I found an article on BuildPulse about speeding up pytest execution
-   2. **AI Implementation**: Shared the article with Copilot and asked it to apply relevant optimizations
+   2. **AI Implementation**: Shared the article with Copilot and asked it to apply relevant optimisations
    3. **Iterative Refinement**: Worked with AI to implement:
       - Shared fixtures to reduce database setup overhead
       - Parallel test execution with `pytest-xdist`
@@ -587,7 +502,7 @@ The application features a library of public questions that serve as examples an
    
    **Result**: Test suite execution time dropped from **over 80 seconds to under 9 seconds** - nearly a 10x improvement!
    
-   #### Database Query Optimization
+   #### Database Query Optimisation
    
    - **N+1 Query Problem**: Using django debug toolbar, I identified inefficient database queries on the question list page. I had an intuition that the page was loading too slowly, and by using this toolbar, my suspicions were confirmed. AI suggested using `select_related` and `prefetch_related`, reducing the query time from **2.5 seconds** to under **200 milliseconds**.
    
@@ -598,7 +513,7 @@ The application features a library of public questions that serve as examples an
    #### Test Generation Workflow
    1. **Initial Test Structure**: Copilot generated test class scaffolding based on the view or model being tested
    2. **Test Case Suggestions**: Based on the code, Copilot suggested comprehensive test scenarios I might not have considered
-   3. **Assertion Generation**: Copilot wrote appropriate assertions based on expected behavior
+   3. **Assertion Generation**: Copilot wrote appropriate assertions based on expected behaviour
    4. **Fixture Creation**: Generated reusable pytest fixtures for common test data
    
    The AI was so eager to write tests, I often had to guide it to avoid writing too many.
@@ -611,7 +526,7 @@ The application features a library of public questions that serve as examples an
    - **Test Generation**: Comprehensive test coverage suggestions
    
    #### AI Limitations Encountered
-   - **Business Logic Complexity**: Required clear explanation of application-specific rules, though when explicitly provided, AI handled them well
+   - **Risk of Technical Debt**: Sometimes suggested suboptimal patterns that required manual review, and due to the volume of AI-generated code, it can be easy to overlook these issues
    - **Architecture Decisions**: Needed human judgment for high-level design choices
    - **Edge Case Awareness**: Sometimes missed domain-specific edge cases
    - **Frontend CSS Bugs**: required more manual effort as AI was less effective in these areas
@@ -624,7 +539,7 @@ The application features a library of public questions that serve as examples an
    
    ### Development Setup
    
-   This section provides instructions for setting up a local development environment for the STAR Master application.
+   This section provides instructions for setting up your local development environment.
    
    #### Prerequisites
    
@@ -635,10 +550,9 @@ The application features a library of public questions that serve as examples an
    - **Node.js** - Latest LTS version for Tailwind CSS build process
    
    For hosting the database:
-   - **NeonDB (Recommended)** - https://neon.com/
-   Provides a free tier solution for serverless PostgreSQL databases
-   
-   
+   - **[NeonDB (Recommended)](https://neon.com/)** - Serverless PostgreSQL database platform for cloud deployment. Provides a free tier solution for serverless PostgreSQL databases
+  
+   Go to NeonDB and create a free account. Set up a free project, which will provide you with multiple databases within that project. These are called "branches" and follow the same philosophy as Git branches. Create two branches, one for development and one for production.
    
    #### Installation Steps
    
@@ -694,12 +608,12 @@ The application features a library of public questions that serve as examples an
    
       **macOS/Linux:**
       ```bash
-      heroku local:run python3 manage.py migrate
+      heroku local:run python manage.py migrate
       ```
    
    8. **Create Superuser (Admin Account)**
       ```bash
-      heroku local:run python3 manage.py createsuperuser
+      heroku local:run python manage.py createsuperuser
       ```
    
    9. **Load Sample Data (Optional)**
@@ -745,45 +659,22 @@ The application features a library of public questions that serve as examples an
    ```
    
    **Note:** Tests use SQLite database by default, so no additional setup is required. Environment variables are not needed for test execution.
-   
-   ### Database Configuration
-   
-   #### Development Database Options
-   
-   **SQLite (Default):**
-   - No additional setup required
-   - Suitable for development and testing
-   - Database file: `db.sqlite3` in project root
-   
-   **PostgreSQL (Recommended for Production-Like Development):**
-   1. Install PostgreSQL locally
-   2. Create a database: `createdb star_master_dev`
-   3. Update `.env` with `DATABASE_URL`
-   4. Run migrations
-   
+
+
    #### Database Migrations
    
-   **Create new migrations after model changes:**
+   **Create new migrations after model changes, then migrate:**
    ```bash
    python manage.py makemigrations
-   ```
-   
-   **Apply migrations:**
-   ```bash
    python manage.py migrate
-   ```
-   
-   **View migration status:**
-   ```bash
-   python manage.py showmigrations
    ```
    
    ### Important Development Notes
    
-   #### PowerShell Virtual Environment Activation
-   
-   When using PowerShell, you must activate the virtual environment before running Python commands. The virtual environment does NOT auto-activate in new terminal sessions.
-   
+   #### Virtual Environment Activation
+
+   When using the terminal, you must ensure that the virtual environment is activated before running Python commands. The virtual environment does not always auto-activate in new terminal sessions.
+
    #### Using Heroku Local
    
    The `heroku local:run` command is used to run Python management commands with environment variables loaded from the `.env` file:
@@ -792,15 +683,10 @@ The application features a library of public questions that serve as examples an
    heroku local:run python manage.py <command>
    ```
    
-   **Exception:** Pytest commands do not require environment variables, so run them directly:
+   **Exception:** Pytest commands do not require environment variables, so you can run these directly:
    ```bash
    pytest
    ```
-   
-   #### Development Server Management
-   
-   During development, I typically run the Django development server manually and keep it running while making changes. The `django-browser-reload` package automatically refreshes the browser when template or static files change.
-   
    ### Static Files Management
    
    **During Development:**
@@ -811,15 +697,13 @@ The application features a library of public questions that serve as examples an
    python manage.py collectstatic
    ```
    
-   This command collects all static files into the `staticfiles/` directory for production deployment.
+   This command collects all static files into the `staticfiles/` directory for production deployment. This folder is not included in version control because it is generated programmatically.
    
    **Static File Structure:**
    ```
    static/                       # Project-level static files
    theme/static_src/             # Tailwind CSS source files
-   staticfiles/                  # Collected static files (production)
    ```
-   
    ### Additional Development Commands
    
    Search vectors are normally updated automatically when items are added through the application. However, if you load data via fixtures or make bulk changes, you may need to update them manually.
@@ -835,36 +719,21 @@ The application features a library of public questions that serve as examples an
    <summary>View deployment details</summary>
    <br />
    
-   ### Cloud Platform
+   ### Cloud Platforms
    
    STAR Master is deployed on **[Heroku](https://www.heroku.com/)**, a cloud platform that allows developers to build, run, and operate applications entirely in the cloud. Heroku provides:
    
    - Easy deployment via Git
-   - Automatic HTTPS for all applications
    - Scalable infrastructure
    - Add-on ecosystem for databases, monitoring, and more
-   
-   ### Database
-   
-   The production database is a **PostgreSQL** database hosted on a server provided by Code Institute. PostgreSQL was chosen for:
-   
-   - Robust full-text search capabilities
-   - Advanced indexing options (GIN indexes)
-   - ACID compliance and data integrity
-   - Strong Django ORM support
+
+   By using NeonDB for hosting the PostgreSQL database, the hosting for this is simplified, allowing for a serverless experience with minimal maintenance.
    
    ### Environment Variables
    
    The following environment variables must be configured in Heroku:
-   
-   | Variable            | Description                                                                                         | Required |
-   | ------------------- | --------------------------------------------------------------------------------------------------- | -------- |
-   | `DATABASE_URL`      | PostgreSQL connection string (automatically set if using Heroku Postgres add-on)                    | Yes      |
-   | `DJANGO_SECRET_KEY` | Secret key for Django application (must be unique and secure)                                       | Yes      |
-   | `ENVIRONMENT`       | Set to `development` for development mode. If not set, app runs in production mode with DEBUG=False | No       |
-   | `NEON_DB_PROD`      | Production database URL (alternative to DATABASE_URL)                                               | Yes*     |  | No |
-   
-   **Note:** Either `DATABASE_URL` or `NEON_DB_PROD` must be set for production deployment.
+   - `DJANGO_SECRET_KEY`: Secret key for Django application (must be unique and secure)
+   - `NEON_DB_PROD`: Production database URL (alternative to DATABASE_URL)
    
    ### Deployment Process
    
@@ -1019,14 +888,14 @@ The application features a library of public questions that serve as examples an
    
    https://github.com/heroku/python-getting-started
    
-   This repository provided a solid foundation for creating a Django application optimized for deployment on Heroku. The settings.py configuration was clearly commented to explain why certain settings were added, particularly ones specific to using Heroku.
+   This repository provided a solid foundation for creating a Django application optimised for deployment on Heroku. The settings.py configuration was clearly commented to explain why certain settings were added, particularly ones specific to using Heroku.
    
    ### Articles and Resources
    
-   #### Performance Optimization
+   #### Performance Optimisation
    - **[How to Speed Up Pytest](https://buildpulse.io/blog/how-to-speed-up-pytest)** - BuildPulse
    
-     This article played a key role in optimizing the test suite to dramatically reduce the time taken to run all tests.
+   This article played a key role in optimising the test suite to dramatically reduce the time taken to run all tests.
    
    #### CSS Techniques
    - **[The Fixed Background Attachment Hack](https://css-tricks.com/the-fixed-background-attachment-hack/)** - CSS-Tricks
@@ -1049,5 +918,5 @@ The application features a library of public questions that serve as examples an
    - **[Code Institute](https://codeinstitute.net/)** - Online coding bootcamp
      - Provided the foundational knowledge and skills to build this project
      - Curriculum covered Django, Python, HTML, CSS, JavaScript, PostgreSQL, Git, GitHub, Agile methodology, and more
-     - Mentorship and support throughout the learning journey, through a combination of daily standup/standdown meetings, coading coach sessions, and the Code Institute Discord community
+     - Mentorship and support throughout the learning journey, through a combination of daily standup/standdown meetings, coding coach sessions, and the Code Institute Discord community
 </details>
