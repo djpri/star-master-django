@@ -143,6 +143,7 @@ The application features a library of public questions that serve as examples an
    The application features a clear, hierarchical navigation system:
    
    **Site Map:**
+
    ![Site Map](docs/readme/images/wireframes/Site%20map.png)
    
    The navigation adapts based on the user authentication state:
@@ -287,7 +288,7 @@ The application features a library of public questions that serve as examples an
    - Respond quickly to technical challenges and changing requirements
    - Prioritise features based on user value
    - Maintain a sustainable development pace
-   - Incorporate feedback and learning into subsequent sprints
+   - Adapt plans in subsequent sprints
    
    ### User Stories and MoSCoW Prioritisation
    
@@ -387,8 +388,8 @@ The application features a library of public questions that serve as examples an
    
    When validating the built CSS with the W3C Jigsaw validator, two issues were noted:
    
-   - "Unrecognised at-rule @layer"
-   - "Unrecognised at-rule @property"
+   - "Unrecognized at-rule @layer"
+   - "Unrecognized at-rule @property"
    
    These are not actual errors — they occur because Tailwind CSS uses modern CSS features that Jigsaw’s older validation engine does not yet recognise. All generated styles are valid and fully supported in modern browsers.
    
@@ -548,6 +549,8 @@ The application features a library of public questions that serve as examples an
    - **Git** - Version control system to clone the repository
    - **Python 3.13** - Required Python version for this project
    - **Node.js** - Latest LTS version for Tailwind CSS build process
+
+   Note: throughout this guide, python commands will use `python`. For macOS/Linux, you may need to use `python3` instead.
    
    For hosting the database:
    - **[NeonDB (Recommended)](https://neon.com/)** - Serverless PostgreSQL database platform for cloud deployment. Provides a free tier solution for serverless PostgreSQL databases
@@ -585,6 +588,8 @@ The application features a library of public questions that serve as examples an
       ```
    
    5. **Install Node Dependencies**
+      Note: This installs the packages required by the "theme" app for Tailwind CSS. The node_modules/ folder is created inside this app directory.
+
       ```bash
       npm install
       ```
@@ -600,13 +605,6 @@ The application features a library of public questions that serve as examples an
       ```
    
    7. **Run Database Migrations**
-   
-      **Windows (with Heroku CLI):**
-      ```powershell
-      heroku local:run python manage.py migrate
-      ```
-   
-      **macOS/Linux:**
       ```bash
       heroku local:run python manage.py migrate
       ```
@@ -617,20 +615,17 @@ The application features a library of public questions that serve as examples an
       ```
    
    9. **Load Sample Data (Optional)**
+      **Warning:** Since the fixture contains explicit primary keys, it may override existing data in your database. Use it for initial setup only.
       ```bash
-      python manage.py loaddata questions/fixtures/sample_data.json
+      python manage.py loaddata questions/fixtures/public_questions.json
       ```
-   
-      **⚠️ Warning:** If the fixture contains explicit primary keys, it may override existing data in your database.
-   
-   
+
    #### Running the Development Server
    
    The application requires two processes during development:
    
    10. **Django Development Server**
-   
-      ```shell
+      ```bash
        heroku local:run python manage.py runserver
       ```
    
@@ -679,7 +674,7 @@ The application features a library of public questions that serve as examples an
    
    The `heroku local:run` command is used to run Python management commands with environment variables loaded from the `.env` file:
    
-   ```powershell
+   ```bash
    heroku local:run python manage.py <command>
    ```
    
