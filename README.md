@@ -84,39 +84,51 @@ The application features a library of public questions that serve as examples an
    <summary>Click to view wireframes</summary>
    
    **Home Page**
+   
    ![Home Page Wireframe](docs/readme/images/wireframes/Home.png)
    
    **Sign Up**
+   
    ![Sign Up Wireframe](docs/readme/images/wireframes/Sign%20Up.png)
    
    **Log In**
+   
    ![Log In Wireframe](docs/readme/images/wireframes/Log%20In.png)
    
    **Profile**
+   
    ![Profile Wireframe](docs/readme/images/wireframes/Profile.png)
    
    **Questions List**
+   
    ![Questions List Wireframe](docs/readme/images/wireframes/questions_list.png)
    
    **Question Detail**
+   
    ![Question Detail Wireframe](docs/readme/images/wireframes/questions_[id].png)
    
    **Create Question**
+   
    ![Create Question Wireframe](docs/readme/images/wireframes/questions_create.png)
    
    **Edit Question**
+   
    ![Edit Question Wireframe](docs/readme/images/wireframes/questions_edit.png)
    
    **Create Answer**
+   
    ![Create Answer Wireframe](docs/readme/images/wireframes/answers_create_[question_id].png)
    
    **Edit Answer**
+   
    ![Edit Answer Wireframe](docs/readme/images/wireframes/answers_[id]_edit.png)
    
    **Change Password**
+   
    ![Change Password Wireframe](docs/readme/images/wireframes/Change%20Password.png)
    
    **404 Error Page**
+   
    ![404 Wireframe](docs/readme/images/wireframes/404.png)
    
    </details>
@@ -408,7 +420,7 @@ The application features a library of public questions that serve as examples an
    - Consistent code formatting across the entire codebase
    - Integrated into development workflow
 
-   To format the codebase, run `black .`, and to validate code style, run `flake8 .`.
+   To format the codebase, run `black .`, and to validate code style, run `flake8 .`
 
 
    #### JavaScript Functionality Testing
@@ -459,6 +471,7 @@ The application features a library of public questions that serve as examples an
    ### Known Issues
 
    - Query strings for the sort options in the question list views are not always clearly descriptive. For example &sort=-created_at and &sort=created_at could be ambiguous to users. More user-friendly options like &sort=newest or &sort=oldest would be clearer.
+   - The 404 page contains an additional information component which is not fully up to date with the latest version of the app. This is something that should be removed, but was only noticed very late on in development.
 </details>
 
 ## Use of AI
@@ -549,6 +562,7 @@ The application features a library of public questions that serve as examples an
    - **Git** - Version control system to clone the repository
    - **Python 3.13** - Required Python version for this project
    - **Node.js** - Latest LTS version for Tailwind CSS build process
+   - **Heroku CLI** - Requires a heroku account (see https://devcenter.heroku.com/articles/heroku-cli for full instructions for this)
 
    Note: throughout this guide, python commands will use `python`. For macOS/Linux, you may need to use `python3` instead.
    
@@ -624,12 +638,12 @@ The application features a library of public questions that serve as examples an
    
    The application requires two processes during development:
    
-   10. **Django Development Server**
-      ```bash
+   - **Django Development Server**
+       ```bash
        heroku local:run python manage.py runserver
-      ```
-   
-   11. **Tailwind CSS Watch Mode** (in a separate terminal)
+       ```
+       
+   - **Tailwind CSS Watch Mode** (in a separate terminal)
       ```bash
       npm run dev
       ```
@@ -731,6 +745,8 @@ The application features a library of public questions that serve as examples an
    - `NEON_DB_PROD`: Production database URL (alternative to DATABASE_URL)
    
    ### Deployment Process
+
+   The following steps require you to have a Heroku account set up, and have the Heroku CLI installed
    
    #### Initial Setup
    
@@ -780,22 +796,7 @@ The application features a library of public questions that serve as examples an
       ```bash
       git push heroku main
       ```
-   
-      Or if using a different branch:
-      ```bash
-      git push heroku your-branch:main
-      ```
-   
-   7. **Run Database Migrations**
-      ```bash
-      heroku run python manage.py migrate
-      ```
-   
-   8. **Create Admin User**
-      ```bash
-      heroku run python manage.py createsuperuser
-      ```
-   
+      
    9. **Collect Static Files** (usually automatic via `heroku-postbuild`)
       ```bash
       heroku run python manage.py collectstatic --noinput
