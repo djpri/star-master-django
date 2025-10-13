@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const saveButtons = document.querySelectorAll('.save-question-btn');
   const approveButtons = document.querySelectorAll('.approve-question-btn');
+  const denyButtons = document.querySelectorAll('.deny-question-btn');
 
   saveButtons.forEach(button => {
     button.addEventListener('click', async function() {
@@ -93,6 +94,46 @@ document.addEventListener('DOMContentLoaded', function() {
         this.innerHTML = originalHTML;
         this.disabled = false;
         showToast('error', error.message || 'Failed to approve question. Please try again.');
+      }
+    });
+  });
+
+  denyButtons.forEach(button => {
+    button.addEventListener('click', async function() {
+      const questionId = this.dataset.questionId;
+      const questionTitle = this.dataset.questionTitle;
+      const originalHTML = this.innerHTML;
+
+      this.innerHTML = '<span class="loading loading-spinner loading-xs"></span> Denying...';
+      this.disabled = true;
+
+      try {
+        const response = await fetch(`/questions/deny/${questionId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || '',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          showToast('success', `"${questionTitle}" denied!`);
+
+          const card = this.closest('.pending-question-card');
+          if (card) {
+            card.remove();
+            updatePendingCount();
+          }
+        } else {
+          throw new Error(data.error || 'Failed to deny question');
+        }
+      } catch (error) {
+        this.innerHTML = originalHTML;
+        this.disabled = false;
+        showToast('error', error.message || 'Failed to deny question. Please try again.');
       }
     });
   });

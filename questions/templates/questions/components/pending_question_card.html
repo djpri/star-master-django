@@ -4,7 +4,6 @@
     <div class="flex items-start justify-between gap-2">
       <div class="flex items-center gap-2 flex-1 min-w-0">
         <h3 class="card-title text-base truncate">{{ question.title }}</h3>
-        <span class="badge badge-warning badge-sm flex-shrink-0">Pending</span>
       </div>
       {% include 'questions/components/question_actions_menu.html' %}
     </div>
@@ -21,13 +20,22 @@
         <span>View</span>
       </a>
       <button
-        class="btn btn-primary btn-sm approve-question-btn"
+        class="btn btn-success btn-sm approve-question-btn"
         data-question-id="{{ question.id }}"
         data-question-title="{{ question.title }}"
         aria-label="Approve question: {{ question.title }}"
       >
         <i class="fas fa-check mr-1" aria-hidden="true"></i>
         <span>Approve</span>
+      </button>
+      <button
+        class="btn btn-error btn-sm deny-question-btn"
+        data-question-id="{{ question.id }}"
+        data-question-title="{{ question.title }}"
+        aria-label="Deny question: {{ question.title }}"
+      >
+        <i class="fas fa-times mr-1" aria-hidden="true"></i>
+        <span>Deny</span>
       </button>
     </div>
   </div>
