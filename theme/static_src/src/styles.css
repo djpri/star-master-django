@@ -98,6 +98,14 @@
     font-family: var(--font-montserrat);
   }
 
+  /* 
+    This is a rather crude CSS hack to get the details dropdown chevron to be the right colour on
+    the admin panel.
+  */
+  details.text-warning-content summary.nav-link::after {
+    color: oklch(20% 0.07 80) !important;
+  }
+
   .fixed-bg-hero {
     position: fixed;
     top: 0;

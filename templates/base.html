@@ -59,14 +59,15 @@
 
       <!-- Desktop Navigation Menu - Centered -->
       <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1 gap-4">
-          <li><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+        {% if user.is_staff %}
+        <ul class="menu menu-horizontal px-1 gap-4 text-warning-content">
+          <li><a class="nav-link text-warning-content" href="{% url 'home' %}">Home</a></li>
           
           <!-- Questions Dropdown -->
           <li>
-            <details>
+            <details class="text-warning-content">
               <summary class="nav-link">
-                Questions
+                <span class="text-warning-content">Questions</span>
               </summary>
               <ul class="bg-base-100 rounded-box z-[50] w-52 p-2 shadow text-base-content">
                 {% if user.is_authenticated %}
@@ -83,13 +84,37 @@
             </details>
           </li>
           
-          {% if user.is_staff %}
-            <li><a class="nav-link bg-error/20 hover:bg-error/30 rounded-md" href="{% url 'admin:index' %}">
-              <i class="fas fa-cog mr-1"></i>
-              Admin Panel
-            </a></li>
-          {% endif %}
+          <li><a class="nav-link bg-error/20 hover:bg-error/30 rounded-md text-warning-content" href="{% url 'admin:index' %}">
+            <i class="fas fa-cog mr-1"></i>
+            Admin Panel
+          </a></li>
         </ul>
+        {% else %}
+        <ul class="menu menu-horizontal px-1 gap-4">
+          <li><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+          
+          <!-- Questions Dropdown -->
+          <li>
+            <details>
+              <summary class="nav-link">
+                <span>Questions</span>
+              </summary>
+              <ul class="bg-base-100 rounded-box z-[50] w-52 p-2 shadow text-base-content">
+                {% if user.is_authenticated %}
+                  <li><a href="{% url 'questions:list' %}" class="font-semibold">
+                    <i class="fas fa-bookmark mr-2"></i>
+                    My Questions
+                  </a></li>
+                {% endif %}
+                <li><a href="{% url 'questions:public_list' %}" class="font-semibold">
+                  <i class="fas fa-globe mr-2"></i>
+                  Public Questions
+                </a></li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+        {% endif %}
       </div>
 
       <div class="navbar-end">
@@ -298,7 +323,7 @@
     >
       <div>
         <p class="text-base-content/70">
-          &copy; STAR Master
+          STAR Master
         </p>
       </div>
     </footer>
