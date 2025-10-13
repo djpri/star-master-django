@@ -26,9 +26,7 @@ def user(db):
     each test to ensure isolation.
     """
     return User.objects.create_user(
-        username="testuser",
-        email="test@example.com",
-        password="testpass123"
+        username="testuser", email="test@example.com", password="testpass123"
     )
 
 

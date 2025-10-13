@@ -81,7 +81,7 @@ def question_edit(request, pk):
                 messages.success(
                     request,
                     f'Question "{question.title}" has been updated '
-                    f'successfully!',
+                    f"successfully!",
                 )
 
             return redirect("questions:detail", pk=question.pk)

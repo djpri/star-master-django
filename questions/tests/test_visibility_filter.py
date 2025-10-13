@@ -83,9 +83,7 @@ class TestQuestionListVisibilityFilter:
     ):
         """Test 'public' view shows only public questions."""
         client.force_login(user)
-        response = client.get(
-            reverse("questions:list"), {"view": "public"}
-        )
+        response = client.get(reverse("questions:list"), {"view": "public"})
 
         assert response.status_code == 200
         questions_list = list(response.context["questions"])
@@ -120,14 +118,10 @@ class TestQuestionListVisibilityFilter:
         # Check context
         assert response.context["selected_view"] == "all"
 
-    def test_invalid_view_defaults_to_personal(
-        self, client, user, questions
-    ):
+    def test_invalid_view_defaults_to_personal(self, client, user, questions):
         """Test invalid view parameter defaults to personal."""
         client.force_login(user)
-        response = client.get(
-            reverse("questions:list"), {"view": "invalid"}
-        )
+        response = client.get(reverse("questions:list"), {"view": "invalid"})
 
         assert response.status_code == 200
         assert response.context["selected_view"] == "personal"
@@ -207,9 +201,7 @@ class TestQuestionListVisibilityFilter:
 
     def test_unauthenticated_redirects(self, client):
         """Test unauthenticated users are redirected."""
-        response = client.get(
-            reverse("questions:list"), {"view": "public"}
-        )
+        response = client.get(reverse("questions:list"), {"view": "public"})
 
         assert response.status_code == 302
         assert "public" in response.url
@@ -225,9 +217,7 @@ class TestQuestionListVisibilityFilter:
         )
 
         client.force_login(user)
-        response = client.get(
-            reverse("questions:list"), {"view": "public"}
-        )
+        response = client.get(reverse("questions:list"), {"view": "public"})
 
         assert response.status_code == 200
         questions_list = list(response.context["questions"])

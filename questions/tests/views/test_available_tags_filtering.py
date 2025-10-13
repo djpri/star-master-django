@@ -70,9 +70,7 @@ class TestAvailableTagsInQuestionCreate:
             name="other-private-tag", is_public=False, owner=other_user
         )
 
-        response = client.get(
-            reverse("questions:create") + "?public=false"
-        )
+        response = client.get(reverse("questions:create") + "?public=false")
 
         assert response.status_code == 200
         available_tags = response.context["available_tags"]
@@ -152,9 +150,7 @@ class TestAvailableTagsInQuestionEdit:
         assert public_tag in available_tags
         assert private_tag not in available_tags
 
-    def test_editing_private_question_shows_public_and_user_tags(
-        self, client
-    ):
+    def test_editing_private_question_shows_public_and_user_tags(self, client):
         """
         When editing a private question, both public tags and user's personal
         tags should be available.

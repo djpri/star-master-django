@@ -275,9 +275,7 @@ class TestPrivateQuestionListSorting:
 
     def test_unauthenticated_redirects(self, client):
         """Test unauthenticated users are redirected."""
-        response = client.get(
-            reverse("questions:list"), {"sort": "title"}
-        )
+        response = client.get(reverse("questions:list"), {"sort": "title"})
         assert response.status_code == 302
         assert "public" in response.url
 
@@ -337,9 +335,7 @@ class TestSortingPerformance:
         # Title sorting should not need answer queries except for count
         # display
         with django_assert_num_queries(7):
-            response = client.get(
-                reverse("questions:list"), {"sort": "title"}
-            )
+            response = client.get(reverse("questions:list"), {"sort": "title"})
             assert response.status_code == 200
             # Force evaluation
             list(response.context["questions"])

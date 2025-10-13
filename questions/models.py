@@ -45,7 +45,7 @@ class Tag(models.Model):
     def __str__(self):
         if self.is_public:
             return f"{self.name} (public)"
-        owner_name = self.owner.username if self.owner else 'no owner'
+        owner_name = self.owner.username if self.owner else "no owner"
         return f"{self.name} ({owner_name})"
 
 

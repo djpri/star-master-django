@@ -130,9 +130,7 @@ def question_list(request):
         from answers.models import Answer
 
         questions = (
-            questions.annotate(
-                answer_count=Count("answers", distinct=True)
-            )
+            questions.annotate(answer_count=Count("answers", distinct=True))
             .distinct()
             .order_by(sort_by, "-created_at")
         )

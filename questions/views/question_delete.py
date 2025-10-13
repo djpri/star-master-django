@@ -33,7 +33,7 @@ def question_delete(request, pk):
         messages.success(
             request,
             f'Question "{question_title}" and its {answer_count} '
-            f'answer{answer_suffix} have been deleted.',
+            f"answer{answer_suffix} have been deleted.",
         )
     else:
         messages.success(

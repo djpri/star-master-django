@@ -1,6 +1,7 @@
 """
 Management command to update search vectors for all answers.
 """
+
 # flake8: noqa: E501
 
 from django.core.management.base import BaseCommand
@@ -48,4 +49,6 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(
                 f"Successfully updated {star_count} STAR answers and {basic_count} basic answers "  # noqa: E501
-                f"(total: {total_updated})"))  # noqa: E501
+                f"(total: {total_updated})"
+            )
+        )  # noqa: E501

@@ -27,7 +27,8 @@ class QuestionForm(forms.ModelForm):
                     "class": "input input-bordered w-full",
                     "placeholder": "Write a concise interview question...",
                     "maxlength": Question._meta.get_field("title").max_length,
-                }),
+                }
+            ),
             "body": forms.Textarea(
                 attrs={
                     "class": "textarea textarea-bordered w-full",
@@ -36,7 +37,8 @@ class QuestionForm(forms.ModelForm):
                         "Add optional context or clarification "
                         "for your question..."
                     ),
-                }),
+                }
+            ),
             "is_public": forms.HiddenInput(),
             "tags": forms.MultipleHiddenInput(),
         }

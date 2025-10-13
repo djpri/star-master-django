@@ -66,16 +66,11 @@ class StarAnswerForm(forms.ModelForm):
             "situation": (
                 "Set the scene - describe the context and background"
             ),
-            "task": (
-                "What needed to be done? What was your responsibility?"
-            ),
+            "task": ("What needed to be done? What was your responsibility?"),
             "action": (
-                "What specific steps did you take to address "
-                "the situation?"
+                "What specific steps did you take to address " "the situation?"
             ),
-            "result": (
-                "What was the outcome? What did you learn or achieve?"
-            ),
+            "result": ("What was the outcome? What did you learn or achieve?"),
         }
 
 
