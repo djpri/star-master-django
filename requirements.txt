@@ -8,7 +8,7 @@ django-tailwind
 django-debug-toolbar
 
 # Testing
-pytest>=8,<9
+pytest>=8,<10
 pytest-django>=4.8,<5
 pytest-xdist>=3,<4  # Run tests in parallel for speed
 
